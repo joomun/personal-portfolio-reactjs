@@ -9,15 +9,35 @@ function Projects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // List of highlighted repositories
+  const highlights = ["2d_platform_game-Website", "e-commerce_website", "Multipet-Feeder","vui-Campus-Assistant","GoGreen-24hr-Hackathon"];
+
   useEffect(() => {
-    // Replace 'your-github-username' with your actual GitHub username
-    const username = "joomun";
+    const username = "joomun"; // Replace with your GitHub username
     const fetchProjects = async () => {
       try {
         const response = await axios.get(
           `https://api.github.com/users/${username}/repos`
         );
-        setProjects(response.data);
+
+        // Enhance the project data with image URLs (assuming a convention of "preview.png" in each repo)
+        const enhancedProjects = await Promise.all(
+          response.data.map(async (repo) => {
+            const imageUrl = await fetchRepoImage(username, repo.name);
+            return { ...repo, imgPath: imageUrl || DefaultProjectImage };
+          })
+        );
+
+        // Sort projects: highlights first, then others
+        const sortedProjects = enhancedProjects.sort((a, b) => {
+          const aHighlight = highlights.includes(a.name);
+          const bHighlight = highlights.includes(b.name);
+          if (aHighlight && !bHighlight) return -1;
+          if (!aHighlight && bHighlight) return 1;
+          return 0;
+        });
+
+        setProjects(sortedProjects);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching projects from GitHub:", error);
@@ -27,6 +47,16 @@ function Projects() {
 
     fetchProjects();
   }, []);
+
+  const fetchRepoImage = async (username, repoName) => {
+    try {
+      const imageUrl = `https://raw.githubusercontent.com/${username}/${repoName}/main/preview.png`;
+      const response = await axios.get(imageUrl, { validateStatus: false }); // Allows status check
+      return response.status === 200 ? imageUrl : null;
+    } catch {
+      return null; // Return null if the image is not found
+    }
+  };
 
   return (
     <Container fluid className="project-section">
@@ -49,7 +79,7 @@ function Projects() {
                   description={project.description || "No description available"}
                   ghLink={project.html_url}
                   demoLink={project.homepage || null}
-                  imgPath={DefaultProjectImage}
+                  imgPath={project.imgPath} // Dynamically fetched image
                 />
               </Col>
             ))
