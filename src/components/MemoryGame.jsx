@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./MemoryGame.css";
 
 const symbols = ["🍎", "🍌", "🍇", "🍓", "🍉", "🍒", "🥭", "🍍"];
 
@@ -7,11 +8,20 @@ export default function MemoryGame() {
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
   const [moves, setMoves] = useState(0);
+  const [gameCompleted, setGameCompleted] = useState(false);
 
   useEffect(() => {
+    startGame();
+  }, []);
+
+  const startGame = () => {
     const shuffledCards = shuffle([...symbols, ...symbols]);
     setCards(shuffledCards.map((symbol, index) => ({ id: index, symbol, flipped: false })));
-  }, []);
+    setFlippedCards([]);
+    setMatchedCards([]);
+    setMoves(0);
+    setGameCompleted(false);
+  };
 
   const shuffle = (array) => array.sort(() => Math.random() - 0.5);
 
@@ -44,41 +54,41 @@ export default function MemoryGame() {
         }, 1000);
       }
     }
-  };
 
-  const resetGame = () => {
-    const shuffledCards = shuffle([...symbols, ...symbols]);
-    setCards(shuffledCards.map((symbol, index) => ({ id: index, symbol, flipped: false })));
-    setFlippedCards([]);
-    setMatchedCards([]);
-    setMoves(0);
+    if (matchedCards.length + 2 === cards.length) {
+      setTimeout(() => {
+        setGameCompleted(true);
+      }, 500);
+    }
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Memory Card Game</h1>
-      <p className="mb-4">Moves: {moves}</p>
-      <div className="grid grid-cols-4 gap-4">
+    <div className="memory-game-container">
+      <h1 className="memory-game-heading">Memory Card Game</h1>
+      <p className="moves-text">Moves: {moves}</p>
+
+      <div className="memory-grid">
         {cards.map((card) => (
           <div
             key={card.id}
             onClick={() => handleCardClick(card)}
-            className={`cursor-pointer p-4 border rounded-lg text-center text-3xl ${
-              card.flipped || matchedCards.includes(card.id)
-                ? "bg-white"
-                : "bg-gray-300"
-            }`}
+            className={`memory-card ${card.flipped || matchedCards.includes(card.id) ? "flipped" : ""}`}
           >
             {card.flipped || matchedCards.includes(card.id) ? card.symbol : "?"}
           </div>
         ))}
       </div>
-      <button
-        onClick={resetGame}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg"
-      >
-        Restart Game
-      </button>
+
+      {gameCompleted && (
+        <>
+          <div className="swirl-fire"></div>
+          <div className="modal">
+            <h2 className="modal-heading">Congratulations! 🎉</h2>
+            <p className="modal-text">You completed the game in {moves} moves.</p>
+            <button className="restart-button" onClick={startGame}>Restart</button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
