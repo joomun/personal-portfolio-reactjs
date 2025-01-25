@@ -10,7 +10,7 @@ function Projects() {
   const [loading, setLoading] = useState(true);
 
   // List of highlighted repositories
-  const highlights = ["2d_platform_game-Website", "e-commerce_website", "Multipet-Feeder","vui-Campus-Assistant","GoGreen-24hr-Hackathon"];
+  const highlights = ["2d_platform_game-Website", "e-commerce_website", "Multipet-Feeder", "vui-Campus-Assistant", "GoGreen-24hr-Hackathon"];
 
   useEffect(() => {
     const username = "joomun"; // Replace with your GitHub username
@@ -24,14 +24,18 @@ function Projects() {
         const enhancedProjects = await Promise.all(
           response.data.map(async (repo) => {
             const imageUrl = await fetchRepoImage(username, repo.name);
-            return { ...repo, imgPath: imageUrl || DefaultProjectImage };
+            return { 
+              ...repo, 
+              imgPath: imageUrl || DefaultProjectImage, 
+              highlighted: highlights.includes(repo.name) // Add highlighted flag
+            };
           })
         );
 
         // Sort projects: highlights first, then others
         const sortedProjects = enhancedProjects.sort((a, b) => {
-          const aHighlight = highlights.includes(a.name);
-          const bHighlight = highlights.includes(b.name);
+          const aHighlight = a.highlighted;
+          const bHighlight = b.highlighted;
           if (aHighlight && !bHighlight) return -1;
           if (!aHighlight && bHighlight) return 1;
           return 0;
@@ -80,6 +84,7 @@ function Projects() {
                   ghLink={project.html_url}
                   demoLink={project.homepage || null}
                   imgPath={project.imgPath} // Dynamically fetched image
+                  highlighted={project.highlighted} // Pass highlighted flag
                 />
               </Col>
             ))

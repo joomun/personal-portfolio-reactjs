@@ -3,6 +3,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { CgWebsite } from "react-icons/cg";
 import { BsGithub } from "react-icons/bs";
+import { FaStar } from "react-icons/fa"; // Import star icon
 
 function ProjectCards(props) {
   if (!props.imgPath && !props.title && !props.description) {
@@ -20,6 +21,11 @@ function ProjectCards(props) {
 
   return (
     <Card className="project-card-view">
+      {props.highlighted && (
+        <div className="highlight-badge">
+          <FaStar style={{ color: "gold", fontSize: "1.5rem" }} /> {/* Star icon */}
+        </div>
+      )}
       <Card.Img
         variant="top"
         src={props.imgPath}
