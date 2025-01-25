@@ -5,7 +5,6 @@ import { CgWebsite } from "react-icons/cg";
 import { BsGithub } from "react-icons/bs";
 
 function ProjectCards(props) {
-  // Check if the necessary props are missing, and display "Coming Soon"
   if (!props.imgPath && !props.title && !props.description) {
     return (
       <Card className="project-card-view">
@@ -19,10 +18,14 @@ function ProjectCards(props) {
     );
   }
 
-  // Default rendering for available project details
   return (
     <Card className="project-card-view">
-      <Card.Img variant="top" src={props.imgPath} alt="card-img" />
+      <Card.Img
+        variant="top"
+        src={props.imgPath}
+        alt="card-img"
+        className="project-card-image" // Add a class for styling
+      />
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>
         <Card.Text style={{ textAlign: "justify" }}>
@@ -32,10 +35,6 @@ function ProjectCards(props) {
           <BsGithub /> &nbsp;
           {props.isBlog ? "Blog" : "GitHub"}
         </Button>
-        {"\n"}
-        {"\n"}
-
-        {/* Render Demo button if demoLink is provided */}
         {!props.isBlog && props.demoLink && (
           <Button
             variant="primary"
