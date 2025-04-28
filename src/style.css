@@ -764,3 +764,65 @@ button:focus {
   z-index: 1;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
+
+.animations-section {
+  position: relative !important;
+  padding-top: 150px !important;
+  padding-bottom: 30px !important;
+  background-image: var(--section-background-color) !important;
+}
+
+.animations-heading {
+  color: white !important;
+  font-size: 2.3em !important;
+  font-weight: 500 !important;
+  padding-top: 10px !important;
+  text-align: center;
+  margin-bottom: 40px !important;
+}
+
+.animation-card {
+  padding: 20px !important;
+  opacity: 0.9 !important;
+  transition: all 0.5s ease 0s !important;
+}
+
+.animation-card-view {
+  background-color: transparent !important;
+  box-shadow: 0 4px 5px 3px rgba(119, 53, 136, 0.459) !important;
+  color: white !important;
+  transition: all 0.5s ease 0s !important;
+  padding: 20px !important;
+}
+
+.animation-card-view:hover {
+  transform: scale(1.02) !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 4px 5px rgba(129, 72, 144, 0.561) !important;
+}
+
+.animation-media {
+  width: 100% !important;
+  height: 300px !important;
+  object-fit: cover !important;
+  border-radius: 10px !important;
+  margin-bottom: 15px !important;
+}
+
+.animation-card-view .card-title {
+  color: white !important;
+  font-size: 1.5em !important;
+  font-weight: 500 !important;
+  text-align: center;
+  margin-bottom: 20px !important;
+}
+
+@media (max-width: 767px) {
+  .animation-card {
+    padding: 10px !important;
+  }
+  
+  .animation-media {
+    height: 200px !important;
+  }
+}

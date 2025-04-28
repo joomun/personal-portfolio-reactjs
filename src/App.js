@@ -7,6 +7,7 @@ import Projects from "./components/Projects/Projects";
 import Footer from "./components/Footer";
 import Resume from "./components/Resume/ResumeNew";
 import MiniGame from "./components/Minigame/MiniGamePage"; 
+import AnimationsPage from "./components/Animations/AnimationsPage";
 import {
   BrowserRouter as Router,
   Route,
@@ -17,6 +18,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import "./style.css";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { AiOutlinePlayCircle } from "react-icons/ai";
 
 function App() {
 
@@ -42,6 +44,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/mini-game" element={<MiniGame />} />
+          <Route path="/animations" element={<AnimationsPage />} />
           <Route path="*" element={<Navigate to="/"/>} />
         </Routes>
         <Footer />

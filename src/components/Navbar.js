@@ -12,6 +12,7 @@ import {
   AiOutlineHome,
   AiOutlineFundProjectionScreen,
   AiOutlineUser,
+  AiOutlinePlayCircle,
 } from "react-icons/ai";
 
 import { CgFileDocument } from "react-icons/cg";
@@ -92,6 +93,16 @@ function NavBar() {
                   style={{ marginBottom: "2px" }}
                 />{" "}
                 Mini-Game
+              </Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link
+                as={Link}
+                to="/animations"
+                onClick={() => updateExpanded(false)}
+              >
+                <AiOutlinePlayCircle style={{ marginBottom: "2px" }} /> Animations
               </Nav.Link>
             </Nav.Item>
 
