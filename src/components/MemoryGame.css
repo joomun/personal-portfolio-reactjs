@@ -1,8 +1,8 @@
 .memory-game-container {
   width: 100%;
-  height: calc(90vh - 100px); /* Adjust height relative to viewport */
+  min-height: 100vh;
   margin: 0 auto;
-  padding: 1rem;
+  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,16 +13,17 @@
 
 .memory-game-heading {
   color: white;
-  font-size: 2.5rem;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .game-header {
-  width: min(90vw, 1000px);
-  margin-bottom: clamp(1rem, 3vw, 2rem);
-  padding: clamp(0.5rem, 2vw, 1rem);
+  width: 100%;
+  max-width: 1200px;
+  margin-bottom: 1rem;
+  padding: 1rem;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   backdrop-filter: blur(5px);
@@ -31,20 +32,21 @@
 .game-stats {
   display: flex;
   justify-content: center;
-  gap: clamp(1rem, 3vw, 3rem);
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  margin: 1rem 0;
+  gap: 2rem;
+  color: white;
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  margin: 0.5rem 0;
   flex-wrap: wrap;
 }
 
 .memory-grid {
   display: grid;
-  width: min(90vw, 1000px); /* Responsive width */
-  aspect-ratio: 1.2/1; /* Maintain aspect ratio */
-  margin: 0 auto;
-  gap: clamp(0.5rem, 2vw, 1.5rem); /* Responsive gap */
+  width: min(95%, 1000px);
+  aspect-ratio: 1/1;
+  margin: 1rem auto;
+  gap: min(2vw, 1rem);
+  grid-template-columns: repeat(4, 1fr);
   perspective: 1000px;
-  grid-template-columns: repeat(4, 1fr); /* Fixed 4 columns */
 }
 
 .memory-card {
@@ -72,8 +74,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font size */
-  border-radius: clamp(8px, 1.5vw, 12px); /* Responsive border radius */
+  font-size: min(5vw, 3rem);
+  border-radius: 12px;
   background: rgba(108, 99, 255, 0.2);
   backdrop-filter: blur(5px);
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -277,36 +279,41 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .memory-grid {
-    width: 95vw;
-    gap: 0.8rem;
-  }
-
-  .game-stats {
-    gap: 0.8rem;
+    width: 95%;
+    gap: 0.5rem;
   }
 
   .card-front,
   .card-back {
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: min(8vw, 2.5rem);
+  }
+
+  .game-stats {
+    gap: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .memory-grid {
-    width: 98vw;
-    gap: 0.5rem;
+    width: 98%;
+    gap: 0.3rem;
   }
 
   .memory-game-container {
-    height: calc(80vh - 80px);
-    padding: 0.5rem;
+    padding: 1rem 0.5rem;
+  }
+
+  .card-front,
+  .card-back {
+    font-size: min(10vw, 2rem);
   }
 }
 
 /* For larger screens */
 @media (min-width: 1200px) {
   .memory-grid {
-    width: min(80vw, 1200px);
+    width: min(80%, 1000px);
+    gap: 1rem;
   }
 }
 
