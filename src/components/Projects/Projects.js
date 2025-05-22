@@ -84,101 +84,99 @@ function Projects() {
   });
 
   return (
-    <div style={{ position: 'relative' }}>
-      <Particle style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, zIndex: 1 }} />
-      <Container fluid className="project-section">
-        <Container style={{ position: 'relative', zIndex: 2 }}>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h1 className="project-heading">
-              My Recent <strong className="purple">Works </strong>
-            </h1>
-            <p style={{ color: "white" }}>
-              Here are a few projects I've worked on recently.
-            </p>
+    <Container fluid className="project-section">
+      <Particle />
+      <Container>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="project-heading">
+            My Recent <strong className="purple">Works </strong>
+          </h1>
+          <p style={{ color: "white" }}>
+            Here are a few projects I've worked on recently.
+          </p>
 
-            <div className="project-filters mb-4">
-              <div className="d-flex justify-content-center mb-3">
-                <input
-                  type="text"
-                  placeholder="Search projects..."
-                  className="form-control w-50"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  style={{ 
-                    background: "rgba(255, 255, 255, 0.1)", 
-                    color: "white",
-                    border: "1px solid rgba(255, 255, 255, 0.2)"
-                  }}
-                />
-              </div>
-              <div className="d-flex justify-content-center gap-2">
-                {categories.map(cat => (
-                  <Button
-                    key={cat}
-                    variant={filter === cat ? "primary" : "outline-primary"}
-                    onClick={() => setFilter(cat)}
-                    className="text-capitalize"
-                  >
-                    {cat}
-                  </Button>
-                ))}
-              </div>
+          <div className="project-filters mb-4">
+            <div className="d-flex justify-content-center mb-3">
+              <input
+                type="text"
+                placeholder="Search projects..."
+                className="form-control w-50"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                style={{ 
+                  background: "rgba(255, 255, 255, 0.1)", 
+                  color: "white",
+                  border: "1px solid rgba(255, 255, 255, 0.2)"
+                }}
+              />
             </div>
+            <div className="d-flex justify-content-center gap-2">
+              {categories.map(cat => (
+                <Button
+                  key={cat}
+                  variant={filter === cat ? "primary" : "outline-primary"}
+                  onClick={() => setFilter(cat)}
+                  className="text-capitalize"
+                >
+                  {cat}
+                </Button>
+              ))}
+            </div>
+          </div>
 
-            {loading ? (
-              <div className="loading-container text-center">
-                <div className="spinner-border text-primary" role="status">
-                  <span className="visually-hidden">Loading...</span>
-                </div>
-                <p className="mt-2 text-light">Loading amazing projects...</p>
+          {loading ? (
+            <div className="loading-container text-center">
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Loading...</span>
               </div>
-            ) : (
-              <Row>
-                <AnimatePresence>
-                  {filteredProjects.length > 0 ? (
-                    filteredProjects.map((project, index) => (
-                      <Col md={4} className="project-card mb-4" key={project.id}>
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -20 }}
-                          transition={{ duration: 0.3, delay: index * 0.1 }}
-                        >
-                          <ProjectCards
-                            title={project.name}
-                            description={project.description || "No description available"}
-                            ghLink={project.html_url}
-                            demoLink={project.homepage || null}
-                            imgPath={project.imgPath}
-                            highlighted={project.highlighted}
-                            category={project.category}
-                          />
-                        </motion.div>
-                      </Col>
-                    ))
-                  ) : (
-                    <Col>
+              <p className="mt-2 text-light">Loading amazing projects...</p>
+            </div>
+          ) : (
+            <Row>
+              <AnimatePresence>
+                {filteredProjects.length > 0 ? (
+                  filteredProjects.map((project, index) => (
+                    <Col md={4} className="project-card mb-4" key={project.id}>
                       <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-center text-light mt-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3, delay: index * 0.1 }}
                       >
-                        <h3>No matching projects found</h3>
-                        <p>Try adjusting your search or filter criteria</p>
+                        <ProjectCards
+                          title={project.name}
+                          description={project.description || "No description available"}
+                          ghLink={project.html_url}
+                          demoLink={project.homepage || null}
+                          imgPath={project.imgPath}
+                          highlighted={project.highlighted}
+                          category={project.category}
+                        />
                       </motion.div>
                     </Col>
-                  )}
-                </AnimatePresence>
-              </Row>
-            )}
-          </motion.div>
-        </Container>
+                  ))
+                ) : (
+                  <Col>
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-center text-light mt-4"
+                    >
+                      <h3>No matching projects found</h3>
+                      <p>Try adjusting your search or filter criteria</p>
+                    </motion.div>
+                  </Col>
+                )}
+              </AnimatePresence>
+            </Row>
+          )}
+        </motion.div>
       </Container>
-    </div>
+    </Container>
   );
 }
 
