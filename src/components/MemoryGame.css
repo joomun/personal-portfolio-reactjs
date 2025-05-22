@@ -1,19 +1,20 @@
 .memory-game-container {
   width: 100%;
-  min-height: 100vh;
+  height: calc(100vh - 180px); /* Account for header and footer */
   margin: 0 auto;
-  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background: transparent !important;
   position: relative;
   z-index: 1;
+  padding: 0 1rem;
 }
 
 .memory-game-heading {
   color: white;
-  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
   text-align: center;
   margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -21,9 +22,9 @@
 
 .game-header {
   width: 100%;
-  max-width: 1200px;
+  max-width: 800px;
   margin-bottom: 1rem;
-  padding: 1rem;
+  padding: 0.5rem;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 15px;
   backdrop-filter: blur(5px);
@@ -34,19 +35,20 @@
   justify-content: center;
   gap: 2rem;
   color: white;
-  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  font-size: clamp(0.9rem, 1.5vw, 1.1rem);
   margin: 0.5rem 0;
   flex-wrap: wrap;
 }
 
 .memory-grid {
   display: grid;
-  width: min(95%, 1000px);
-  aspect-ratio: 1/1;
-  margin: 1rem auto;
-  gap: min(2vw, 1rem);
+  width: min(90%, 800px);
+  height: min(90%, 800px);
+  margin: 0 auto;
+  gap: 0.8rem;
   grid-template-columns: repeat(4, 1fr);
   perspective: 1000px;
+  place-items: center;
 }
 
 .memory-card {
@@ -55,6 +57,8 @@
   position: relative;
   cursor: pointer;
   transform-style: preserve-3d;
+  max-width: 150px;
+  max-height: 150px;
 }
 
 .card-inner {
@@ -278,42 +282,48 @@
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .memory-game-container {
+    height: calc(100vh - 160px);
+  }
+
   .memory-grid {
     width: 95%;
     gap: 0.5rem;
   }
 
-  .card-front,
-  .card-back {
-    font-size: min(8vw, 2.5rem);
-  }
-
-  .game-stats {
-    gap: 1rem;
+  .memory-card {
+    max-width: 120px;
+    max-height: 120px;
   }
 }
 
 @media (max-width: 480px) {
+  .memory-game-container {
+    height: calc(100vh - 140px);
+    padding: 0.5rem;
+  }
+
   .memory-grid {
     width: 98%;
     gap: 0.3rem;
   }
 
-  .memory-game-container {
-    padding: 1rem 0.5rem;
-  }
-
-  .card-front,
-  .card-back {
-    font-size: min(10vw, 2rem);
+  .memory-card {
+    max-width: 80px;
+    max-height: 80px;
   }
 }
 
 /* For larger screens */
 @media (min-width: 1200px) {
   .memory-grid {
-    width: min(80%, 1000px);
+    width: min(70%, 900px);
     gap: 1rem;
+  }
+
+  .memory-card {
+    max-width: 180px;
+    max-height: 180px;
   }
 }
 

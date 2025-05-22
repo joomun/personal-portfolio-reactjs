@@ -5,52 +5,32 @@ import { Container } from "react-bootstrap";
 
 function MiniGamePage() {
   return (
-    <div
+    <Container
+      fluid
+      className="project-section"
       style={{
         position: "relative",
-        minHeight: "100vh",
-        width: "100vw",
+        minHeight: "calc(100vh - 80px)", // Account for navbar
         background: "transparent",
+        padding: 0,
         overflow: "hidden",
       }}
     >
       <Particle />
       <Container
-        fluid
-        className="project-section"
         style={{
-          background: "transparent",
           position: "relative",
           zIndex: 2,
-          height: "100vh",
+          padding: 0,
+          height: "100%",
           display: "flex",
-          flexDirection: "column",
+          alignItems: "center",
           justifyContent: "center",
         }}
       >
-        <Container
-          style={{
-            width: "100%",
-            maxWidth: "100vw",
-            padding: 0,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              width: "100%",
-              maxWidth: "1600px",
-              margin: "0 auto",
-              padding: "clamp(10px, 2vw, 40px)",
-            }}
-          >
-            <MemoryGame />
-          </div>
-        </Container>
+        <MemoryGame />
       </Container>
-    </div>
+    </Container>
   );
 }
 
