@@ -9,7 +9,9 @@ function MiniGamePage() {
       style={{
         position: "relative",
         minHeight: "100vh",
+        width: "100vw",
         background: "transparent",
+        overflow: "hidden",
       }}
     >
       <Particle />
@@ -20,15 +22,28 @@ function MiniGamePage() {
           background: "transparent",
           position: "relative",
           zIndex: 2,
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
         }}
       >
-        <Container style={{ maxWidth: "1600px" }}>
+        <Container
+          style={{
+            width: "100%",
+            maxWidth: "100vw",
+            padding: 0,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           <div
             style={{
-              marginTop: "40px",
-              textAlign: "center",
-              position: "relative",
-              zIndex: 2,
+              width: "100%",
+              maxWidth: "1600px",
+              margin: "0 auto",
+              padding: "clamp(10px, 2vw, 40px)",
             }}
           >
             <MemoryGame />

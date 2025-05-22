@@ -1,9 +1,8 @@
 .memory-game-container {
-  max-width: 100%;
   width: 100%;
+  height: calc(90vh - 100px); /* Adjust height relative to viewport */
   margin: 0 auto;
-  padding: 2rem;
-  min-height: 100vh;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,11 +20,10 @@
 }
 
 .game-header {
-  width: 100%;
-  text-align: center;
-  margin-bottom: 2rem;
+  width: min(90vw, 1000px);
+  margin-bottom: clamp(1rem, 3vw, 2rem);
+  padding: clamp(0.5rem, 2vw, 1rem);
   background: rgba(255, 255, 255, 0.1);
-  padding: 1rem;
   border-radius: 15px;
   backdrop-filter: blur(5px);
 }
@@ -33,28 +31,28 @@
 .game-stats {
   display: flex;
   justify-content: center;
-  gap: 3rem;
-  color: white;
-  font-size: 1.2rem;
+  gap: clamp(1rem, 3vw, 3rem);
+  font-size: clamp(1rem, 2vw, 1.2rem);
   margin: 1rem 0;
+  flex-wrap: wrap;
 }
 
 .memory-grid {
   display: grid;
-  gap: 1.5rem;
-  width: 90%;
-  max-width: 1200px;
+  width: min(90vw, 1000px); /* Responsive width */
+  aspect-ratio: 1.2/1; /* Maintain aspect ratio */
   margin: 0 auto;
+  gap: clamp(0.5rem, 2vw, 1.5rem); /* Responsive gap */
   perspective: 1000px;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(4, 1fr); /* Fixed 4 columns */
 }
 
 .memory-card {
+  width: 100%;
   aspect-ratio: 1;
   position: relative;
   cursor: pointer;
   transform-style: preserve-3d;
-  min-height: 150px;
 }
 
 .card-inner {
@@ -74,8 +72,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 3rem;
-  border-radius: 12px;
+  font-size: clamp(2rem, 5vw, 3.5rem); /* Responsive font size */
+  border-radius: clamp(8px, 1.5vw, 12px); /* Responsive border radius */
   background: rgba(108, 99, 255, 0.2);
   backdrop-filter: blur(5px);
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -98,13 +96,12 @@
 
 /* Settings Panel Styles */
 .settings-panel {
+  width: min(90vw, 800px);
   background: rgba(255, 255, 255, 0.1);
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 2rem);
   border-radius: 15px;
   backdrop-filter: blur(10px);
-  width: 90%;
-  max-width: 800px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 0 auto;
 }
 
 .setting-group {
@@ -278,53 +275,38 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1200px) {
-  .memory-grid {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-  }
-
-  .card-front,
-  .card-back {
-    font-size: 2.5rem;
-  }
-}
-
 @media (max-width: 768px) {
   .memory-grid {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    width: 95vw;
     gap: 0.8rem;
-    width: 95%;
-  }
-
-  .memory-card {
-    min-height: 100px;
-  }
-
-  .card-front,
-  .card-back {
-    font-size: 2rem;
   }
 
   .game-stats {
-    flex-wrap: wrap;
-    gap: 1rem;
+    gap: 0.8rem;
+  }
+
+  .card-front,
+  .card-back {
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
   }
 }
 
 @media (max-width: 480px) {
   .memory-grid {
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    width: 98vw;
     gap: 0.5rem;
   }
 
-  .memory-card {
-    min-height: 80px;
+  .memory-game-container {
+    height: calc(80vh - 80px);
+    padding: 0.5rem;
   }
+}
 
-  .card-front,
-  .card-back {
-    font-size: 1.8rem;
+/* For larger screens */
+@media (min-width: 1200px) {
+  .memory-grid {
+    width: min(80vw, 1200px);
   }
 }
 
