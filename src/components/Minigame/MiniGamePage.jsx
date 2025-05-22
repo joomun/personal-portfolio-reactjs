@@ -1,21 +1,42 @@
 import React from "react";
-import MemoryGame from "../../components/MemoryGame"; // Adjust path if needed
-import Particle from "../Particle"; // Assuming Particle is a component for background animation
-import { Container, Row } from "react-bootstrap"; // Assuming you're using react-bootstrap
+import MemoryGame from "../MemoryGame";
+import Particle from "../Particle";
+import { Container } from "react-bootstrap";
 
-function Projects() {
+function MiniGamePage() {
   return (
-    <Container fluid className="project-section">
+    <div
+      style={{
+        position: "relative",
+        minHeight: "100vh",
+        background: "transparent",
+      }}
+    >
       <Particle />
-      <Container>
-        <div style={{ marginTop: "40px", textAlign: "center" }}>
-          {/* MiniGame Section */}
-          <h2 className="text-3xl text-white">Mini-Game</h2>
-          <MemoryGame />
-        </div>
+      <Container
+        fluid
+        className="project-section"
+        style={{
+          background: "transparent",
+          position: "relative",
+          zIndex: 2,
+        }}
+      >
+        <Container style={{ maxWidth: "1600px" }}>
+          <div
+            style={{
+              marginTop: "40px",
+              textAlign: "center",
+              position: "relative",
+              zIndex: 2,
+            }}
+          >
+            <MemoryGame />
+          </div>
+        </Container>
       </Container>
-    </Container>
+    </div>
   );
 }
 
-export default Projects;
+export default MiniGamePage;
