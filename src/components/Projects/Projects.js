@@ -166,8 +166,8 @@ function Projects() {
                       animate={{ opacity: 1 }}
                       className="text-center text-light mt-4"
                     >
-                      <h3>No matching projects found</h3>
-                      <p>Try adjusting your search or filter criteria</p>
+                      <h3>Oops! User did not start to do this development xD</h3>
+                      <p>Have some patience 😊</p>
                     </motion.div>
                   </Col>
                 )}
