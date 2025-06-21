@@ -205,6 +205,14 @@ button:focus {
   width: 100%;
 }
 
+.navbar-nav .nav-link.active {
+  color: #c95bf5 !important;
+  font-weight: bold;
+  border-bottom: 2px solid #c95bf5;
+  background: rgba(201, 91, 245, 0.08);
+  border-radius: 8px 8px 0 0;
+}
+
 /* --------- */
 /* Home section */
 /* --------- */
