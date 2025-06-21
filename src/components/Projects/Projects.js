@@ -133,7 +133,7 @@ function Projects() {
               <div className="spinner-border text-primary" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
-              <p className="mt-2 text-light">Loading amazing projects...</p>
+              <p className="mt-2 text-light loading-text">Fetching projects...</p>
             </div>
           ) : (
             <Row>
