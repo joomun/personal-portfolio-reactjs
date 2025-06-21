@@ -6,6 +6,7 @@ import Techstack from "./Techstack";
 import Aboutcard from "./AboutCard";
 import laptopImg from "../../Assets/about.png";
 import Toolstack from "./Toolstack";
+import Tilt from "react-parallax-tilt";
 
 function About() {
   return (
@@ -38,13 +39,17 @@ function About() {
           <strong className="purple">Skillset </strong>
         </h1>
 
-        <Techstack />
+        <Tilt glareEnable={true} glareMaxOpacity={0.15} scale={1.04}>
+          <Techstack />
+        </Tilt>
 
         <h1 className="project-heading">
           <strong className="purple">Tools</strong> I use
         </h1>
-        <Toolstack />
-
+        <Tilt glareEnable={true} glareMaxOpacity={0.15} scale={1.04}>
+          <Toolstack />
+        </Tilt>
+        
         <Github />
       </Container>
     </Container>
