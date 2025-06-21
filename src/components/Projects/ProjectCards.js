@@ -5,6 +5,7 @@ import { CgWebsite } from "react-icons/cg";
 import { BsGithub } from "react-icons/bs";
 import { FaStar, FaCode } from "react-icons/fa";
 import { motion } from "framer-motion";
+import Tilt from "react-parallax-tilt";
 
 function ProjectCards(props) {
   if (!props.imgPath && !props.title && !props.description) {
@@ -37,75 +38,77 @@ function ProjectCards(props) {
       transition={{ duration: 0.2 }}
       className="h-100"
     >
-      <Card className="project-card-view h-100">
-        {props.highlighted && (
-          <div className="highlight-badge">
-            <FaStar style={{ color: "gold", fontSize: "1.2rem" }} />
+      <Tilt glareEnable={true} glareMaxOpacity={0.2} scale={1.05}>
+        <Card className="project-card-view h-100">
+          {props.highlighted && (
+            <div className="highlight-badge">
+              <FaStar style={{ color: "gold", fontSize: "1.2rem" }} />
+            </div>
+          )}
+          <div className="card-img-wrapper">
+            <Card.Img
+              variant="top"
+              src={props.imgPath}
+              alt="card-img"
+              className="project-card-image"
+            />
+            <div className="card-img-overlay">
+              <div className="overlay-content">
+                <Button variant="light" href={props.ghLink} target="_blank" className="me-2">
+                  <BsGithub /> View Code
+                </Button>
+                {props.demoLink && (
+                  <Button variant="primary" href={props.demoLink} target="_blank">
+                    <CgWebsite /> Live Demo
+                  </Button>
+                )}
+              </div>
+            </div>
           </div>
-        )}
-        <div className="card-img-wrapper">
-          <Card.Img
-            variant="top"
-            src={props.imgPath}
-            alt="card-img"
-            className="project-card-image"
-          />
-          <div className="card-img-overlay">
-            <div className="overlay-content">
-              <Button variant="light" href={props.ghLink} target="_blank" className="me-2">
-                <BsGithub /> View Code
+          <Card.Body className="d-flex flex-column">
+            <div className="d-flex justify-content-between align-items-start mb-2">
+              <Card.Title className="mb-0">{props.title}</Card.Title>
+              {props.category && (
+                <span 
+                  className="category-badge"
+                  style={{ 
+                    backgroundColor: getCategoryColor(props.category),
+                    color: "white",
+                    padding: "2px 8px",
+                    borderRadius: "12px",
+                    fontSize: "0.8rem"
+                  }}
+                >
+                  {props.category}
+                </span>
+              )}
+            </div>
+            <Card.Text className="text-muted flex-grow-1">
+              {props.description}
+            </Card.Text>
+            <div className="d-flex mt-3 card-buttons">
+              <Button 
+                variant="outline-primary" 
+                href={props.ghLink} 
+                target="_blank"
+                className="w-100 me-2"
+              >
+                <BsGithub /> &nbsp; Code
               </Button>
               {props.demoLink && (
-                <Button variant="primary" href={props.demoLink} target="_blank">
-                  <CgWebsite /> Live Demo
+                <Button
+                  variant="primary"
+                  href={props.demoLink}
+                  target="_blank"
+                  className="w-100 ms-2"
+                >
+                  <CgWebsite /> &nbsp; Demo
                 </Button>
               )}
             </div>
-          </div>
-        </div>
-        <Card.Body className="d-flex flex-column">
-          <div className="d-flex justify-content-between align-items-start mb-2">
-            <Card.Title className="mb-0">{props.title}</Card.Title>
-            {props.category && (
-              <span 
-                className="category-badge"
-                style={{ 
-                  backgroundColor: getCategoryColor(props.category),
-                  color: "white",
-                  padding: "2px 8px",
-                  borderRadius: "12px",
-                  fontSize: "0.8rem"
-                }}
-              >
-                {props.category}
-              </span>
-            )}
-          </div>
-          <Card.Text className="text-muted flex-grow-1">
-            {props.description}
-          </Card.Text>
-          <div className="d-flex mt-3 card-buttons">
-            <Button 
-              variant="outline-primary" 
-              href={props.ghLink} 
-              target="_blank"
-              className="w-100 me-2"
-            >
-              <BsGithub /> &nbsp; Code
-            </Button>
-            {props.demoLink && (
-              <Button
-                variant="primary"
-                href={props.demoLink}
-                target="_blank"
-                className="w-100 ms-2"
-              >
-                <CgWebsite /> &nbsp; Demo
-              </Button>
-            )}
-          </div>
-        </Card.Body>
-      </Card>
+          </Card.Body>
+        </Card>
+      </Tilt>
     </motion.div>
   );
 }
