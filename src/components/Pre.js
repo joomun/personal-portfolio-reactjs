@@ -19,7 +19,7 @@ function Pre(props) {
       setStep(0);
       const interval = setInterval(() => {
         setStep((prev) => (prev < sshSteps.length - 1 ? prev + 1 : prev));
-      }, 1000); // <-- changed from 350 to 1000 ms for 7s total
+      }, 100);
       return () => clearInterval(interval);
     }
   }, [props.load]);
