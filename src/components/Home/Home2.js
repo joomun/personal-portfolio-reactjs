@@ -1,60 +1,103 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import myImg from "../../Assets/avatar.svg";
-import Tilt from "react-parallax-tilt";
 import {
   AiFillGithub,
   AiOutlineTwitter,
   AiFillInstagram,
 } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
+import Typewriter from "typewriter-effect";
 
 function Home2() {
+  const [terminalHistory, setTerminalHistory] = useState([]);
+  const [currentCommand, setCurrentCommand] = useState('');
+
+  const handleCommand = (command) => {
+    const responses = {
+      'help': `Available commands:
+        • skills - List my technical skills
+        • experience - Show my work experience
+        • projects - View my notable projects
+        • contact - Get my contact information
+        • clear - Clear terminal
+        • help - Show this help message`,
+      'skills': `Technical Skills:
+        • Languages: TypeScript, Python, Bash/Shell
+        • Cloud: Azure, AWS (Lambda, S3)
+        • IoT: Raspberry Pi, Hardware Projects
+        • Web: React, Node.js, Full Stack Development`,
+      'experience': `Professional Experience:
+        • Packaged App Development Associate
+        • Student Ambassador (2 years)
+        • IEEE MDX Student Branch Executive Member`,
+      'projects': `Notable Projects:
+        • Open Source Contributions
+        • IoT Hardware Projects
+        • Web Development Solutions
+        Type 'github' to visit my repository`,
+      'contact': `Contact Information:
+        • GitHub: github.com/joomun
+        • LinkedIn: linkedin.com/in/joomun-noorani-muddathir
+        • Instagram: @muddathir_joomun`,
+      'clear': 'CLEAR',
+      'github': 'Redirecting to GitHub...'
+    };
+
+    const newHistory = [...terminalHistory];
+    newHistory.push({ type: 'command', text: command });
+    
+    if (command === 'clear') {
+      setTerminalHistory([]);
+    } else if (responses[command]) {
+      newHistory.push({ type: 'response', text: responses[command] });
+      if (command === 'github') {
+        window.open('https://github.com/joomun', '_blank');
+      }
+    } else {
+      newHistory.push({ type: 'error', text: `Command not found: ${command}. Type 'help' for available commands.` });
+    }
+    
+    setTerminalHistory(newHistory);
+    setCurrentCommand('');
+  };
+
   return (
     <Container fluid className="home-about-section" id="about">
       <Container>
-      <Row>
-        <Col md={8} className="home-about-description">
-          <h1 style={{ fontSize: "2.6em" }}>
-            LET ME <span className="purple"> INTRODUCE </span> MYSELF
-          </h1>
-          <p className="home-about-body">
-            I am a passionate <b className="purple">Packaged App Development Associate</b>, with a strong foundation in{" "}
-            <i>
-              <b className="purple">Linux</b>, <b className="purple">Bash/Shell scripting</b>, and 
-              <b className="purple"> innovative solutions.</b>
-            </i>
-            <br />
-            <br />While my professional career focuses on packaged app development, I also enjoy exploring{" "}
-            <i>
-              <b className="purple">web development</b>, <b className="purple">IoT</b>, and emerging technologies.
-            </i>
-            <br />
-            <br />
-            I have expertise in technologies like{" "}
-            <i>
-              <b className="purple">TypeScript</b>, <b className="purple">Azure services</b>, <b className="purple">AWS (Lambda, S3)</b>, and{" "}
-              <b className="purple">Python development</b>.
-            </i>
-            <br />
-            <br />
-            Additionally, I love experimenting with hardware projects using{" "}
-            <i>
-              <b className="purple">Raspberry Pi</b>.
-            </i>
-            <br />
-            <br />
-            Whenever possible, I contribute to{" "}
-            <b className="purple">open-source projects</b> and collaborate with other tech enthusiasts to create amazing solutions! Great example is my role in 
-            <b className="purple"> IEEE Middlesex Univeristy Student Branch</b>
-          </p>
-        </Col>
-        <Col md={4} className="myAvtar">
-          <Tilt>
-            <img src={myImg} className="img-fluid" alt="avatar" />
-          </Tilt>
-        </Col>
-      </Row>
+        <Row>
+          <Col md={12} className="terminal-container">
+            <div className="terminal-header">
+              <div className="terminal-buttons">
+                <span className="terminal-button close"></span>
+                <span className="terminal-button minimize"></span>
+                <span className="terminal-button maximize"></span>
+              </div>
+              <div className="terminal-title">visitor@portfolio:~/about$</div>
+            </div>
+            <div className="terminal-content">
+              <div className="terminal-output">
+                {terminalHistory.map((entry, index) => (
+                  <div key={index} className={`terminal-line ${entry.type}`}>
+                    {entry.type === 'command' ? '$ ' + entry.text : entry.text}
+                  </div>
+                ))}
+                <div className="terminal-input">
+                  $ <input
+                    type="text"
+                    value={currentCommand}
+                    onChange={(e) => setCurrentCommand(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        handleCommand(currentCommand.toLowerCase());
+                      }
+                    }}
+                    autoFocus
+                  />
+                </div>
+              </div>
+            </div>
+          </Col>
+        </Row>
 
         <Row>
           <Col md={12} className="home-about-social">
@@ -100,4 +143,71 @@ function Home2() {
     </Container>
   );
 }
+
 export default Home2;
+
+/* Terminal Styles */
+.terminal-container {
+  background-color: var(--terminal-bg);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  margin: 20px 0;
+  overflow: hidden;
+  font-family: var(--terminal-font);
+}
+
+.terminal-header {
+  background-color: var(--terminal-header);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.terminal-content {
+  padding: 20px;
+  min-height: 400px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.terminal-line {
+  margin: 8px 0;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.terminal-line.command {
+  color: var(--terminal-prompt);
+}
+
+.terminal-line.response {
+  color: var(--terminal-text);
+}
+
+.terminal-line.error {
+  color: var(--terminal-red);
+}
+
+.terminal-input {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.terminal-input input {
+  background: transparent;
+  border: none;
+  color: var(--terminal-text);
+  font-family: var(--terminal-font);
+  font-size: 14px;
+  margin-left: 8px;
+  width: 100%;
+  outline: none;
+}
+
+.terminal-input::before {
+  content: "$";
+  color: var(--terminal-prompt);
+  margin-right: 8px;
+}
