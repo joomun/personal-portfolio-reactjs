@@ -97,4 +97,35 @@ Type 'help' to see available commands`
       }
     } else if (e.key === 'ArrowDown') {
       e.preventDefault();
+      if (historyIndex > 0) {
+        setHistoryIndex(historyIndex - 1);
+        setCurrentCommand(commandHistory[historyIndex - 1]);
+      } else {
+        setHistoryIndex(-1);
+        setCurrentCommand('');
+      }
+    }
+  };
+
+  const handleCommand = (input) => {
+    const cmd = input.toLowerCase().trim();
+    
+    // Add command to history
+    if (cmd) {
+      setCommandHistory([cmd, ...commandHistory]);
+      setHistoryIndex(-1);
+    }
+    
+    const newHistory = [...terminalHistory, { 
+      type: 'command', 
+      text: `visitor@portfolio:${currentPath}$ ${input}` 
+    }];
+    
+    if (cmd === 'clear') {
+      setTerminalHistory([]);
+      return;
+    }
+
+    if (commands[cmd]) {
+      const result = commands[cmd]();
       if
