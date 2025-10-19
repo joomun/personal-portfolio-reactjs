@@ -1122,3 +1122,104 @@ button:focus {
   list-style: none;
   padding: 0;
 }
+
+/* Terminal Theme Styles */
+.terminal-theme {
+  min-height: 100vh;
+  background: var(--terminal-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-terminal {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+  background: rgba(30, 30, 30, 0.95);
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  border: 1px solid var(--terminal-border);
+}
+
+.terminal-header {
+  background: var(--terminal-header);
+  padding: 0.8rem;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--terminal-border);
+}
+
+.terminal-body {
+  padding: 2rem;
+  min-height: 60vh;
+  font-family: var(--terminal-font);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.terminal-welcome {
+  margin-bottom: 2rem;
+}
+
+.terminal-main {
+  margin-bottom: 1.5rem;
+}
+
+.terminal-line {
+  display: block;
+  margin: 0.5rem 0;
+}
+
+.terminal-line.system {
+  color: var(--terminal-dim);
+}
+
+.terminal-line.info {
+  color: var(--terminal-cyan);
+}
+
+.terminal-prompt {
+  color: var(--terminal-prompt);
+}
+
+.terminal-buttons {
+  display: flex;
+  gap: 8px;
+  margin-right: 1rem;
+}
+
+.terminal-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.terminal-button:hover {
+  transform: scale(1.1);
+}
+
+.terminal-button.close { background: #ff5f56; }
+.terminal-button.minimize { background: #ffbd2e; }
+.terminal-button.maximize { background: #27c93f; }
+
+.terminal-title {
+  color: var(--terminal-text);
+  font-family: var(--terminal-font);
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .main-terminal {
+    margin: 1rem;
+    min-height: 80vh;
+  }
+  
+  .terminal-body {
+    padding: 1rem;
+    font-size: 14px;
+  }
+}
