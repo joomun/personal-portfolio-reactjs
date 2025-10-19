@@ -85,24 +85,62 @@ Domains  : Web Dev, IoT, Cloud Computing`
       <Container>
         <Row>
           <Col md={12} className="terminal-wrapper">
-            <div className="terminal">
-              <div className="terminal-header">
+            <div className="terminal" style={{
+              maxWidth: "100%",
+              width: "420px",
+              margin: "0 auto",
+              borderRadius: "8px",
+              boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+              background: "var(--terminal-bg, #282a36)",
+              border: "1px solid #44475a",
+              overflow: "hidden"
+            }}>
+              <div className="terminal-header" style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "0.7rem 1rem",
+                background: "var(--terminal-header, #21222c)",
+                borderBottom: "1px solid #44475a"
+              }}>
                 <div className="terminal-buttons">
                   <span className="terminal-button red"></span>
                   <span className="terminal-button yellow"></span>
                   <span className="terminal-button green"></span>
                 </div>
-                <div className="terminal-title">visitor@portfolio</div>
+                <div className="terminal-title" style={{
+                  color: "#f8f8f2",
+                  fontSize: "13px",
+                  marginLeft: "10px",
+                  opacity: 0.7
+                }}>visitor@portfolio</div>
               </div>
               
-              <div className="terminal-body">
+              <div className="terminal-body" style={{
+                padding: "1.2rem 0.7rem 1rem 0.7rem",
+                color: "#f8f8f2",
+                fontSize: "15px",
+                minHeight: "120px",
+                wordBreak: "break-word"
+              }}>
                 {terminalHistory.map((entry, idx) => (
-                  <div key={idx} className={`terminal-line ${entry.type}`}>
+                  <div key={idx} className={`terminal-line ${entry.type}`} style={{
+                    whiteSpace: 'pre-wrap',
+                    fontFamily: 'monospace',
+                    fontSize: "1em"
+                  }}>
                     {entry.text}
                   </div>
                 ))}
-                <div className="terminal-prompt">
-                  <span className="prompt-text">visitor@portfolio:{currentPath}$</span>
+                <div className="terminal-prompt" style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "8px"
+                }}>
+                  <span className="prompt-text" style={{
+                    fontFamily: "monospace",
+                    fontWeight: "bold",
+                    marginRight: "6px"
+                  }}>visitor@portfolio:{currentPath}$</span>
                   <input
                     type="text"
                     value={currentCommand}
@@ -116,6 +154,17 @@ Domains  : Web Dev, IoT, Cloud Computing`
                     spellCheck="false"
                     autoComplete="off"
                     className="terminal-input"
+                    style={{
+                      flex: 1,
+                      minWidth: 0,
+                      background: "transparent",
+                      color: "#f8f8f2",
+                      border: "none",
+                      outline: "none",
+                      fontFamily: "monospace",
+                      fontSize: "1em",
+                      padding: "2px 4px"
+                    }}
                   />
                 </div>
               </div>
