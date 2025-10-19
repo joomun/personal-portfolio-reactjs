@@ -102,13 +102,18 @@ Domains  : Web Dev, IoT, Cloud Computing`
                   </div>
                 ))}
                 <div className="terminal-prompt">
-                  <span>visitor@portfolio:{currentPath}$</span>
                   <input
                     type="text"
                     value={currentCommand}
                     onChange={(e) => setCurrentCommand(e.target.value)}
-                    onKeyPress={(e) => e.key === 'Enter' && handleCommand(currentCommand)}
+                    onKeyPress={(e) => {
+                      if (e.key === 'Enter') {
+                        handleCommand(currentCommand);
+                      }
+                    }}
                     autoFocus
+                    spellCheck="false"
+                    autoComplete="off"
                   />
                 </div>
               </div>

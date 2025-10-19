@@ -1109,8 +1109,16 @@ button:focus {
 .terminal-prompt {
   display: flex;
   align-items: center;
-  gap: 8px;
+  padding: 5px 0;
+  width: 100%;
+  position: relative;
+}
+
+.terminal-prompt::before {
+  content: "$ ";
   color: var(--terminal-prompt);
+  margin-right: 8px;
+  font-family: var(--terminal-font);
 }
 
 .terminal-prompt input {
@@ -1120,7 +1128,26 @@ button:focus {
   font-family: var(--terminal-font);
   font-size: 14px;
   width: 100%;
+  padding: 4px;
   outline: none;
+  caret-color: var(--terminal-prompt); /* Makes cursor visible */
+  position: relative;
+  z-index: 100; /* Ensure input is above other elements */
+}
+
+/* Remove any overlays that might block input */
+.terminal-body {
+  position: relative;
+  z-index: 1;
+}
+
+.terminal-content {
+  pointer-events: auto !important;
+}
+
+/* Ensure clickable area */
+.terminal {
+  pointer-events: auto !important;
 }
 
 .terminal-social-links {
