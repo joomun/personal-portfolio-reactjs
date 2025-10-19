@@ -1,34 +1,46 @@
 html {
   --section-background-color: linear-gradient(
     to bottom left,
-    rgba(17, 16, 16, 0.582),
-    rgba(12, 8, 24, 0.904)
+    rgba(0, 0, 0, 0.8),
+    rgba(16, 16, 16, 0.95)
   );
 
   --image-gradient: linear-gradient(
     to bottom left,
-    rgba(17, 16, 16, 0.678),
-    rgba(12, 10, 22, 0.863)
+    rgba(0, 0, 0, 0.8),
+    rgba(16, 16, 16, 0.95)
   );
 
-  --imp-text-color: #c770f0;
+  --imp-text-color: #50fa7b;
 }
 
 /* Terminal Theme Variables */
 :root {
-  --terminal-bg: rgba(40, 44, 52, 0.95);
-  --terminal-header: #3c3f41;
-  --terminal-text: #fff;
-  --terminal-prompt: #98c379;
-  --terminal-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --terminal-bg: rgba(40, 42, 54, 0.95);
+  --terminal-header: #282a36;
+  --terminal-text: #f8f8f2;
+  --terminal-prompt: #50fa7b;
+  --terminal-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   --terminal-border-radius: 6px;
-  --terminal-font: 'Monaco', 'Consolas', monospace;
-  --terminal-highlight: #6c63ff;
-  --terminal-dim: rgba(255, 255, 255, 0.7);
+  --terminal-font: 'Fira Code', 'JetBrains Mono', 'Monaco', monospace;
+  --terminal-highlight: #bd93f9;
+  --terminal-selection: rgba(189, 147, 249, 0.3);
+  --terminal-cursor: #f8f8f2;
+  --terminal-border: #44475a;
+  
+  /* Terminal Colors */
+  --terminal-green: #50fa7b;
+  --terminal-purple: #bd93f9;
+  --terminal-pink: #ff79c6;
+  --terminal-yellow: #f1fa8c;
+  --terminal-orange: #ffb86c;
+  --terminal-red: #ff5555;
+  --terminal-cyan: #8be9fd;
 }
 
+/* Update existing components */
 .purple {
-  color: var(--imp-text-color) !important;
+  color: var(--terminal-purple) !important;
 }
 
 button:focus {
@@ -70,19 +82,18 @@ button:focus {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #2d1950;
+  background: var(--terminal-bg);
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgba(178, 121, 216, 0.959);
-  border-radius: 12px;
+  background: var(--terminal-border);
+  border-radius: 6px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(222, 130, 235, 0.911);
-  border-radius: 12px;
+  background: var(--terminal-purple);
 }
 
 /* --------- */
@@ -100,6 +111,8 @@ button:focus {
   transition: all 0.3s ease-out 0s !important;
   padding: 0.3rem 2rem !important;
   font-size: 1.2rem !important;
+  background-color: var(--terminal-bg) !important;
+  border-bottom: 1px solid var(--terminal-border);
 }
 
 .navbar-toggler {
