@@ -28,93 +28,26 @@ function Home() {
   const commands = {
     help: () => ({
       type: 'success',
-      text: `
-╭───────────────── AVAILABLE COMMANDS ─────────────────╮
-│                                                      │
-│  about    - Display my professional summary          │
-│  skills   - List my technical skills                 │
-│  projects - View my portfolio projects               │
-│  contact  - Show contact information                 │
-│  social   - Display social media links               │
-│  github   - Open my GitHub profile                   │
-│  clear    - Clear terminal screen                    │
-│  banner   - Show welcome message                     │
-│                                                      │
-│  TIP: Use arrow keys to navigate command history     │
-╰──────────────────────────────────────────────────────╯`
+      text: `Available commands:
+whoami      - Learn about me
+skills      - View my technical skills
+projects    - Browse my projects
+contact     - Get my contact info
+clear       - Clear terminal
+social      - Show social links`
     }),
-    about: () => ({
+    whoami: () => ({
       type: 'info',
-      text: `Full Stack Developer & Cloud Engineer
-─────────────────────────────
-• Currently: Packaged App Development Associate
-• Focus: Web Development, IoT, Cloud Computing
-• Location: Mauritius`
-    }),
-    skills: () => ({
-      type: 'info',
-      text: `Technical Stack
-──────────────
-Frontend    : React, TypeScript, HTML5/CSS3
-Backend     : Node.js, Python, Shell Scripting
-Cloud       : AWS, Azure
-IoT         : Raspberry Pi, Arduino
-Tools       : Git, Docker, VS Code`
-    }),
-    contact: () => ({
-      type: 'success',
-      text: `Contact Information
-──────────────────
-Email     : your.email@domain.com
-LinkedIn  : linkedin.com/in/joomun-noorani-muddathir
-Location  : Mauritius`
-    }),
-    github: () => {
-      window.open('https://github.com/joomun', '_blank');
-      return {
-        type: 'system',
-        text: 'Opening GitHub profile...'
-      };
-    },
-    banner: () => ({
-      type: 'system',
-      text: `Welcome to JoomunOS 1.0.0 LTS
-Type 'help' to see available commands`
+      text: `Joomun Noorani Muddathir
+Full Stack Developer & Cloud Engineer
+Currently: Packaged App Development Associate`
     }),
     clear: () => ({ type: 'clear' }),
-  };
-
-  // Add command history navigation
-  const [commandHistory, setCommandHistory] = useState([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
-
-  const handleKeyDown = (e) => {
-    if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (historyIndex < commandHistory.length - 1) {
-        setHistoryIndex(historyIndex + 1);
-        setCurrentCommand(commandHistory[historyIndex + 1]);
-      }
-    } else if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (historyIndex > 0) {
-        setHistoryIndex(historyIndex - 1);
-        setCurrentCommand(commandHistory[historyIndex - 1]);
-      } else {
-        setHistoryIndex(-1);
-        setCurrentCommand('');
-      }
-    }
+    // Add more commands as needed
   };
 
   const handleCommand = (input) => {
     const cmd = input.toLowerCase().trim();
-    
-    // Add command to history
-    if (cmd) {
-      setCommandHistory([cmd, ...commandHistory]);
-      setHistoryIndex(-1);
-    }
     
     const newHistory = [...terminalHistory, { 
       type: 'command', 
@@ -131,7 +64,7 @@ Type 'help' to see available commands`
       if (result.type !== 'clear') {
         newHistory.push(result);
       }
-    } else if (cmd) {
+    } else {
       newHistory.push({
         type: 'error',
         text: `command not found: ${cmd}`
@@ -139,32 +72,52 @@ Type 'help' to see available commands`
     }
     
     setTerminalHistory(newHistory);
-    setCurrentCommand('');
+    setCurrentCommand("");
   };
 
   return (
-    <Container>
-      <Particle />
-      <Type />
-      <div className="terminal">
-        <div className="terminal-header">
-          <div className="terminal-user">visitor@portfolio</div>
-          <div className="terminal-path">{currentPath}</div>
-        </div>
-        <div className="terminal-content">
-          {terminalHistory.map((entry, index) => (
-            <div key={index}>
-              {entry.type === 'system' && <div className="system-message">{entry.text}</div>}
-              {entry.type === 'info' && <div className="info-message">{entry.text}</div>}
-              {entry.type === 'command' && <div className="command-message">{entry.text}</div>}
+    <section className="terminal-theme">
+      <Container fluid className="home-section" id="home">
+        <Particle />
+        <Container className="home-content">
+          <div className="main-terminal">
+            <div className="terminal-header">
+              <div className="terminal-buttons">
+                <span className="terminal-button close"></span>
+                <span className="terminal-button minimize"></span>
+                <span className="terminal-button maximize"></span>
+              </div>
+              <div className="terminal-title">visitor@portfolio:~$</div>
             </div>
-          ))}
-        </div>
-        <div className="terminal-input">
-          <input type="text" value={currentCommand} onChange={(e) => setCurrentCommand(e.target.value)} onKeyDown={handleKeyDown} />
-        </div>
-      </div>
-    </Container>
+            
+            <div className="terminal-body">
+              {terminalHistory.map((entry, idx) => (
+                <div key={idx} className={`terminal-line ${entry.type}`}>
+                  {entry.text}
+                </div>
+              ))}
+              <div className="terminal-prompt">
+                <span className="prompt-text">visitor@portfolio:{currentPath}$</span>
+                <input
+                  type="text"
+                  value={currentCommand}
+                  onChange={(e) => setCurrentCommand(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      handleCommand(currentCommand);
+                    }
+                  }}
+                  autoFocus
+                  spellCheck="false"
+                  autoComplete="off"
+                  className="terminal-input"
+                />
+              </div>
+            </div>
+          </div>
+        </Container>
+      </Container>
+    </section>
   );
 }
 
