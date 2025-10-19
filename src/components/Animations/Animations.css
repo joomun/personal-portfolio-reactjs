@@ -59,3 +59,44 @@
     height: 200px !important;
   }
 }
+
+/* Terminal Animation Styles */
+.terminal-container {
+  background: var(--terminal-bg);
+  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  margin: 20px 0;
+  overflow: hidden;
+  font-family: 'Fira Code', monospace;
+}
+
+.terminal-content {
+  padding: 20px;
+  color: #f8f8f2;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.terminal-content span {
+  white-space: pre-wrap;
+}
+
+/* Command color variations */
+.Typewriter__wrapper {
+  color: #50fa7b !important; /* Success green */
+}
+
+.Typewriter__cursor {
+  color: #f8f8f2 !important;
+  font-weight: bold;
+}
+
+/* Loading bar animation */
+@keyframes loadingBar {
+  from { content: "[>----]"; }
+  20% { content: "[->---]"; }
+  40% { content: "[-->--]"; }
+  60% { content: "[---=>]"; }
+  80% { content: "[---->>]"; }
+  to { content: "[>----]"; }
+}

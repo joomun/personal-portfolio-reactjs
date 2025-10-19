@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import Particle from "../Particle";
 import "./Animations.css";
+import Typewriter from "typewriter-effect";
 
 function AnimationsPage() {
   const animations = [
@@ -58,6 +59,42 @@ function AnimationsPage() {
         </Row>
       </Container>
     </Container>
+  );
+}
+
+function Type() {
+  return (
+    <div className="terminal-container">
+      <div className="terminal-header">
+        <div className="terminal-buttons">
+          <span className="terminal-button close"></span>
+          <span className="terminal-button minimize"></span>
+          <span className="terminal-button maximize"></span>
+        </div>
+        <div className="terminal-title">visitor@portfolio:~$</div>
+      </div>
+      <div className="terminal-content">
+        <Typewriter
+          options={{
+            strings: [
+              `#!/bin/bash\n$ Loading personality.sh...\n[=====>] 100%\n$ cat /etc/profile\n"Just another dev diving into the dark terminal abyss"`,
+              
+              `$ sudo apt-get update brain\n[====>] 100%\n$ apt list --installed\nTypeScript 5.0.1\nPython 3.11.0\nCoffee 2.cups daily`,
+              
+              `$ whoami\nPackaged App Development Associate\n$ echo $MOOD\n"Always coding, occasionally sleeping"`,
+              
+              `$ git status\nOn branch master\nYour life is up to date\nNothing to stress about, working tree clean`,
+              
+              `$ curl http://brain/thoughts\n{"status": "200 OK",\n "current_task": "Making the web better, one div at a time"}`
+            ],
+            autoStart: true,
+            loop: true,
+            deleteSpeed: 20,
+            delay: 60,
+          }}
+        />
+      </div>
+    </div>
   );
 }
 
