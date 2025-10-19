@@ -128,4 +128,44 @@ Type 'help' to see available commands`
 
     if (commands[cmd]) {
       const result = commands[cmd]();
-      if
+      if (result.type !== 'clear') {
+        newHistory.push(result);
+      }
+    } else if (cmd) {
+      newHistory.push({
+        type: 'error',
+        text: `command not found: ${cmd}`
+      });
+    }
+    
+    setTerminalHistory(newHistory);
+    setCurrentCommand('');
+  };
+
+  return (
+    <Container>
+      <Particle />
+      <Type />
+      <div className="terminal">
+        <div className="terminal-header">
+          <div className="terminal-user">visitor@portfolio</div>
+          <div className="terminal-path">{currentPath}</div>
+        </div>
+        <div className="terminal-content">
+          {terminalHistory.map((entry, index) => (
+            <div key={index}>
+              {entry.type === 'system' && <div className="system-message">{entry.text}</div>}
+              {entry.type === 'info' && <div className="info-message">{entry.text}</div>}
+              {entry.type === 'command' && <div className="command-message">{entry.text}</div>}
+            </div>
+          ))}
+        </div>
+        <div className="terminal-input">
+          <input type="text" value={currentCommand} onChange={(e) => setCurrentCommand(e.target.value)} onKeyDown={handleKeyDown} />
+        </div>
+      </div>
+    </Container>
+  );
+}
+
+export default Home;
