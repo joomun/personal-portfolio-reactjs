@@ -28,21 +28,93 @@ function Home() {
   const commands = {
     help: () => ({
       type: 'success',
-      text: `Available commands:
-whoami      - Learn about me
-skills      - View my technical skills
-projects    - Browse my projects
-contact     - Get my contact info
-clear       - Clear terminal
-social      - Show social links`
+      text: `
+╭──────────────── Available Commands ────────────────╮
+│                                                   │
+│  🧑  whoami    - Learn about me and my background │
+│  💻  skills    - View my technical expertise      │
+│  🚀  projects  - Browse my portfolio projects     │
+│  📧  contact   - Get my contact information       │
+│  🔗  social    - View my social media profiles    │
+│  📚  resume    - Download my latest resume        │
+│  💼  experience- View my work experience          │
+│  🎓  education - View my educational background   │
+│  🔄  clear     - Clear the terminal screen        │
+│                                                   │
+│  Type any command to learn more!                  │
+╰───────────────────────────────────────────────────╯`
     }),
     whoami: () => ({
       type: 'info',
-      text: `Joomun Noorani Muddathir
-Full Stack Developer & Cloud Engineer
-Currently: Packaged App Development Associate`
+      text: `
+╭─────────── About Me ───────────╮
+│                                │
+│  🧑‍💻 Joomun Noorani Muddathir  │
+│  📍 Full Stack Developer       │
+│  ☁️ Cloud Engineer            │
+│                                │
+│  Currently:                    │
+│  💼 Packaged App Development   │
+│     Associate                  │
+╰────────────────────────────────╯`
     }),
     clear: () => ({ type: 'clear' }),
+    skills: () => ({
+      type: 'success',
+      text: `
+╭────────── Technical Skills ──────────╮
+│                                     │
+│  💻 Languages:                      │
+│    • JavaScript/TypeScript          │
+│    • Python                         │
+│    • Java                          │
+│                                     │
+│  🌐 Web Technologies:               │
+│    • React.js                       │
+│    • Node.js                        │
+│    • HTML5/CSS3                     │
+│                                     │
+│  ☁️ Cloud & DevOps:                │
+│    • AWS                           │
+│    • Docker                        │
+│    • CI/CD                         │
+╰─────────────────────────────────────╯`
+    }),
+    projects: () => ({
+      type: 'success',
+      text: `
+╭─────────── My Projects ────────────╮
+│                                    │
+│  🚀 Type 'projects list' to view   │
+│    my portfolio projects           │
+│                                    │
+│  🔍 Type 'projects info <name>'    │
+│    for project details             │
+╰────────────────────────────────────╯`
+    }),
+    contact: () => ({
+      type: 'info',
+      text: `
+╭──────────── Contact Me ────────────╮
+│                                    │
+│  📧 Email: [Your Email]            │
+│  📱 Phone: [Your Phone]            │
+│  🌐 Website: [Your Website]        │
+│                                    │
+│  Type 'social' for social links!   │
+╰────────────────────────────────────╯`
+    }),
+    social: () => ({
+      type: 'info',
+      text: `
+╭─────────── Social Links ───────────╮
+│                                    │
+│  💼 LinkedIn: [Your LinkedIn]      │
+│  🐱 GitHub: [Your GitHub]          │
+│  🐦 Twitter: [Your Twitter]        │
+│                                    │
+╰────────────────────────────────────╯`
+    }),
     // Add more commands as needed
   };
 
