@@ -12,7 +12,7 @@ function Home() {
     setTerminalHistory([
       { 
         type: 'system', 
-        text: 'Welcome to JoomunOS 1.0.0 LTS (GNU/Linux 5.15.0-1019-aws x86_64)'
+        text: 'Welcome to JoomunOS 1.0.0 LTS (GNU/JoomunOS 5.15.0-1019-aws x86_64)'
       },
       { 
         type: 'system', 
@@ -51,8 +51,8 @@ function Home() {
         '+---------------- About Me ------------------+',
         '|                                          |',
         '|  Name: Joomun Noorani Muddathir         |',
-        '|  Role: Full Stack Developer              |',
-        '|        Cloud Engineer                    |',
+        '|  Role: Simply Me                         |',
+        '|                                          |',
         '|                                          |',
         '|  Currently:                              |',
         '|  Packaged App Development Associate      |',
@@ -99,26 +99,26 @@ function Home() {
     contact: () => ({
       type: 'info',
       text: [
-        '+---------------- Contact Me -----------------+',
-        '|                                           |',
-        '|  Email:   [Your Email]                    |',
-        '|  Phone:   [Your Phone]                    |',
-        '|  Website: [Your Website]                  |',
-        '|                                           |',
-        '|  Type \'social\' for social media links     |',
-        '+-------------------------------------------+'
+        '+---------------- Contact Me -------------------+',
+        '|                                               |',
+        '|  Email:   joomunmuddathir@gmail.com           |',
+        '|  Phone:   57568744                            |',
+        '|  Website: https://joomunnoorfolio.vercel.app/ |                 |',
+        '|                                               |',
+        '|  Type \'social\' for social media links       |',
+        '+-----------------------------------------------+'
       ].join('\n')
     }),
     social: () => ({
       type: 'info',
       text: [
-        '+---------------- Social Links ----------------+',
-        '|                                           |',
-        '|  LinkedIn: [Your LinkedIn]                |',
-        '|  GitHub:   [Your GitHub]                  |',
-        '|  Twitter:  [Your Twitter]                 |',
-        '|                                           |',
-        '+-------------------------------------------+'
+        '+------------------------------ Social Links --------------------------------+',
+        '|                                                                            |',
+        '|  LinkedIn: https://www.linkedin.com/in/joomun-noorani-muddathir-846636228/ |',
+        '|  GitHub:   https://github.com/joomun/                                      |',
+        '|  Instagram:  https://www.instagram.com/muddathir_joomun/                   |',
+        '|                                                                            |',
+        '+----------------------------------------------------------------------------+'
       ].join('\n')
     }),
     // Add more commands as needed
