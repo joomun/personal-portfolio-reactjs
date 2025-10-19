@@ -59,3 +59,112 @@
     height: 200px !important;
   }
 }
+
+/* Terminal Loader Styles */
+.terminal-loader {
+  width: 350px;
+  margin: 120px auto 0 auto;
+  background: var(--terminal-bg, #282a36);
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  font-family: 'Fira Code', 'JetBrains Mono', 'Monaco', monospace;
+  overflow: hidden;
+  border: 1px solid #44475a;
+  animation: fadeIn 0.7s;
+}
+
+.terminal-header {
+  background: var(--terminal-header, #21222c);
+  padding: 0.7rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid #44475a;
+}
+
+.terminal-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 4px;
+}
+.terminal-dot.red { background: #ff5f56; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #27c93f; }
+.terminal-title {
+  color: #f8f8f2;
+  font-size: 13px;
+  margin-left: 10px;
+  opacity: 0.7;
+}
+
+.terminal-body {
+  padding: 1.5rem 1rem 1rem 1rem;
+  color: #f8f8f2;
+  font-size: 15px;
+  min-height: 120px;
+}
+
+.terminal-prompt {
+  color: var(--terminal-prompt, #50fa7b);
+  margin-right: 6px;
+  font-weight: bold;
+}
+
+.terminal-joke {
+  color: #bd93f9;
+  font-size: 1em;
+  letter-spacing: 0.01em;
+  animation: typewriter 1.5s steps(30) 0.2s 1 normal both;
+  display: inline-block;
+  white-space: pre;
+}
+
+.terminal-loading-bar {
+  margin: 18px 0 10px 0;
+  height: 18px;
+  width: 100%;
+  background: #23242b;
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #44475a;
+}
+
+.loading-bar {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #50fa7b 0%, #bd93f9 100%);
+  animation: loadingBarGrow 1.2s cubic-bezier(.4,0,.2,1) infinite;
+}
+
+@keyframes loadingBarGrow {
+  0% { width: 0%; }
+  60% { width: 100%; }
+  100% { width: 0%; }
+}
+
+.terminal-joke-message {
+  margin-top: 10px;
+  color: #f1fa8c;
+  font-size: 0.98em;
+  text-align: left;
+  animation: fadeIn 1.2s 1.2s backwards;
+}
+
+.terminal-punchline {
+  color: #ff79c6;
+  font-weight: bold;
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0);}
+}
