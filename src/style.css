@@ -836,19 +836,21 @@ button:focus {
 }
 
 /* Terminal Styling */
+.terminal-style {
+  font-family: 'Monaco', 'Consolas', monospace;
+}
+
 .terminal-container {
   background-color: rgba(40, 44, 52, 0.95);
   border-radius: 6px;
-  padding: 0;
+  overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  min-width: 600px;
   margin: 20px 0;
 }
 
 .terminal-header {
   background-color: #3c3f41;
   padding: 10px;
-  border-radius: 6px 6px 0 0;
   display: flex;
   align-items: center;
 }
@@ -863,30 +865,19 @@ button:focus {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  display: inline-block;
 }
 
-.terminal-button.close {
-  background-color: #ff5f56;
-}
-
-.terminal-button.minimize {
-  background-color: #ffbd2e;
-}
-
-.terminal-button.maximize {
-  background-color: #27c93f;
-}
+.terminal-button.close { background-color: #ff5f56; }
+.terminal-button.minimize { background-color: #ffbd2e; }
+.terminal-button.maximize { background-color: #27c93f; }
 
 .terminal-title {
   color: #ddd;
-  font-family: 'Monaco', 'Consolas', monospace;
   font-size: 14px;
 }
 
 .terminal-content {
   padding: 20px;
-  font-family: 'Monaco', 'Consolas', monospace;
   color: #fff;
 }
 
@@ -895,15 +886,24 @@ button:focus {
   margin-right: 8px;
 }
 
-/* Make terminal responsive */
+.terminal-output {
+  color: #fff;
+  margin: 10px 0;
+  line-height: 1.4;
+}
+
+.terminal-welcome,
+.terminal-user,
+.terminal-info {
+  margin-bottom: 20px;
+}
+
 @media (max-width: 768px) {
   .terminal-container {
-    min-width: 100%;
     margin: 10px 0;
   }
   
   .terminal-content {
     padding: 15px;
-    font-size: 14px;
   }
 }
