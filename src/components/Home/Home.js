@@ -28,92 +28,98 @@ function Home() {
   const commands = {
     help: () => ({
       type: 'success',
-      text: `
-+----------------- Available Commands ------------------+
-|                                                     |
-|  whoami     - Learn about me and my background      |
-|  skills     - View my technical expertise           |
-|  projects   - Browse my portfolio projects          |
-|  contact    - Get my contact information            |
-|  social     - View my social media profiles         |
-|  resume     - Download my latest resume             |
-|  experience - View my work experience               |
-|  education  - View my educational background        |
-|  clear      - Clear the terminal screen             |
-|                                                     |
-|  Type any command to learn more!                    |
-+-----------------------------------------------------+`
+      text: [
+        '+----------------- Available Commands ------------------+',
+        '|                                                     |',
+        '|  whoami     - Learn about me and my background      |',
+        '|  skills     - View my technical expertise           |',
+        '|  projects   - Browse my portfolio projects          |',
+        '|  contact    - Get my contact information            |',
+        '|  social     - View my social media profiles         |',
+        '|  resume     - Download my latest resume             |',
+        '|  experience - View my work experience               |',
+        '|  education  - View my educational background        |',
+        '|  clear      - Clear the terminal screen             |',
+        '|                                                     |',
+        '|  Type any command to learn more!                    |',
+        '+-----------------------------------------------------+'
+      ].join('\n')
     }),
     whoami: () => ({
       type: 'info',
-      text: `
-+---------------- About Me ------------------+
-|                                          |
-|  Name: Joomun Noorani Muddathir         |
-|  Role: Full Stack Developer              |
-|        Cloud Engineer                    |
-|                                          |
-|  Currently:                              |
-|  Packaged App Development Associate      |
-|                                          |
-+------------------------------------------+`
+      text: [
+        '+---------------- About Me ------------------+',
+        '|                                          |',
+        '|  Name: Joomun Noorani Muddathir         |',
+        '|  Role: Full Stack Developer              |',
+        '|        Cloud Engineer                    |',
+        '|                                          |',
+        '|  Currently:                              |',
+        '|  Packaged App Development Associate      |',
+        '|                                          |',
+        '+------------------------------------------+'
+      ].join('\n')
     }),
     clear: () => ({ type: 'clear' }),
     skills: () => ({
       type: 'success',
-      text: `
-+--------------- Technical Skills ---------------+
-|                                              |
-|  Languages:                                  |
-|    • JavaScript/TypeScript                   |
-|    • Python                                  |
-|    • Java                                    |
-|                                              |
-|  Web Technologies:                           |
-|    • React.js                                |
-|    • Node.js                                 |
-|    • HTML5/CSS3                              |
-|                                              |
-|  Cloud & DevOps:                            |
-|    • AWS                                     |
-|    • Docker                                  |
-|    • CI/CD                                   |
-|                                              |
-+----------------------------------------------+`
+      text: [
+        '+--------------- Technical Skills ---------------+',
+        '|                                              |',
+        '|  Languages:                                  |',
+        '|    • JavaScript/TypeScript                   |',
+        '|    • Python                                  |',
+        '|    • Java                                    |',
+        '|                                              |',
+        '|  Web Technologies:                           |',
+        '|    • React.js                                |',
+        '|    • Node.js                                 |',
+        '|    • HTML5/CSS3                              |',
+        '|                                              |',
+        '|  Cloud & DevOps:                             |',
+        '|    • AWS                                     |',
+        '|    • Docker                                  |',
+        '|    • CI/CD                                   |',
+        '|                                              |',
+        '+----------------------------------------------+'
+      ].join('\n')
     }),
     projects: () => ({
       type: 'success',
-      text: `
-+---------------- My Projects -----------------+
-|                                            |
-|  Available Commands:                        |
-|    projects list  - View portfolio projects |
-|    projects info  - Get project details     |
-|                                            |
-+--------------------------------------------+`
+      text: [
+        '+---------------- My Projects -----------------+',
+        '|                                            |',
+        '|  Available Commands:                       |',
+        '|    projects list  - View portfolio projects|',
+        '|    projects info  - Get project details    |',
+        '|                                            |',
+        '+--------------------------------------------+'
+      ].join('\n')
     }),
     contact: () => ({
       type: 'info',
-      text: `
-+---------------- Contact Me -----------------+
-|                                           |
-|  Email:   [Your Email]                    |
-|  Phone:   [Your Phone]                    |
-|  Website: [Your Website]                  |
-|                                           |
-|  Type 'social' for social media links     |
-+-------------------------------------------+`
+      text: [
+        '+---------------- Contact Me -----------------+',
+        '|                                           |',
+        '|  Email:   [Your Email]                    |',
+        '|  Phone:   [Your Phone]                    |',
+        '|  Website: [Your Website]                  |',
+        '|                                           |',
+        '|  Type \'social\' for social media links     |',
+        '+-------------------------------------------+'
+      ].join('\n')
     }),
     social: () => ({
       type: 'info',
-      text: `
-+---------------- Social Links ----------------+
-|                                           |
-|  LinkedIn: [Your LinkedIn]                |
-|  GitHub:   [Your GitHub]                  |
-|  Twitter:  [Your Twitter]                 |
-|                                           |
-+-------------------------------------------+`
+      text: [
+        '+---------------- Social Links ----------------+',
+        '|                                           |',
+        '|  LinkedIn: [Your LinkedIn]                |',
+        '|  GitHub:   [Your GitHub]                  |',
+        '|  Twitter:  [Your Twitter]                 |',
+        '|                                           |',
+        '+-------------------------------------------+'
+      ].join('\n')
     }),
     // Add more commands as needed
   };
@@ -164,7 +170,7 @@ function Home() {
             
             <div className="terminal-body">
               {terminalHistory.map((entry, idx) => (
-                <div key={idx} className={`terminal-line ${entry.type}`}>
+                <div key={idx} className={`terminal-line ${entry.type}`} style={{ whiteSpace: 'pre', fontFamily: 'monospace' }}>
                   {entry.text}
                 </div>
               ))}
