@@ -14,6 +14,19 @@ html {
   --imp-text-color: #c770f0;
 }
 
+/* Terminal Theme Variables */
+:root {
+  --terminal-bg: rgba(40, 44, 52, 0.95);
+  --terminal-header: #3c3f41;
+  --terminal-text: #fff;
+  --terminal-prompt: #98c379;
+  --terminal-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --terminal-border-radius: 6px;
+  --terminal-font: 'Monaco', 'Consolas', monospace;
+  --terminal-highlight: #6c63ff;
+  --terminal-dim: rgba(255, 255, 255, 0.7);
+}
+
 .purple {
   color: var(--imp-text-color) !important;
 }
@@ -474,7 +487,9 @@ button:focus {
   opacity: 0.9 !important;
   transition: all 0.5s ease 0s !important;
   height: 100% !important;
+  position: relative; /* Ensure the badge is positioned relative to the card */
 }
+
 .project-card-view:hover {
   transform: scale(1.02) !important;
   overflow: hidden !important;
@@ -528,6 +543,15 @@ button:focus {
   color: #fff !important;
   background-color: #623686 !important;
   border-color: #623686 !important;
+  background-color: var(--terminal-highlight) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  font-family: var(--terminal-font) !important;
+  text-transform: lowercase !important;
+}
+
+.btn-primary::before {
+  content: "$ ";
+  color: var(--terminal-prompt);
 }
 
 .btn-primary:hover {
@@ -825,16 +849,6 @@ button:focus {
   margin-bottom: 20px !important;
 }
 
-@media (max-width: 767px) {
-  .animation-card {
-    padding: 10px !important;
-  }
-  
-  .animation-media {
-    height: 200px !important;
-  }
-}
-
 /* Terminal Styling */
 .terminal-style {
   font-family: 'Monaco', 'Consolas', monospace;
@@ -898,6 +912,108 @@ button:focus {
   margin-bottom: 20px;
 }
 
+@media (max-width: 768px) {
+  .terminal-container {
+    margin: 10px 0;
+  }
+  
+  .terminal-content {
+    padding: 15px;
+  }
+}
+
+/* Global Terminal Styles */
+.terminal-container {
+  background-color: var(--terminal-bg);
+  border-radius: var(--terminal-border-radius);
+  box-shadow: var(--terminal-shadow);
+  font-family: var(--terminal-font);
+  margin: 15px 0;
+  overflow: hidden;
+}
+
+.terminal-header {
+  background-color: var(--terminal-header);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+/* Project Cards Terminal Style */
+.project-card-view {
+  background-color: var(--terminal-bg) !important;
+  border-radius: var(--terminal-border-radius) !important;
+  box-shadow: var(--terminal-shadow) !important;
+  font-family: var(--terminal-font) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.project-card-view:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 15px 40px rgba(108, 99, 255, 0.2) !important;
+}
+
+/* Terminal Buttons */
+.btn-primary {
+  background-color: var(--terminal-highlight) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  font-family: var(--terminal-font) !important;
+  text-transform: lowercase !important;
+}
+
+.btn-primary::before {
+  content: "$ ";
+  color: var(--terminal-prompt);
+}
+
+/* Terminal Text Styling */
+.terminal-text {
+  color: var(--terminal-text);
+  font-family: var(--terminal-font);
+  line-height: 1.6;
+}
+
+.terminal-prompt::before {
+  content: "$ ";
+  color: var(--terminal-prompt);
+}
+
+/* Terminal Navigation */
+.navbar {
+  background-color: var(--terminal-bg) !important;
+  font-family: var(--terminal-font) !important;
+}
+
+.nav-link::before {
+  content: ">";
+  color: var(--terminal-prompt);
+  margin-right: 5px;
+}
+
+/* Terminal Section Headers */
+.section-heading {
+  font-family: var(--terminal-font);
+  color: var(--terminal-text);
+}
+
+.section-heading::before {
+  content: "## ";
+  color: var(--terminal-prompt);
+}
+
+/* Terminal Form Controls */
+.form-control {
+  background-color: var(--terminal-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: var(--terminal-text) !important;
+  font-family: var(--terminal-font) !important;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 2px var(--terminal-highlight) !important;
+}
+
+/* Terminal Media Queries */
 @media (max-width: 768px) {
   .terminal-container {
     margin: 10px 0;
