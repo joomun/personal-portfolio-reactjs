@@ -834,3 +834,76 @@ button:focus {
     height: 200px !important;
   }
 }
+
+/* Terminal Styling */
+.terminal-container {
+  background-color: rgba(40, 44, 52, 0.95);
+  border-radius: 6px;
+  padding: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  min-width: 600px;
+  margin: 20px 0;
+}
+
+.terminal-header {
+  background-color: #3c3f41;
+  padding: 10px;
+  border-radius: 6px 6px 0 0;
+  display: flex;
+  align-items: center;
+}
+
+.terminal-buttons {
+  display: flex;
+  gap: 8px;
+  margin-right: 15px;
+}
+
+.terminal-button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.terminal-button.close {
+  background-color: #ff5f56;
+}
+
+.terminal-button.minimize {
+  background-color: #ffbd2e;
+}
+
+.terminal-button.maximize {
+  background-color: #27c93f;
+}
+
+.terminal-title {
+  color: #ddd;
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 14px;
+}
+
+.terminal-content {
+  padding: 20px;
+  font-family: 'Monaco', 'Consolas', monospace;
+  color: #fff;
+}
+
+.terminal-prompt {
+  color: #98c379;
+  margin-right: 8px;
+}
+
+/* Make terminal responsive */
+@media (max-width: 768px) {
+  .terminal-container {
+    min-width: 100%;
+    margin: 10px 0;
+  }
+  
+  .terminal-content {
+    padding: 15px;
+    font-size: 14px;
+  }
+}
