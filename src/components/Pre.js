@@ -13,20 +13,35 @@ const sshSteps = [
 
 function Pre(props) {
   const [step, setStep] = useState(0);
+  const [done, setDone] = useState(false);
 
   useEffect(() => {
     if (props.load) {
       setStep(0);
+      setDone(false);
       const interval = setInterval(() => {
-        setStep((prev) => (prev < sshSteps.length - 1 ? prev + 1 : prev));
-      }, 1000); // 1000 ms per step for 7 seconds total
+        setStep((prev) => {
+          if (prev < sshSteps.length - 1) {
+            return prev + 1;
+          } else {
+            clearInterval(interval);
+            setDone(true);
+            // Optionally notify parent after animation is done
+            if (props.onFinish) props.onFinish();
+            return prev;
+          }
+        });
+      }, 1000);
       return () => clearInterval(interval);
     }
   }, [props.load]);
 
+  // Only show loader until all steps are shown
+  const showLoader = props.load && !done;
+
   return (
-    <div id={props.load ? "preloader" : "preloader-none"}>
-      {props.load && (
+    <div id={showLoader ? "preloader" : "preloader-none"}>
+      {showLoader && (
         <div className="terminal-loader">
           <div className="terminal-header">
             <span className="terminal-dot red"></span>
