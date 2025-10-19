@@ -113,6 +113,7 @@ button:focus {
   font-size: 1.2rem !important;
   background-color: var(--terminal-bg) !important;
   border-bottom: 1px solid var(--terminal-border);
+  z-index: 10 !important; /* Keep navbar on top */
 }
 
 .navbar-toggler {
@@ -282,6 +283,7 @@ button:focus {
   background-size: cover !important;
   width: 100%;
   height: 100%;
+  z-index: 0 !important; /* Add this to keep particles behind content */
 }
 
 .home-header {
@@ -290,7 +292,7 @@ button:focus {
 
 .home-section {
   position: relative;
-  z-index: -1;
+  z-index: 1 !important; /* Changed from -1 */
   background-image: var(--image-gradient), url(./Assets/home-bg.jpg);
   background-position: top center;
   background-repeat: no-repeat;
@@ -302,6 +304,8 @@ button:focus {
   padding: 9rem 0 2rem !important;
   color: whitesmoke;
   text-align: left;
+  position: relative;
+  z-index: 2 !important; /* Ensure content stays above particles */
 }
 
 .heading {
@@ -1073,6 +1077,11 @@ button:focus {
   width: 12px;
   height: 12px;
   border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.terminal-button:hover {
+  transform: scale(1.1);
 }
 
 .terminal-button.red { background: #ff5f56; }
