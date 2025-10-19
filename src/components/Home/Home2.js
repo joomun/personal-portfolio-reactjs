@@ -102,6 +102,7 @@ Domains  : Web Dev, IoT, Cloud Computing`
                   </div>
                 ))}
                 <div className="terminal-prompt">
+                  <span className="prompt-text">visitor@portfolio:{currentPath}$</span>
                   <input
                     type="text"
                     value={currentCommand}
@@ -114,6 +115,7 @@ Domains  : Web Dev, IoT, Cloud Computing`
                     autoFocus
                     spellCheck="false"
                     autoComplete="off"
+                    className="terminal-input"
                   />
                 </div>
               </div>

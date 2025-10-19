@@ -1109,44 +1109,47 @@ button:focus {
 .terminal-prompt {
   display: flex;
   align-items: center;
-  padding: 5px 0;
   width: 100%;
+  padding: 5px 0;
   position: relative;
+  z-index: 100;
 }
 
-.terminal-prompt::before {
-  content: "$ ";
+.prompt-text {
   color: var(--terminal-prompt);
   margin-right: 8px;
-  font-family: var(--terminal-font);
+  white-space: nowrap;
 }
 
-.terminal-prompt input {
+.terminal-input {
   background: transparent;
   border: none;
   color: var(--terminal-text);
   font-family: var(--terminal-font);
   font-size: 14px;
-  width: 100%;
+  flex-grow: 1;
   padding: 4px;
+  margin-left: 4px;
   outline: none;
-  caret-color: var(--terminal-prompt); /* Makes cursor visible */
+  caret-color: var(--terminal-text);
   position: relative;
-  z-index: 100; /* Ensure input is above other elements */
+  z-index: 100;
+  width: auto;
 }
 
-/* Remove any overlays that might block input */
+.terminal-input:focus {
+  outline: none;
+}
+
 .terminal-body {
   position: relative;
   z-index: 1;
+  pointer-events: auto;
 }
 
-.terminal-content {
-  pointer-events: auto !important;
-}
-
-/* Ensure clickable area */
 .terminal {
+  position: relative;
+  z-index: 2;
   pointer-events: auto !important;
 }
 
