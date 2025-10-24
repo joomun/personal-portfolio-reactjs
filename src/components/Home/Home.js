@@ -143,6 +143,35 @@ function Home() {
         '+----------------------------------------------------------------------------+'
       ].join('\n')
     }),
+    "projects list": () => ({
+      type: 'success',
+      text: [
+        '+----------- Portfolio Projects -----------+',
+        '|                                         |',
+        '|  1. Portfolio Website                   |',
+        '|  2. Weather App                         |',
+        '|  3. Chat Application                    |',
+        '|  4. E-commerce Platform                 |',
+        '|                                         |',
+        '|  Type "projects info" for details.      |',
+        '+-----------------------------------------+'
+      ].join('\n')
+    }),
+    "projects info": () => ({
+      type: 'info',
+      text: [
+        '+----------- Project Details --------------+',
+        '| Portfolio Website:                       |',
+        '|   React-based personal portfolio.        |',
+        '| Weather App:                             |',
+        '|   Real-time weather using OpenWeatherMap.|',
+        '| Chat Application:                        |',
+        '|   Realtime chat with Socket.io.          |',
+        '| E-commerce Platform:                     |',
+        '|   Full-stack MERN e-commerce demo.       |',
+        '+------------------------------------------+'
+      ].join('\n')
+    }),
     // Add more commands as needed
   };
 
@@ -167,7 +196,7 @@ function Home() {
     } else {
       newHistory.push({
         type: 'error',
-        text: `command not found: ${cmd}`
+        text: `command not found: ${cmd}\nFor project info, type: /project`
       });
     }
     
