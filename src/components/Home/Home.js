@@ -25,6 +25,28 @@ function Home() {
     ]);
   }, []);
 
+  const renderTextWithLinks = (text) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const parts = text.split(urlRegex);
+    
+    return parts.map((part, i) => {
+      if (part.match(urlRegex)) {
+        return (
+          <a 
+            key={i}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#50fa7b', textDecoration: 'underline' }}
+          >
+            {part}
+          </a>
+        );
+      }
+      return part;
+    });
+  };
+
   const commands = {
     help: () => ({
       type: 'success',
@@ -170,8 +192,12 @@ function Home() {
             
             <div className="terminal-body">
               {terminalHistory.map((entry, idx) => (
-                <div key={idx} className={`terminal-line ${entry.type}`} style={{ whiteSpace: 'pre', fontFamily: 'monospace' }}>
-                  {entry.text}
+                <div 
+                  key={idx} 
+                  className={`terminal-line ${entry.type}`} 
+                  style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}
+                >
+                  {renderTextWithLinks(entry.text)}
                 </div>
               ))}
               <div className="terminal-prompt">
