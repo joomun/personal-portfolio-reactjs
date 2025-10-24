@@ -195,8 +195,50 @@ function Home() {
 
     if (commands[cmd]) {
       const result = commands[cmd]();
-      if
-                >
+      if (result.type !== 'clear') {
+        newHistory.push(result);
+      }
+    } else {
+      newHistory.push({
+        type: 'error',
+        text: `command not found: ${cmd}`
+      });
+    }
+
+    setTerminalHistory(newHistory);
+    setCommandHistory([...commandHistory, input]);
+    setCurrentCommand("");
+    setHistoryIndex(-1);
+  };
+
+  // Command history navigation
+  const handleKeyDown = (e) => {
+    if (e.key === "ArrowUp") {
+      if (commandHistory.length === 0) return;
+      const newIndex = historyIndex < 0 ? commandHistory.length - 1 : Math.max(0, historyIndex - 1);
+      setCurrentCommand(commandHistory[newIndex]);
+      setHistoryIndex(newIndex);
+      e.preventDefault();
+    } else if (e.key === "ArrowDown") {
+      if (commandHistory.length === 0) return;
+      const newIndex = historyIndex < 0 ? -1 : Math.min(commandHistory.length - 1, historyIndex + 1);
+      setCurrentCommand(newIndex === -1 ? "" : commandHistory[newIndex]);
+      setHistoryIndex(newIndex);
+      e.preventDefault();
+    } else if (e.key === "Enter") {
+      handleCommand(currentCommand);
+    }
+  };
+
+  return (
+    <section className="home" id="home">
+      <Container fluid className="p-0">
+        <Particle theme={theme} />
+        <Container className="home-container">
+          <div className="terminal-container">
+            <div className="terminal-history">
+              {terminalHistory.map((entry, index) => (
+                <div key={index} className={`terminal-entry terminal-${entry.type}`}>
                   {renderTextWithLinks(entry.text)}
                 </div>
               ))}
@@ -206,11 +248,7 @@ function Home() {
                   type="text"
                   value={currentCommand}
                   onChange={(e) => setCurrentCommand(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      handleCommand(currentCommand);
-                    }
-                  }}
+                  onKeyDown={handleKeyDown}
                   autoFocus
                   spellCheck="false"
                   autoComplete="off"
