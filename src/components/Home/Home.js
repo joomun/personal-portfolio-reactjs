@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container } from "react-bootstrap";
 import Particle from "../Particle";
 import Type from "./Type";
@@ -7,6 +7,10 @@ function Home() {
   const [terminalHistory, setTerminalHistory] = useState([]);
   const [currentCommand, setCurrentCommand] = useState("");
   const [currentPath, setCurrentPath] = useState("~");
+  const [theme, setTheme] = useState("dark"); // light/dark theme
+  const [commandHistory, setCommandHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     setTerminalHistory([
@@ -21,6 +25,10 @@ function Home() {
       {
         type: 'info',
         text: 'Type "help" for available commands'
+      },
+      {
+        type: 'motd',
+        text: '✨ MOTD: Stay curious, keep coding, and have fun! ✨'
       }
     ]);
   }, []);
@@ -46,6 +54,15 @@ function Home() {
       return part;
     });
   };
+
+  const quotes = [
+    "Code is like humor. When you have to explain it, it’s bad. – Cory House",
+    "First, solve the problem. Then, write the code. – John Johnson",
+    "Experience is the name everyone gives to their mistakes. – Oscar Wilde",
+    "In order to be irreplaceable, one must always be different. – Coco Chanel",
+    "Java is to JavaScript what car is to Carpet. – Chris Heilmann",
+    "Knowledge is power. – Francis Bacon"
+  ];
 
   const commands = {
     help: () => ({
@@ -143,59 +160,42 @@ function Home() {
         '+----------------------------------------------------------------------------+'
       ].join('\n')
     }),
+    motd: () => ({
+      type: 'motd',
+      text: '✨ Message of the Day: You are doing awesome! 🚀'
+    }),
+    quote: () => ({
+      type: 'info',
+      text: quotes[Math.floor(Math.random() * quotes.length)]
+    }),
+    theme: () => {
+      setTheme(prev => prev === "dark" ? "light" : "dark");
+      return {
+        type: 'success',
+        text: `Theme switched to ${theme === "dark" ? "light" : "dark"} mode.`
+      };
+    },
     // Add more commands as needed
   };
 
   const handleCommand = (input) => {
     const cmd = input.toLowerCase().trim();
-    
+
     const newHistory = [...terminalHistory, { 
       type: 'command', 
       text: `visitor@portfolio:${currentPath}$ ${input}` 
     }];
-    
+
     if (cmd === 'clear') {
       setTerminalHistory([]);
+      setCommandHistory([...commandHistory, input]);
+      setHistoryIndex(-1);
       return;
     }
 
     if (commands[cmd]) {
       const result = commands[cmd]();
-      if (result.type !== 'clear') {
-        newHistory.push(result);
-      }
-    } else {
-      newHistory.push({
-        type: 'error',
-        text: `command not found: ${cmd}`
-      });
-    }
-    
-    setTerminalHistory(newHistory);
-    setCurrentCommand("");
-  };
-
-  return (
-    <section className="terminal-theme">
-      <Container fluid className="home-section" id="home">
-        <Particle />
-        <Container className="home-content">
-          <div className="main-terminal">
-            <div className="terminal-header">
-              <div className="terminal-buttons">
-                <span className="terminal-button close"></span>
-                <span className="terminal-button minimize"></span>
-                <span className="terminal-button maximize"></span>
-              </div>
-              <div className="terminal-title">visitor@portfolio:~$</div>
-            </div>
-            
-            <div className="terminal-body">
-              {terminalHistory.map((entry, idx) => (
-                <div 
-                  key={idx} 
-                  className={`terminal-line ${entry.type}`} 
-                  style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}
+      if
                 >
                   {renderTextWithLinks(entry.text)}
                 </div>
