@@ -161,3 +161,62 @@
   from { opacity: 0; transform: translateY(20px);}
   to { opacity: 1; transform: translateY(0);}
 }
+
+/* Enhanced Animations for Home Page */
+.typewriter-container {
+  font-family: var(--terminal-font);
+  font-size: 1.5rem;
+  color: var(--terminal-cyan);
+  text-align: center;
+  margin: 1rem 0;
+}
+
+@media (max-width: 768px) {
+  .typewriter-container {
+    font-size: 1.2rem;
+  }
+}
+
+/* Particle Animation for Background */
+@keyframes particleFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+.particle {
+  position: absolute;
+  animation: particleFloat 8s ease-in-out infinite;
+}
+
+/* Enhanced Button Hover Effects */
+.btn-enhanced {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-enhanced:hover::before {
+  left: 100%;
+}
+
+/* Glowing Effect for Interactive Elements */
+.glow-effect {
+  box-shadow: 0 0 20px rgba(189, 147, 249, 0.5);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { box-shadow: 0 0 20px rgba(189, 147, 249, 0.5); }
+  to { box-shadow: 0 0 30px rgba(189, 147, 249, 0.8); }
+}

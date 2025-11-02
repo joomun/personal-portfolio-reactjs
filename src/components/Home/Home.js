@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import Particle from "../Particle";
 import Type from "./Type";
+import "./Home.css"; // Create this new CSS file
+import { motion, AnimatePresence } from "framer-motion";
+import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
+import { AiFillInstagram } from "react-icons/ai";
 
 function Home() {
   const [terminalHistory, setTerminalHistory] = useState([]);
   const [currentCommand, setCurrentCommand] = useState("");
   const [currentPath, setCurrentPath] = useState("~");
+  const [showParticles, setShowParticles] = useState(true);
 
   useEffect(() => {
     setTerminalHistory([
@@ -63,7 +68,6 @@ function Home() {
         '|  education  - View my educational background        |',
         '|  clear      - Clear the terminal screen             |',
         '|                                                     |',
-        '|  Type any command to learn more!                    |',
         '+-----------------------------------------------------+'
       ].join('\n')
     }),
@@ -172,7 +176,31 @@ function Home() {
         '+------------------------------------------+'
       ].join('\n')
     }),
-    // Add more commands as needed
+    experience: () => ({
+      type: 'info',
+      text: [
+        '+---------------- Experience ----------------+',
+        '|                                            |',
+        '|  Packaged App Development Associate        |',
+        '|  Linux & Bash Scripting Specialist         |',
+        '|  Full Stack Development                    |',
+        '|  Cloud Computing Enthusiast                |',
+        '|                                            |',
+        '+--------------------------------------------+'
+      ].join('\n')
+    }),
+    education: () => ({
+      type: 'info',
+      text: [
+        '+---------------- Education -----------------+',
+        '|                                            |',
+        '|  BSc Computer Science System Engineering  |',
+        '|  University of Mauritius                   |',
+        '|  With Honours                              |',
+        '|                                            |',
+        '+--------------------------------------------+'
+      ].join('\n')
+    })
   };
 
   const handleCommand = (input) => {
@@ -205,11 +233,67 @@ function Home() {
   };
 
   return (
-    <section className="terminal-theme">
+    <section className="home-section enhanced-home">
       <Container fluid className="home-section" id="home">
         <Particle />
-        <Container className="home-content">
-          <div className="main-terminal">
+        
+        {/* Enhanced Hero Section */}
+        <div className="hero-container">
+          <motion.div 
+            className="hero-content"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+          >
+            <div className="hero-text">
+              <h1 className="hero-title">
+                <span className="gradient-text">Joomun Noor</span>
+              </h1>
+              
+              <motion.div 
+                className="hero-subtitle"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+              >
+                <Type />
+              </motion.div>
+              
+              <motion.p 
+                className="hero-description"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+              >
+                Computer Science graduate from Mauritius with a passion for Linux, Bash scripting, 
+                and innovative solutions. Currently crafting digital experiences as a Packaged App Development Associate.
+              </motion.p>
+              
+              <motion.div 
+                className="hero-cta"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.6 }}
+              >
+                <a href="#terminal-section" className="btn btn-primary">
+                  Try the Terminal <span className="terminal-icon">⚡</span>
+                </a>
+                <a href="/about" className="btn btn-secondary">
+                  Explore My Work
+                </a>
+              </motion.div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Enhanced Terminal Section */}
+        <Container className="home-content" id="terminal-section">
+          <motion.div 
+            className="main-terminal enhanced-terminal"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 2, duration: 0.5 }}
+          >
             <div className="terminal-header">
               <div className="terminal-buttons">
                 <span className="terminal-button close"></span>
@@ -245,10 +329,12 @@ function Home() {
                   autoComplete="off"
                   className="terminal-input"
                 />
+                <span className="terminal-cursor">█</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </Container>
+
       </Container>
     </section>
   );

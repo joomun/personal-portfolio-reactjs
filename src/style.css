@@ -36,6 +36,15 @@ html {
   --terminal-orange: #ffb86c;
   --terminal-red: #ff5555;
   --terminal-cyan: #8be9fd;
+  
+  /* Enhanced Terminal Theme Variables */
+  --terminal-bg-enhanced: rgba(26, 26, 46, 0.95);
+  --terminal-header-enhanced: #1a1a2e;
+  --terminal-text-enhanced: #f8f6f0;
+  --terminal-purple-enhanced: #bd93f9;
+  --terminal-cyan-enhanced: #8be9fd;
+  --terminal-green-enhanced: #50fa7b;
+  --terminal-border-enhanced: #44475a;
 }
 
 /* Update existing components */
@@ -298,6 +307,30 @@ button:focus {
   background-repeat: no-repeat;
   padding-bottom: 30px !important;
   padding-top: 30px !important;
+}
+
+/* Enhanced Home Section */
+.home-section.enhanced-home {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.hero-content {
+  text-align: center;
+  position: relative;
+  z-index: 2;
 }
 
 .home-content {
@@ -1261,4 +1294,34 @@ button:focus {
     padding: 1rem;
     font-size: 14px;
   }
+}
+
+/* Responsive Particles */
+@media (max-width: 768px) {
+  #tsparticles {
+    opacity: 0.3;
+  }
+}
+
+/* Enhanced Scroll Behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom Scrollbar for Terminal */
+.enhanced-terminal .terminal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.enhanced-terminal .terminal-body::-webkit-scrollbar-track {
+  background: var(--terminal-bg-enhanced);
+}
+
+.enhanced-terminal .terminal-body::-webkit-scrollbar-thumb {
+  background: var(--terminal-border-enhanced);
+  border-radius: 4px;
+}
+
+.enhanced-terminal .terminal-body::-webkit-scrollbar-thumb:hover {
+  background: var(--terminal-purple-enhanced);
 }
