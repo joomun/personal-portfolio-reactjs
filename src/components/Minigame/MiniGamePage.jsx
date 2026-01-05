@@ -1,5 +1,5 @@
 import React from "react";
-import MemoryGame from "../MemoryGame";
+import ReactionGame from "../ReactionGame"; // New import
 import Particle from "../Particle";
 import { Container } from "react-bootstrap";
 
@@ -28,7 +28,7 @@ function MiniGamePage() {
           justifyContent: "center",
         }}
       >
-        <MemoryGame />
+        <ReactionGame /> {/* Changed from MemoryGame to ReactionGame */}
       </Container>
     </Container>
   );

@@ -237,7 +237,7 @@ function Home() {
       <Container fluid className="home-section" id="home">
         <Particle />
         
-        {/* Enhanced Hero Section */}
+        {/* Modern Two-Column Hero Section */}
         <div className="hero-container">
           <motion.div 
             className="hero-content"
@@ -245,95 +245,152 @@ function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
           >
-            <div className="hero-text">
-              <h1 className="hero-title">
-                <span className="gradient-text">Joomun Noor</span>
-              </h1>
-              
+            <div className="hero-grid">
+              {/* Left: Terminal Interface */}
+              <div className="hero-left">
+                <motion.div 
+                  className="terminal-output-hero"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                >
+                  {/* Terminal Header */}
+                  <div className="terminal-header-modern">
+                    <span className="terminal-title-modern">joomun@portfolio</span>
+                    <div className="terminal-buttons-modern">
+                      <div className="terminal-button-modern red"></div>
+                      <div className="terminal-button-modern yellow"></div>
+                      <div className="terminal-button-modern green"></div>
+                    </div>
+                  </div>
+                  
+                  {/* Terminal Content */}
+                  <div className="terminal-body-modern">
+                    {terminalHistory.map((entry, idx) => (
+                      <div 
+                        key={idx} 
+                        className={`terminal-line-modern ${entry.type}`}
+                        style={{ whiteSpace: 'pre-wrap' }}
+                      >
+                        {renderTextWithLinks(entry.text)}
+                      </div>
+                    ))}
+                    
+                    {/* Command Input */}
+                    <div className="terminal-prompt-modern">
+                      <span className="prompt-text-modern">visitor@portfolio:~$ </span>
+                      <input
+                        type="text"
+                        value={currentCommand}
+                        onChange={(e) => setCurrentCommand(e.target.value)}
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            handleCommand(currentCommand);
+                          }
+                        }}
+                        autoFocus
+                        spellCheck="false"
+                        autoComplete="off"
+                        className="command-input-modern"
+                        placeholder="type 'help' for available commands"
+                      />
+                      <span className="terminal-cursor-modern">█</span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Quick Stats */}
+                <motion.div 
+                  className="quick-stats"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1, duration: 0.5 }}
+                >
+                  <div className="stat-card">
+                    <div className="stat-number">25+</div>
+                    <div className="stat-label">Projects</div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-number">3+</div>
+                    <div className="stat-label">Years Exp</div>
+                  </div>
+                  <div className="stat-card">
+                    <div className="stat-number">50+</div>
+                    <div className="stat-label">Technologies</div>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Right: Hero Content */}
               <motion.div 
-                className="hero-subtitle"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8 }}
+                className="hero-right"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 1, delay: 0.3 }}
               >
-                <Type />
-              </motion.div>
-              
-              <motion.p 
-                className="hero-description"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
-              >
-                Computer Science graduate from Mauritius with a passion for Linux, Bash scripting, 
-                and innovative solutions. Currently crafting digital experiences as a Packaged App Development Associate.
-              </motion.p>
-              
-              <motion.div 
-                className="hero-cta"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.6 }}
-              >
-                <a href="#terminal-section" className="btn btn-primary">
-                  Try the Terminal <span className="terminal-icon">⚡</span>
-                </a>
-                <a href="/about" className="btn btn-secondary">
-                  Explore My Work
-                </a>
+                <div className="hero-text-section">
+                  <h1 className="hero-title">
+                    <span className="gradient-text">Joomun Noor</span>
+                  </h1>
+                  
+                  <motion.div 
+                    className="hero-subtitle"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.8 }}
+                  >
+                    <Type />
+                  </motion.div>
+                  
+                  <motion.p 
+                    className="hero-description"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.2 }}
+                  >
+                    Computer Science graduate from Mauritius with a passion for Linux, Bash scripting, 
+                    and innovative solutions. Currently crafting digital experiences as a Packaged App Development Associate.
+                  </motion.p>
+                  
+                  <motion.div 
+                    className="hero-cta"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 1.6 }}
+                  >
+                    <a href="#projects" className="btn btn-primary">
+                      Explore Projects →
+                    </a>
+                    <a href="/about" className="btn btn-secondary">
+                      Learn More
+                    </a>
+                  </motion.div>
+
+                  {/* Social Links */}
+                  <motion.div 
+                    className="social-links-hero"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 2 }}
+                  >
+                    <a href="https://github.com/joomun" target="_blank" rel="noreferrer" className="social-icon-hero">
+                      <FaGithub />
+                    </a>
+                    <a href="https://www.linkedin.com/in/joomun-noorani-muddathir-846636228/" target="_blank" rel="noreferrer" className="social-icon-hero">
+                      <FaLinkedin />
+                    </a>
+                    <a href="https://www.instagram.com/muddathir_joomun/" target="_blank" rel="noreferrer" className="social-icon-hero">
+                      <AiFillInstagram />
+                    </a>
+                    <a href="mailto:joomunmuddathir@gmail.com" className="social-icon-hero">
+                      <FaEnvelope />
+                    </a>
+                  </motion.div>
+                </div>
               </motion.div>
             </div>
           </motion.div>
         </div>
-
-        {/* Enhanced Terminal Section */}
-        <Container className="home-content" id="terminal-section">
-          <motion.div 
-            className="main-terminal enhanced-terminal"
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 2, duration: 0.5 }}
-          >
-            <div className="terminal-header">
-              <div className="terminal-buttons">
-                <span className="terminal-button close"></span>
-                <span className="terminal-button minimize"></span>
-                <span className="terminal-button maximize"></span>
-              </div>
-              <div className="terminal-title">visitor@portfolio:~$</div>
-            </div>
-            
-            <div className="terminal-body">
-              {terminalHistory.map((entry, idx) => (
-                <div 
-                  key={idx} 
-                  className={`terminal-line ${entry.type}`} 
-                  style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}
-                >
-                  {renderTextWithLinks(entry.text)}
-                </div>
-              ))}
-              <div className="terminal-prompt">
-                <span className="prompt-text">visitor@portfolio:{currentPath}$</span>
-                <input
-                  type="text"
-                  value={currentCommand}
-                  onChange={(e) => setCurrentCommand(e.target.value)}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter') {
-                      handleCommand(currentCommand);
-                    }
-                  }}
-                  autoFocus
-                  spellCheck="false"
-                  autoComplete="off"
-                  className="terminal-input"
-                />
-                <span className="terminal-cursor">█</span>
-              </div>
-            </div>
-          </motion.div>
-        </Container>
 
       </Container>
     </section>
