@@ -314,10 +314,6 @@ function Home() {
                     <div className="stat-number">3+</div>
                     <div className="stat-label">Years Exp</div>
                   </div>
-                  <div className="stat-card">
-                    <div className="stat-number">50+</div>
-                    <div className="stat-label">Technologies</div>
-                  </div>
                 </motion.div>
               </div>
 
