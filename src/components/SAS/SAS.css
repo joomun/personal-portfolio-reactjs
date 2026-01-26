@@ -1,0 +1,309 @@
+/* SAS Connector Styles */
+
+.sas-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 0 60px;
+  position: relative;
+}
+
+.sas-heading {
+  font-size: 2.5em;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 10px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.sas-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--terminal-cyan);
+  text-shadow: 0 0 10px rgba(139, 233, 253, 0.3);
+  margin-bottom: 40px;
+}
+
+.sas-card {
+  background: rgba(189, 147, 249, 0.05);
+  border: 1px solid rgba(189, 147, 249, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(189, 147, 249, 0.1);
+  transition: all 0.3s ease;
+}
+
+.sas-card:hover {
+  border-color: rgba(189, 147, 249, 0.4);
+  box-shadow: 0 12px 48px rgba(189, 147, 249, 0.15);
+}
+
+.sas-card-title {
+  color: white;
+  font-weight: 600;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.sas-status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sas-status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+}
+
+/* Form Styles */
+.sas-form-group {
+  margin-bottom: 20px;
+}
+
+.sas-form-group label {
+  color: white;
+  font-weight: 500;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.sas-input {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(189, 147, 249, 0.3);
+  color: white;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.sas-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.sas-input:focus {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-color: rgba(189, 147, 249, 0.6);
+  box-shadow: 0 0 12px rgba(189, 147, 249, 0.2);
+  color: white;
+}
+
+.sas-form-text {
+  display: block;
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+}
+
+/* Button Styles */
+.sas-btn-primary,
+.sas-btn-secondary {
+  width: 100%;
+  padding: 12px 24px;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  margin-top: 10px;
+}
+
+.sas-btn-primary {
+  background: linear-gradient(135deg, var(--terminal-purple), var(--terminal-highlight));
+  color: white;
+  box-shadow: 0 4px 15px rgba(189, 147, 249, 0.3);
+}
+
+.sas-btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(189, 147, 249, 0.4);
+}
+
+.sas-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sas-btn-secondary {
+  background: transparent;
+  border: 2px solid var(--terminal-purple);
+  color: var(--terminal-purple);
+}
+
+.sas-btn-secondary:hover:not(:disabled) {
+  background: rgba(189, 147, 249, 0.1);
+  color: var(--terminal-cyan);
+  border-color: var(--terminal-cyan);
+  transform: translateY(-2px);
+}
+
+.sas-btn-disconnect {
+  margin-left: 10px;
+}
+
+.sas-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Alert Styles */
+.sas-alert {
+  border-radius: 6px;
+  border: none;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+}
+
+/* Info Display */
+.sas-info-display {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-left: 4px solid var(--terminal-purple);
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(189, 147, 249, 0.1);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  min-width: 150px;
+}
+
+.info-value {
+  color: var(--terminal-cyan);
+  font-family: 'Fira Code', monospace;
+  word-break: break-all;
+  text-align: right;
+  flex: 1;
+  margin-left: 20px;
+}
+
+/* Info Box */
+.sas-info-box {
+  background: rgba(139, 233, 253, 0.05);
+  border-left: 4px solid var(--terminal-cyan);
+  border-radius: 6px;
+  padding: 15px;
+  margin-top: 20px;
+}
+
+.sas-info-box h5 {
+  color: var(--terminal-cyan);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.sas-info-box ol,
+.sas-info-box ul {
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0;
+  padding-left: 20px;
+}
+
+.sas-info-box li {
+  margin-bottom: 8px;
+}
+
+/* Loading State */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.sas-loading {
+  animation: pulse 2s infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sas-section {
+    padding: 60px 0 40px;
+  }
+
+  .sas-heading {
+    font-size: 2rem;
+  }
+
+  .sas-card {
+    padding: 1.5rem;
+  }
+
+  .sas-status-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sas-btn-primary,
+  .sas-btn-secondary,
+  .sas-btn-disconnect {
+    width: 100%;
+    margin: 5px 0;
+  }
+
+  .sas-actions {
+    flex-direction: column;
+  }
+
+  .sas-btn-disconnect {
+    margin-left: 0;
+  }
+
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .info-label {
+    margin-bottom: 5px;
+  }
+
+  .info-value {
+    text-align: left;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .sas-heading {
+    font-size: 1.5rem;
+  }
+
+  .sas-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .sas-card {
+    padding: 1rem;
+  }
+
+  .sas-card-title {
+    font-size: 1.2rem;
+  }
+}

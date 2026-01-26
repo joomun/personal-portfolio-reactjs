@@ -56,6 +56,11 @@ function NavBar() {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
+              <Nav.Link as={NavLink} to="/sas" onClick={() => updateExpanded(false)}>
+                SAS
+              </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
               <Nav.Link as={NavLink} to="/resume" onClick={() => updateExpanded(false)}>
                 Resume
               </Nav.Link>

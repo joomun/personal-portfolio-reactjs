@@ -7,6 +7,7 @@ import Projects from "./components/Projects/Projects";
 import Footer from "./components/Footer";
 import Resume from "./components/Resume/ResumeNew";
 import AnimationsPage from "./components/Animations/AnimationsPage";
+import SASConnector from "./components/SAS/SASConnector";
 import {
   BrowserRouter as Router,
   Route,
@@ -42,6 +43,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/resume" element={<Resume />} />
           <Route path="/animations" element={<AnimationsPage />} />
+          <Route path="/sas" element={<SASConnector />} />
           <Route path="*" element={<Navigate to="/"/>} />
         </Routes>
         <Footer />
