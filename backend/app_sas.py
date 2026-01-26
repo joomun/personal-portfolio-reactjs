@@ -202,13 +202,19 @@ if __name__ == '__main__':
     print(f"Debug mode: {debug}")
     print("="*50 + "\n")
     
-    # Check if SSL certificates exist
+    # Check if SSL certificates exist for localhost
     cert_file = 'sas_cert.pem'
     key_file = 'sas_key.pem'
     
     if os.path.exists(cert_file) and os.path.exists(key_file):
-        print("✓ SSL certificates found. Running with HTTPS...")
+        print("✓ SSL certificates found for localhost HTTPS")
+        print("  - Local: https://127.0.0.1:5000 (HTTPS)")
+        print("  - Remote: http://noorpersonalspace.duckdns.org:5000 (HTTP)")
+        print("\nNote: Use HTTPS for localhost, HTTP for DuckDNS remote\n")
+        # Run with SSL support but accessible via HTTP too
         app.run(host='0.0.0.0', port=port, debug=debug, ssl_context=(cert_file, key_file))
     else:
-        print("⚠ SSL certificates not found. Running with HTTP...")
+        print("⚠ SSL certificates not found. Running with HTTP only...")
+        print("  - Local: http://127.0.0.1:5000")
+        print("  - Remote: http://noorpersonalspace.duckdns.org:5000\n")
         app.run(host='0.0.0.0', port=port, debug=debug)
