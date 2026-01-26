@@ -5,7 +5,7 @@ import "./SAS.css";
 
 function SASLogin({ onLogin }) {
   const [formData, setFormData] = useState({
-    duckdnsDomain: "",
+    duckdnsDomain: "noorpersonalspace",
     port: "5000",
     username: "",
     password: "",

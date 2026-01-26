@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Button, Badge, Alert } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { FaCheck, FaTimes, FaClock } from "react-icons/fa";
@@ -10,14 +10,7 @@ function SASStatus({ sasToken, sasUrl, onLogout }) {
   const [loading, setLoading] = useState(false);
   const [lastChecked, setLastChecked] = useState(new Date());
 
-  useEffect(() => {
-    checkConnection();
-    // Auto-check every 30 seconds
-    const interval = setInterval(checkConnection, 30000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const checkConnection = async () => {
+  const checkConnection = useCallback(async () => {
     setLoading(true);
     try {
       const response = await fetch(`${sasUrl}/api/health`, {
@@ -41,7 +34,14 @@ function SASStatus({ sasToken, sasUrl, onLogout }) {
       setLoading(false);
       setLastChecked(new Date());
     }
-  };
+  }, [sasToken, sasUrl]);
+
+  useEffect(() => {
+    checkConnection();
+    // Auto-check every 30 seconds
+    const interval = setInterval(checkConnection, 30000);
+    return () => clearInterval(interval);
+  }, [checkConnection]);
 
   const getStatusBadge = () => {
     switch (status) {
