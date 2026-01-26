@@ -202,4 +202,13 @@ if __name__ == '__main__':
     print(f"Debug mode: {debug}")
     print("="*50 + "\n")
     
-    app.run(host='0.0.0.0', port=port, debug=debug)
+    # Check if SSL certificates exist
+    cert_file = 'sas_cert.pem'
+    key_file = 'sas_key.pem'
+    
+    if os.path.exists(cert_file) and os.path.exists(key_file):
+        print("✓ SSL certificates found. Running with HTTPS...")
+        app.run(host='0.0.0.0', port=port, debug=debug, ssl_context=(cert_file, key_file))
+    else:
+        print("⚠ SSL certificates not found. Running with HTTP...")
+        app.run(host='0.0.0.0', port=port, debug=debug)

@@ -26,7 +26,7 @@ function SASLogin({ onLogin }) {
     setSuccess(null);
 
     try {
-      const sasUrl = `http://${formData.duckdnsDomain}.duckdns.org:${formData.port}`;
+      const sasUrl = `https://${formData.duckdnsDomain}.duckdns.org:${formData.port}`;
       
       // Test connection to SAS backend
       const response = await fetch(`${sasUrl}/api/auth/login`, {
