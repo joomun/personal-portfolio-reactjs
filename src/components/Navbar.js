@@ -56,11 +56,6 @@ function NavBar() {
               </Nav.Link>
             </Nav.Item>
             <Nav.Item>
-              <Nav.Link as={NavLink} to="/mini-game" onClick={() => updateExpanded(false)}>
-                Game
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
               <Nav.Link as={NavLink} to="/resume" onClick={() => updateExpanded(false)}>
                 Resume
               </Nav.Link>
