@@ -11,12 +11,12 @@ const sshSteps = [
   "Tip: Light terminals attract more bugs 🐞",
 ];
 
-function Pre(props) {
+function Pre({ load, onFinish }) {
   const [step, setStep] = useState(0);
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    if (props.load) {
+    if (load) {
       setStep(0);
       setDone(false);
       const interval = setInterval(() => {
@@ -27,17 +27,17 @@ function Pre(props) {
             clearInterval(interval);
             setDone(true);
             // Optionally notify parent after animation is done
-            if (props.onFinish) props.onFinish();
+            if (onFinish) onFinish();
             return prev;
           }
         });
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [props.load]);
+  }, [load, onFinish]);
 
   // Only show loader until all steps are shown
-  const showLoader = props.load && !done;
+  const showLoader = load && !done;
 
   return (
     <div id={showLoader ? "preloader" : "preloader-none"}>

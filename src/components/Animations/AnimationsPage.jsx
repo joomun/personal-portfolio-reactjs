@@ -2,7 +2,6 @@ import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import Particle from "../Particle";
 import "./Animations.css";
-import Typewriter from "typewriter-effect";
 
 function AnimationsPage() {
   const animations = [

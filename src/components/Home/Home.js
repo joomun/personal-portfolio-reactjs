@@ -2,16 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import Particle from "../Particle";
 import Type from "./Type";
-import "./Home.css"; // Create this new CSS file
-import { motion, AnimatePresence } from "framer-motion";
+import "./Home.css";
+import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
 
 function Home() {
   const [terminalHistory, setTerminalHistory] = useState([]);
   const [currentCommand, setCurrentCommand] = useState("");
-  const [currentPath, setCurrentPath] = useState("~");
-  const [showParticles, setShowParticles] = useState(true);
 
   useEffect(() => {
     setTerminalHistory([
@@ -208,7 +206,7 @@ function Home() {
     
     const newHistory = [...terminalHistory, { 
       type: 'command', 
-      text: `visitor@portfolio:${currentPath}$ ${input}` 
+      text: `visitor@portfolio:~$ ${input}` 
     }];
     
     if (cmd === 'clear') {

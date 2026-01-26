@@ -13,9 +13,6 @@ function Projects() {
   const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // List of highlighted repositories
-  const highlights = ["2d_platform_game-Website", "e-commerce_website", "Multipet-Feeder", "vui-Campus-Assistant", "GoGreen-24hr-Hackathon"];
-
   // Project categories
   const categories = ["all", "web", "mobile", "ai", "other"];
 
@@ -26,6 +23,9 @@ function Projects() {
         const response = await axios.get(
           `https://api.github.com/users/${username}/repos`
         );
+
+        // List of highlighted repositories
+        const highlights = ["2d_platform_game-Website", "e-commerce_website", "Multipet-Feeder", "vui-Campus-Assistant", "GoGreen-24hr-Hackathon"];
 
         const enhancedProjects = await Promise.all(
           response.data.map(async (repo) => {
