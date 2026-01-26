@@ -16,16 +16,18 @@
 }
 
 .minimal-nav .nav-link {
-  color: #666 !important;
+  color: #000 !important;
   font-size: 0.9rem;
   padding: 0.5rem 1rem !important;
-  transition: color 0.2s ease;
-  font-weight: 400;
+  transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .minimal-nav .nav-link:hover,
 .minimal-nav .nav-link.active {
-  color: #000 !important;
+  color: #c084f5 !important;
+  background-color: rgba(192, 132, 245, 0.08);
+  border-radius: 4px;
 }
 
 .minimal-nav .navbar-toggler {
