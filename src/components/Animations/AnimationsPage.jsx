@@ -62,7 +62,7 @@ function AnimationsPage() {
   );
 }
 
-function Type() {
+function AnimationsPage() {
   return (
     <div className="terminal-container">
       <div className="terminal-header">
