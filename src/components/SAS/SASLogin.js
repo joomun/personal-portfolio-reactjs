@@ -5,6 +5,8 @@ import "./SAS.css";
 
 function SASLogin({ onLogin }) {
   const [formData, setFormData] = useState({
+    useLocal: true,
+    localhost: "127.0.0.1",
     duckdnsDomain: "noorpersonalspace",
     port: "5000",
     username: "",
@@ -15,8 +17,11 @@ function SASLogin({ onLogin }) {
   const [success, setSuccess] = useState(null);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({ 
+      ...prev, 
+      [name]: type === 'checkbox' ? checked : value 
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -26,7 +31,9 @@ function SASLogin({ onLogin }) {
     setSuccess(null);
 
     try {
-      const sasUrl = `https://${formData.duckdnsDomain}.duckdns.org:${formData.port}`;
+      const sasUrl = formData.useLocal 
+        ? `https://${formData.localhost}:${formData.port}`
+        : `https://${formData.duckdnsDomain}.duckdns.org:${formData.port}`;
       
       // Test connection to SAS backend
       const response = await fetch(`${sasUrl}/api/auth/login`, {
@@ -84,20 +91,51 @@ function SASLogin({ onLogin }) {
 
         <Form onSubmit={handleSubmit}>
           <Form.Group className="sas-form-group">
-            <Form.Label>DuckDNS Domain</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="e.g., noorpersonalspace"
-              name="duckdnsDomain"
-              value={formData.duckdnsDomain}
+            <Form.Check
+              type="switch"
+              id="useLocal"
+              label={formData.useLocal ? "Local Testing (localhost)" : "Remote Connection (DuckDNS)"}
+              name="useLocal"
+              checked={formData.useLocal}
               onChange={handleChange}
-              required
-              className="sas-input"
+              className="sas-switch"
             />
             <Form.Text className="sas-form-text">
-              Enter your DuckDNS subdomain (without .duckdns.org)
+              Toggle between local and remote backend connection
             </Form.Text>
           </Form.Group>
+
+          {formData.useLocal ? (
+            <Form.Group className="sas-form-group">
+              <Form.Label>Local IP Address</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="127.0.0.1"
+                name="localhost"
+                value={formData.localhost}
+                onChange={handleChange}
+                className="sas-input"
+              />
+              <Form.Text className="sas-form-text">
+                Your local machine IP (127.0.0.1 for localhost)
+              </Form.Text>
+            </Form.Group>
+          ) : (
+            <Form.Group className="sas-form-group">
+              <Form.Label>DuckDNS Domain</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="e.g., noorpersonalspace"
+                name="duckdnsDomain"
+                value={formData.duckdnsDomain}
+                onChange={handleChange}
+                className="sas-input"
+              />
+              <Form.Text className="sas-form-text">
+                Enter your DuckDNS subdomain (without .duckdns.org)
+              </Form.Text>
+            </Form.Group>
+          )}
 
           <Form.Group className="sas-form-group">
             <Form.Label>Port</Form.Label>
