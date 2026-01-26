@@ -32,7 +32,6 @@ function SASLogin({ onLogin }) {
 
     try {
       // Use HTTPS for localhost, HTTP for remote DuckDNS
-      const protocol = formData.useLocal ? 'https' : 'http';
       const sasUrl = formData.useLocal 
         ? `https://${formData.localhost}:${formData.port}`
         : `http://${formData.duckdnsDomain}.duckdns.org:${formData.port}`;
