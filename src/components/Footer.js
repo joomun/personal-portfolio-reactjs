@@ -13,7 +13,7 @@ function Footer() {
     <Container fluid className="footer">
       <Row>
         <Col md="4" className="footer-copywright">
-          <h3>Developped by Noor Joomun</h3>
+          <h3>Developed by Noor Joomun</h3>
         </Col>
         <Col md="4" className="footer-copywright">
           <h3>Copyright © {year} </h3>
@@ -23,7 +23,8 @@ function Footer() {
             <li className="social-icons">
               <a
                 href="https://github.com/joomun"
-                style={{ color: "white" }}
+                className="footer-social-link"
+                aria-label="GitHub"
                 target="_blank" 
                 rel="noopener noreferrer"
               >
@@ -33,7 +34,8 @@ function Footer() {
             <li className="social-icons">
               <a
                 href="https://www.linkedin.com/in/joomun-noorani-muddathir-846636228/"
-                style={{ color: "white" }}
+                className="footer-social-link"
+                aria-label="LinkedIn"
                 target="_blank" 
                 rel="noopener noreferrer"
               >
@@ -43,7 +45,8 @@ function Footer() {
             <li className="social-icons">
               <a
                 href="https://www.instagram.com/muddathir_joomun/"
-                style={{ color: "white" }}
+                className="footer-social-link"
+                aria-label="Instagram"
                 target="_blank" 
                 rel="noopener noreferrer"
               >

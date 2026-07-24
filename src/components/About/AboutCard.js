@@ -38,7 +38,7 @@ function AboutCard() {
           </li>
         </ul>
 
-        <p style={{ color: "rgb(155 126 172)" }}>
+        <p className="about-quote" style={{ color: "var(--text-secondary)" }}>
           "Embrace every challenge as an opportunity to learn, innovate, and make a difference—whether it's in code, community, or creativity."{" "}
         </p>
         <footer className="blockquote-footer">[Joomun Noor]</footer>
@@ -48,15 +48,5 @@ function AboutCard() {
     </Card>
   );
 }
-
-// Add fade-in animation
-const style = document.createElement("style");
-style.innerHTML = `
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px);}
-  to { opacity: 1; transform: translateY(0);}
-}
-`;
-document.head.appendChild(style);
 
 export default AboutCard;

@@ -9,21 +9,31 @@ import "react-pdf/dist/esm/Page/AnnotationLayer.css";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 function ResumeNew() {
-  const [width, setWidth] = useState(1200);
+  const [width, setWidth] = useState(window.innerWidth);
   const [numPages, setNumPages] = useState(null);
 
   useEffect(() => {
-    setWidth(window.innerWidth);
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages);
   }
 
+  const pageScale = width > 992 ? 1.6 : width > 640 ? 1.1 : 0.62;
+
   return (
     <div>
       <Container fluid className="resume-section">
         <Particle />
+        <div className="resume-header text-center">
+          <span className="section-eyebrow">~/ resume</span>
+          <h1 className="section-title">
+            My <strong className="purple">Résumé</strong>
+          </h1>
+        </div>
         <Row style={{ justifyContent: "center", position: "relative" }}>
           <Button
             variant="primary"
@@ -46,8 +56,7 @@ function ResumeNew() {
               <Page
                 key={`page_${index + 1}`}
                 pageNumber={index + 1}
-                scale={width > 786 ? 1.7 : 0.6}
-                style={{ marginBottom: "2rem" }}
+                scale={pageScale}
               />
             ))}
           </Document>

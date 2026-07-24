@@ -1,102 +1,85 @@
-.animations-section {
-  position: relative !important;
-  padding-top: 150px !important;
-  padding-bottom: 30px !important;
-  background-image: var(--section-background-color) !important;
+.terminal-loader {
+	width: min(90vw, 430px);
+	margin: 90px auto 0;
+	background: var(--terminal-bg, #141c26);
+	border-radius: 10px;
+	box-shadow: 0 14px 34px rgba(0, 0, 0, 0.38);
+	font-family: var(--font-terminal);
+	overflow: hidden;
+	border: 1px solid var(--terminal-border, #3e566b);
 }
 
-.animations-heading {
-  color: white !important;
-  font-size: 2.3em !important;
-  font-weight: 500 !important;
-  padding-top: 10px !important;
-  text-align: center;
-  margin-bottom: 40px !important;
+.terminal-header {
+	background: var(--terminal-header, #1e2b39);
+	padding: 0.7rem 0.9rem;
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	border-bottom: 1px solid var(--terminal-border, #3e566b);
 }
 
-.animation-card {
-  padding: 20px !important;
-  opacity: 0.9 !important;
-  transition: all 0.5s ease 0s !important;
+.terminal-dot {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
 }
 
-.animation-card-view {
-  background-color: transparent !important;
-  box-shadow: 0 4px 5px 3px rgba(119, 53, 136, 0.459) !important;
-  color: white !important;
-  transition: all 0.5s ease 0s !important;
-  padding: 20px !important;
+.terminal-dot.red { background: #ff5f56; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #27c93f; }
+
+.terminal-title {
+	color: var(--text-secondary, #b2c6d8);
+	font-size: 0.76rem;
+	margin-left: 0.5rem;
 }
 
-.animation-card-view:hover {
-  transform: scale(1.02) !important;
-  overflow: hidden !important;
-  box-shadow: 0 4px 4px 5px rgba(129, 72, 144, 0.561) !important;
+.terminal-body {
+	padding: 1rem;
+	color: var(--text-primary, #edf5fd);
+	min-height: 128px;
 }
 
-.animation-media {
-  width: 100% !important;
-  height: 300px !important;
-  object-fit: cover !important;
-  border-radius: 10px !important;
-  margin-bottom: 15px !important;
+.terminal-line {
+	font-size: 0.93rem;
 }
 
-.animation-card-view .card-title {
-  color: white !important;
-  font-size: 1.5em !important;
-  font-weight: 500 !important;
-  text-align: center;
-  margin-bottom: 20px !important;
+.terminal-joke {
+	color: #ffcc82 !important;
 }
 
-@media (max-width: 767px) {
-  .animation-card {
-    padding: 10px !important;
-  }
-  
-  .animation-media {
-    height: 200px !important;
-  }
+.terminal-cursor {
+	display: inline-block;
+	margin-left: 2px;
+	color: var(--terminal-cyan, #64e8c2);
+	animation: loaderBlink 1s steps(1) infinite;
 }
 
-/* Terminal Animation Styles */
-.terminal-container {
-  background: var(--terminal-bg);
-  border-radius: 6px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-  margin: 20px 0;
-  overflow: hidden;
-  font-family: 'Fira Code', monospace;
+@keyframes loaderBlink {
+	0%, 50% { opacity: 1; }
+	51%, 100% { opacity: 0; }
 }
 
-.terminal-content {
-  padding: 20px;
-  color: #f8f8f2;
-  line-height: 1.6;
-  font-size: 14px;
+.terminal-loading-bar {
+	margin-top: 0.95rem;
+	height: 12px;
+	width: 100%;
+	background: rgba(35, 49, 64, 0.7);
+	border-radius: 999px;
+	border: 1px solid var(--terminal-border, #3e566b);
+	overflow: hidden;
 }
 
-.terminal-content span {
-  white-space: pre-wrap;
+.loading-bar {
+	display: block;
+	height: 100%;
+	width: 0;
+	background: linear-gradient(90deg, var(--terminal-green, #81f495), var(--terminal-cyan, #64e8c2));
+	animation: loadingBarGrow 3s ease-in-out infinite;
 }
 
-/* Command color variations */
-.Typewriter__wrapper {
-  color: #50fa7b !important; /* Success green */
-}
-
-.Typewriter__cursor {
-  color: #f8f8f2 !important;
-  font-weight: bold;
-}
-
-/* Loading bar animation */
-@keyframes loadingBar {
-  from { content: "[>----]"; }
-  20% { content: "[->---]"; }
-  40% { content: "[-->--]"; }
-  60% { content: "[---=>]"; }
-  80% { content: "[---->>]"; }
-  to { content: "[>----]"; }
+@keyframes loadingBarGrow {
+	0% { width: 0%; }
+	60% { width: 100%; }
+	100% { width: 0%; }
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import { motion } from "framer-motion";
 import Particle from "../Particle";
 import Github from "./Github";
 import Techstack from "./Techstack";
@@ -8,48 +9,66 @@ import laptopImg from "../../Assets/about.png";
 import Toolstack from "./Toolstack";
 import Tilt from "react-parallax-tilt";
 
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  show: { opacity: 1, y: 0 },
+};
+
 function About() {
   return (
     <Container fluid className="about-section">
       <Particle />
       <Container>
-        <Row style={{ justifyContent: "center", padding: "10px" }}>
-          <Col
-            md={7}
-            style={{
-              justifyContent: "center",
-              paddingTop: "30px",
-              paddingBottom: "50px",
-            }}
-          >
-            <h1 style={{ fontSize: "2.1em", paddingBottom: "20px" }}>
-              Know Who <strong className="purple">I'M</strong>
-            </h1>
-            <Aboutcard />
+        <Row className="about-top-row">
+          <Col md={7} className="about-intro-col">
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              transition={{ duration: 0.6 }}
+            >
+              <span className="section-eyebrow">~/ about</span>
+              <h1 className="section-title">
+                Know Who <strong className="purple">I'm</strong>
+              </h1>
+              <Aboutcard />
+            </motion.div>
           </Col>
-          <Col
-            md={5}
-            style={{ paddingTop: "120px", paddingBottom: "50px" }}
-            className="about-img"
-          >
-            <img src={laptopImg} alt="about" className="img-fluid" />
+          <Col md={5} className="about-image-col">
+            <motion.div
+              className="about-img"
+              variants={fadeUp}
+              initial="hidden"
+              animate="show"
+              transition={{ duration: 0.6, delay: 0.15 }}
+            >
+              <Tilt
+                glareEnable={true}
+                glareMaxOpacity={0.12}
+                scale={1.03}
+                tiltMaxAngleX={8}
+                tiltMaxAngleY={8}
+              >
+                <img src={laptopImg} alt="about" className="img-fluid" />
+              </Tilt>
+            </motion.div>
           </Col>
         </Row>
-        <h1 className="project-heading">
-          <strong className="purple">Skillset </strong>
-        </h1>
 
-        <Tilt glareEnable={true} glareMaxOpacity={0.15} scale={1.04}>
+        <h1 className="project-heading">
+          Professional <strong className="purple">Skillset</strong>
+        </h1>
+        <Tilt glareEnable={true} glareMaxOpacity={0.15} scale={1.02}>
           <Techstack />
         </Tilt>
 
         <h1 className="project-heading">
-          <strong className="purple">Tools</strong> I use
+          <strong className="purple">Tools</strong> I Use
         </h1>
-        <Tilt glareEnable={true} glareMaxOpacity={0.15} scale={1.04}>
+        <Tilt glareEnable={true} glareMaxOpacity={0.15} scale={1.02}>
           <Toolstack />
         </Tilt>
-        
+
         <Github />
       </Container>
     </Container>

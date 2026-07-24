@@ -83,7 +83,7 @@ function ProjectCards(props) {
                 </span>
               )}
             </div>
-            <Card.Text className="text-muted flex-grow-1">
+            <Card.Text className="project-card-desc flex-grow-1">
               {props.description}
             </Card.Text>
             <div className="d-flex mt-3 card-buttons">

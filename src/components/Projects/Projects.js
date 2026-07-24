@@ -92,29 +92,27 @@ function Projects() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="project-heading">
-            My Recent <strong className="purple">Works </strong>
-          </h1>
-          <p style={{ color: "white" }}>
-            Here are a few projects I've worked on recently.
-          </p>
+          <div className="project-intro text-center">
+            <span className="section-eyebrow">~/ projects --list</span>
+            <h1 className="project-heading">
+              My Recent <strong className="purple">Works</strong>
+            </h1>
+            <p className="project-subtitle">
+              A selection of things I've built recently — pulled live from GitHub.
+            </p>
+          </div>
 
           <div className="project-filters mb-4">
             <div className="d-flex justify-content-center mb-3">
               <input
                 type="text"
                 placeholder="Search projects..."
-                className="form-control w-50"
+                className="form-control project-search-input"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                style={{ 
-                  background: "rgba(255, 255, 255, 0.1)", 
-                  color: "white",
-                  border: "1px solid rgba(255, 255, 255, 0.2)"
-                }}
               />
             </div>
-            <div className="d-flex justify-content-center gap-2">
+            <div className="d-flex justify-content-center gap-2 project-filter-row">
               {categories.map(cat => (
                 <Button
                   key={cat}
@@ -133,7 +131,7 @@ function Projects() {
               <div className="spinner-border text-primary" role="status">
                 <span className="visually-hidden">Loading...</span>
               </div>
-              <p className="mt-2 text-light loading-text">Fetching projects...</p>
+              <p className="mt-2 loading-text" style={{ color: "var(--text-secondary)" }}>Fetching projects...</p>
             </div>
           ) : (
             <Row>
@@ -164,10 +162,11 @@ function Projects() {
                     <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="text-center text-light mt-4"
+                      className="text-center mt-4"
+                      style={{ color: "var(--text-secondary)" }}
                     >
-                      <h3>Oops! User did not start to do this development xD</h3>
-                      <p>Have some patience 😊</p>
+                      <h3>No projects match your search just yet</h3>
+                      <p>Try a different keyword or category 😊</p>
                     </motion.div>
                   </Col>
                 )}

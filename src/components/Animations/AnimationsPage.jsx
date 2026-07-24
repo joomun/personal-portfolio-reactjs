@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Card } from "react-bootstrap";
+import { motion } from "framer-motion";
 import Particle from "../Particle";
 import "./Animations.css";
 
@@ -24,13 +25,25 @@ function AnimationsPage() {
     <Container fluid className="animations-section">
       <Particle />
       <Container>
-        <h1 className="animations-heading">
-          3D <span className="purple">Animations</span> Showcase
-        </h1>
-        <Row style={{ justifyContent: "center", padding: "10px" }}>
+        <div className="text-center">
+          <span className="section-eyebrow">~/ motion</span>
+          <h1 className="animations-heading">
+            3D <span className="purple">Animation</span> Showcase
+          </h1>
+          <p className="section-subtitle">
+            Experiments in motion, rendering and real-time graphics.
+          </p>
+        </div>
+        <Row className="animations-grid-row">
           {animations.map((anim, index) => (
             <Col md={6} className="animation-card" key={index}>
-              <Card className="animation-card-view">
+              <motion.div
+                initial={{ opacity: 0, y: 26 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Card className="animation-card-view">
                 <Card.Title>{anim.title}</Card.Title>
                 {anim.type === "video" ? (
                   <video 
@@ -52,7 +65,8 @@ function AnimationsPage() {
                 <Card.Body>
                   <Card.Text>{anim.description}</Card.Text>
                 </Card.Body>
-              </Card>
+                </Card>
+              </motion.div>
             </Col>
           ))}
         </Row>

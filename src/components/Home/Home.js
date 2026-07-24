@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import Particle from "../Particle";
 import Type from "./Type";
 import "./Home.css";
@@ -10,6 +11,8 @@ import { AiFillInstagram } from "react-icons/ai";
 function Home() {
   const [terminalHistory, setTerminalHistory] = useState([]);
   const [currentCommand, setCurrentCommand] = useState("");
+  const terminalBodyRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     setTerminalHistory([
@@ -28,6 +31,12 @@ function Home() {
     ]);
   }, []);
 
+  useEffect(() => {
+    if (terminalBodyRef.current) {
+      terminalBodyRef.current.scrollTop = terminalBodyRef.current.scrollHeight;
+    }
+  }, [terminalHistory]);
+
   const renderTextWithLinks = (text) => {
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     const parts = text.split(urlRegex);
@@ -40,7 +49,7 @@ function Home() {
             href={part}
             target="_blank"
             rel="noopener noreferrer"
-            style={{ color: '#50fa7b', textDecoration: 'underline' }}
+            style={{ color: 'var(--terminal-green)', textDecoration: 'underline' }}
           >
             {part}
           </a>
@@ -263,7 +272,11 @@ function Home() {
                   </div>
                   
                   {/* Terminal Content */}
-                  <div className="terminal-body-modern">
+                  <div
+                    className="terminal-body-modern"
+                    ref={terminalBodyRef}
+                    onClick={() => inputRef.current && inputRef.current.focus()}
+                  >
                     {terminalHistory.map((entry, idx) => (
                       <div 
                         key={idx} 
@@ -279,6 +292,7 @@ function Home() {
                       <span className="prompt-text-modern">visitor@portfolio:~$ </span>
                       <input
                         type="text"
+                        ref={inputRef}
                         value={currentCommand}
                         onChange={(e) => setCurrentCommand(e.target.value)}
                         onKeyPress={(e) => {
@@ -323,6 +337,7 @@ function Home() {
                 transition={{ duration: 1, delay: 0.3 }}
               >
                 <div className="hero-text-section">
+                  <span className="section-eyebrow">~/ whoami</span>
                   <h1 className="hero-title">
                     <span className="gradient-text">Joomun Noor</span>
                   </h1>
@@ -352,12 +367,12 @@ function Home() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.6 }}
                   >
-                    <a href="/projects" className="btn btn-primary">
+                    <Link to="/project" className="btn btn-primary">
                       Explore Projects →
-                    </a>
-                    <a href="/about" className="btn btn-secondary">
+                    </Link>
+                    <Link to="/about" className="btn btn-secondary">
                       Learn More
-                    </a>
+                    </Link>
                   </motion.div>
 
                   {/* Social Links */}
