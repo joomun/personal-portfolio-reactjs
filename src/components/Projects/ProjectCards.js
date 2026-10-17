@@ -36,10 +36,11 @@ function ProjectCards(props) {
     <motion.div
       whileHover={{ y: -5 }}
       transition={{ duration: 0.2 }}
-      className="h-100"
+      className="h-100 w-100"
+      style={{ display: 'flex', height: '100%' }}
     >
-      <Tilt glareEnable={true} glareMaxOpacity={0.2} scale={1.05}>
-        <Card className="project-card-view h-100">
+      <Tilt glareEnable={true} glareMaxOpacity={0.2} scale={1.05} style={{ height: '100%', width: '100%' }}>
+        <Card className="project-card-view h-100 w-100">
           {props.highlighted && (
             <div className="highlight-badge">
               <FaStar style={{ color: "gold", fontSize: "1.2rem" }} />
@@ -65,7 +66,7 @@ function ProjectCards(props) {
               </div>
             </div>
           </div>
-          <Card.Body className="d-flex flex-column">
+          <Card.Body className="d-flex flex-column h-100">
             <div className="d-flex justify-content-between align-items-start mb-2">
               <Card.Title className="mb-0">{props.title}</Card.Title>
               {props.category && (
@@ -83,10 +84,10 @@ function ProjectCards(props) {
                 </span>
               )}
             </div>
-            <Card.Text className="project-card-desc flex-grow-1">
+            <Card.Text className="project-card-desc flex-grow-1 mb-0">
               {props.description}
             </Card.Text>
-            <div className="d-flex mt-3 card-buttons">
+            <div className="d-flex mt-auto pt-3 card-buttons">
               <Button 
                 variant="outline-primary" 
                 href={props.ghLink} 

@@ -138,12 +138,14 @@ function Projects() {
               <AnimatePresence>
                 {filteredProjects.length > 0 ? (
                   filteredProjects.map((project, index) => (
-                    <Col md={4} className="project-card mb-4" key={project.id}>
+                    <Col md={4} className="project-card mb-4 h-100" key={project.id}>
                       <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -20 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
+                        className="h-100 w-100"
+                        style={{ display: 'flex' }}
                       >
                         <ProjectCards
                           title={project.name}
