@@ -224,12 +224,21 @@ a:hover { color: var(--accent-strong); }
 .project-filter-row { flex-wrap: wrap; }
 .project-filters .btn { min-width: 84px; border-radius: var(--radius-pill); font-family: var(--font-terminal); font-size: 0.8rem; }
 
-.project-card { padding: 1rem; display: flex; }
+.project-card { padding: 1rem; display: flex; height: 100%; }
+.project-card > div { height: 100%; }
 .project-intro { margin-bottom: 1.5rem; }
 .project-card-view .card-title { font-family: var(--font-display); font-weight: 600; color: var(--text-primary) !important; }
 .project-card-desc { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.6; }
-.project-card-view { color: var(--text-primary) !important; transition: transform 260ms var(--ease-emphasis), box-shadow 260ms ease, border-color var(--dur) ease; overflow: hidden; }
+.project-card-view {
+  color: var(--text-primary) !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 260ms var(--ease-emphasis), box-shadow 260ms ease, border-color var(--dur) ease;
+  overflow: hidden;
+}
 .project-card-view:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--border-strong) !important; }
+.project-card-view .card-body { display: flex; flex: 1 1 auto; flex-direction: column; }
 .card-img-wrapper { position: relative; overflow: hidden; border-bottom: 1px solid var(--border-color); }
 .project-card-image { width: 100%; height: 210px; object-fit: cover; transition: transform 380ms var(--ease-emphasis); }
 .card-img-wrapper:hover .project-card-image { transform: scale(1.06); }
