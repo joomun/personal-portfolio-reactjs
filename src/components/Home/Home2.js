@@ -39,7 +39,7 @@ social      - Show social links`
       type: 'info',
       text: `> Joomun Noorani Muddathir
 > Full Stack Developer | Cloud & IoT Enthusiast
-> Currently: Packaged App Development Associate`
+> Currently: Package App Development Analyst`
     }),
     skills: () => ({
       type: 'info',

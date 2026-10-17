@@ -11,7 +11,7 @@ function Type() {
             "Bash Scripting ",
             "Problem Solver",
             "Innovation Seeker",
-            "Packaged App Development Associate"
+            "Package App Development Analyst"
           ],
           autoStart: true,
           loop: true,

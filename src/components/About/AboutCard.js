@@ -13,7 +13,7 @@ function AboutCard() {
           <br />
           I hold a <span className="purple">BSc in Computer Science System Engineering with Honours</span>.
           <br />
-          I am currently working as a <span className="purple">Packaged App Development Associate</span>, 
+          I am currently working as a <span className="purple">Package App Development Analyst</span>, 
           where I specialize in Linux, Bash/Shell scripting, and innovative solutions.
           <br />
           <br />

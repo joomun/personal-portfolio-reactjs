@@ -88,7 +88,7 @@ function Home() {
         '|                                          |',
         '|                                          |',
         '|  Currently:                              |',
-        '|  Packaged App Development Associate      |',
+        '|  Package App Development Analyst         |',
         '|                                          |',
         '+------------------------------------------+'
       ].join('\n')
@@ -188,7 +188,7 @@ function Home() {
       text: [
         '+---------------- Experience ----------------+',
         '|                                            |',
-        '|  Packaged App Development Associate        |',
+        '|  Package App Development Analyst           |',
         '|  Linux & Bash Scripting Specialist         |',
         '|  Full Stack Development                    |',
         '|  Cloud Computing Enthusiast                |',
@@ -358,7 +358,7 @@ function Home() {
                     transition={{ delay: 1.2 }}
                   >
                     Computer Science graduate from Mauritius with a passion for Linux, Bash scripting, 
-                    and innovative solutions. Currently crafting digital experiences as a Packaged App Development Associate.
+                    and innovative solutions. Currently crafting digital experiences as a Package App Development Analyst.
                   </motion.p>
                   
                   <motion.div 
