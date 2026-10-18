@@ -3,6 +3,32 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+resolve_npm_bin() {
+  local candidates=()
+
+  if command -v npm >/dev/null 2>&1; then
+    candidates+=("$(command -v npm)")
+  fi
+
+  while IFS= read -r candidate; do
+    candidates+=("$candidate")
+  done < <(find /home /usr/local/bin /usr/bin -path '*/bin/npm' 2>/dev/null | head -n 20)
+
+  for candidate in "${candidates[@]}"; do
+    if [[ -n "$candidate" && -x "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+NPM_BIN="$(resolve_npm_bin || true)"
+if [[ -n "${NPM_BIN:-}" ]]; then
+  export PATH="$(dirname "$NPM_BIN"):$PATH"
+fi
+
 ACTION="${1:-start}"
 
 ensure_root() {
