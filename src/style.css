@@ -192,6 +192,11 @@ a:hover { color: var(--accent-strong); }
 .about-activity { list-style: none !important; text-align: left !important; color: var(--text-secondary); margin-bottom: 0.4rem; }
 .blockquote-footer { color: var(--text-muted) !important; }
 .tech-icons {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 86px;
   font-size: clamp(2rem, 4vw, 2.8rem) !important;
   margin: 0.6rem !important;
   padding: 0.9rem !important;
@@ -200,9 +205,33 @@ a:hover { color: var(--accent-strong); }
   background: var(--surface-card) !important;
   color: var(--text-primary);
   box-shadow: var(--shadow-soft);
-  transition: transform var(--dur) var(--ease-emphasis), border-color var(--dur) ease, color var(--dur) ease, box-shadow var(--dur) ease;
+  overflow: hidden;
+  transition: border-color var(--dur) ease, color var(--dur) ease, box-shadow var(--dur) ease, background var(--dur) ease;
 }
-.tech-icons:hover { transform: translateY(-6px); border-color: var(--accent) !important; color: var(--accent); box-shadow: var(--glow-accent); }
+.tech-icons::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(94, 234, 212, 0.18), transparent 60%);
+  opacity: 0;
+  transition: opacity var(--dur) ease;
+}
+.tech-icons svg {
+  position: relative;
+  z-index: 1;
+  transition: transform 220ms var(--ease-emphasis), filter 220ms ease, color 220ms ease;
+}
+.tech-icons:hover {
+  border-color: var(--accent) !important;
+  color: var(--accent);
+  box-shadow: var(--glow-accent);
+  background: linear-gradient(180deg, var(--surface-card), rgba(13, 148, 136, 0.06)) !important;
+}
+.tech-icons:hover::before { opacity: 1; }
+.tech-icons:hover svg {
+  transform: scale(1.18) rotate(-4deg);
+  filter: drop-shadow(0 0 10px rgba(94, 234, 212, 0.35));
+}
 
 .project-section { position: relative; z-index: 1; }
 .project-filters {
