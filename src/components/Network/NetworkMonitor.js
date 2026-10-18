@@ -2,24 +2,32 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { FaNetworkWired, FaWifi, FaGlobeAmericas } from 'react-icons/fa';
 
-const API_BASE = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
-const NETWORK_ENABLED = (process.env.REACT_APP_NETWORK_ENABLED || 'false').toLowerCase() === 'true';
+const DEFAULT_API_BASE = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+const DEFAULT_NETWORK_ENABLED = (process.env.REACT_APP_NETWORK_ENABLED || 'false').toLowerCase() === 'true';
+const DEFAULT_PUBLIC_TEST_MODE = (process.env.REACT_APP_ALLOW_PUBLIC_NETWORK_TEST || 'false').toLowerCase() === 'true';
 
 function NetworkMonitor() {
+  const [backendUrl, setBackendUrl] = useState(DEFAULT_API_BASE);
+  const [backendUrlInput, setBackendUrlInput] = useState(DEFAULT_API_BASE);
+  const [isNetworkEnabled, setIsNetworkEnabled] = useState(DEFAULT_NETWORK_ENABLED);
+  const [allowPublicTesting, setAllowPublicTesting] = useState(DEFAULT_PUBLIC_TEST_MODE);
   const [publicIp, setPublicIp] = useState('');
   const [target, setTarget] = useState('');
   const [loadingIp, setLoadingIp] = useState(true);
   const [isPinging, setIsPinging] = useState(false);
   const [pingResult, setPingResult] = useState(null);
   const [error, setError] = useState('');
+  const [backendStatus, setBackendStatus] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [isLoadingAuth, setIsLoadingAuth] = useState(false);
+  const [isCheckingBackend, setIsCheckingBackend] = useState(false);
 
   const token = typeof window !== 'undefined' ? localStorage.getItem('network-token') : '';
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
   const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.') || hostname.startsWith('10.') || hostname.startsWith('172.');
+  const canAccessNetwork = isLocalHost || allowPublicTesting;
 
   useEffect(() => {
     if (token) {
@@ -27,10 +35,39 @@ function NetworkMonitor() {
     }
   }, [token]);
 
+  const testBackendConnection = useCallback(async (nextUrl = backendUrl) => {
+    if (!nextUrl) {
+      return;
+    }
+
+    setIsCheckingBackend(true);
+    setBackendStatus('');
+    setError('');
+
+    try {
+      const response = await fetch(`${nextUrl.replace(/\/$/, '')}/api/public-ip`, {
+        headers: {
+          Authorization: 'Bearer invalid-token',
+        },
+      });
+
+      if (response.status === 401 || response.status === 200) {
+        setBackendStatus(`Connected to backend at ${nextUrl}.`);
+      } else {
+        setBackendStatus(`Backend responded with status ${response.status}.`);
+      }
+    } catch (backendError) {
+      setError(`Cannot reach backend at ${nextUrl}. Check the URL and ensure the server is running.`);
+      setBackendStatus('');
+    } finally {
+      setIsCheckingBackend(false);
+    }
+  }, [backendUrl]);
+
   const fetchPublicIp = useCallback(async () => {
     try {
       setLoadingIp(true);
-      const response = await fetch(`${API_BASE}/api/public-ip`, {
+      const response = await fetch(`${backendUrl.replace(/\/$/, '')}/api/public-ip`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -48,7 +85,7 @@ function NetworkMonitor() {
     } finally {
       setLoadingIp(false);
     }
-  }, [token]);
+  }, [backendUrl, token]);
 
   const handlePing = async (event) => {
     event.preventDefault();
@@ -59,7 +96,7 @@ function NetworkMonitor() {
     const ipToPing = target || publicIp;
 
     try {
-      const response = await fetch(`${API_BASE}/api/ping?target=${encodeURIComponent(ipToPing)}`, {
+      const response = await fetch(`${backendUrl.replace(/\/$/, '')}/api/ping?target=${encodeURIComponent(ipToPing)}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -79,12 +116,31 @@ function NetworkMonitor() {
   };
 
   useEffect(() => {
-    if (!NETWORK_ENABLED || !isAuthenticated || !isLocalHost) return;
+    if (!isNetworkEnabled || !isAuthenticated || !canAccessNetwork) return;
 
     fetchPublicIp();
     const timer = setInterval(fetchPublicIp, 60000);
     return () => clearInterval(timer);
-  }, [fetchPublicIp, isAuthenticated, isLocalHost]);
+  }, [fetchPublicIp, isAuthenticated, canAccessNetwork, isNetworkEnabled]);
+
+  const handleBackendUrlSave = async (event) => {
+    event.preventDefault();
+    const nextUrl = backendUrlInput.trim();
+
+    if (!nextUrl) {
+      setError('Backend URL is required.');
+      return;
+    }
+
+    try {
+      const normalizedUrl = new URL(nextUrl).toString().replace(/\/$/, '');
+      setBackendUrl(normalizedUrl);
+      setBackendUrlInput(normalizedUrl);
+      await testBackendConnection(normalizedUrl);
+    } catch {
+      setError('Please enter a valid backend URL, for example https://api.yourdomain.com');
+    }
+  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -92,7 +148,7 @@ function NetworkMonitor() {
     setError('');
 
     try {
-      const response = await fetch(`${API_BASE}/api/login`, {
+      const response = await fetch(`${backendUrl.replace(/\/$/, '')}/api/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +180,7 @@ function NetworkMonitor() {
     setError('');
   };
 
-  if (!NETWORK_ENABLED) {
+  if (!isNetworkEnabled) {
     return (
       <Container className="network-monitor-page py-5">
         <Row className="justify-content-center">
@@ -132,6 +188,9 @@ function NetworkMonitor() {
             <Alert variant="warning" className="network-lock-box">
               <h4 className="mb-2">Network page is locked</h4>
               <p className="mb-0">This page is disabled until the site owner enables it in the environment settings.</p>
+              <div className="d-flex justify-content-center mt-3">
+                <Button variant="primary" onClick={() => setIsNetworkEnabled(true)}>Enable network page</Button>
+              </div>
             </Alert>
           </Col>
         </Row>
@@ -139,14 +198,17 @@ function NetworkMonitor() {
     );
   }
 
-  if (!isLocalHost) {
+  if (!canAccessNetwork) {
     return (
       <Container className="network-monitor-page py-5">
         <Row className="justify-content-center">
           <Col lg={8}>
             <Alert variant="danger" className="network-lock-box">
               <h4 className="mb-2">Access restricted</h4>
-              <p className="mb-0">This page is only available on localhost or private network addresses to keep your public IP private.</p>
+              <p className="mb-0">This page is only available on localhost or private network addresses by default to keep your public IP private. Enable public test mode below when testing a remote backend.</p>
+              <div className="d-flex justify-content-center mt-3">
+                <Button variant="primary" onClick={() => setAllowPublicTesting(true)}>Enable public test mode</Button>
+              </div>
             </Alert>
           </Col>
         </Row>
@@ -158,7 +220,31 @@ function NetworkMonitor() {
     return (
       <Container className="network-monitor-page py-5">
         <Row className="justify-content-center">
-          <Col md={6}>
+          <Col md={8}>
+            <Card className="network-card mb-4">
+              <Card.Body>
+                <h3 className="mb-3 text-center">Backend connection test</h3>
+                <Form onSubmit={handleBackendUrlSave}>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="network-label">Backend URL</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={backendUrlInput}
+                      onChange={(e) => setBackendUrlInput(e.target.value)}
+                      className="network-input"
+                      placeholder="https://api.yourdomain.com"
+                    />
+                  </Form.Group>
+                  <div className="d-flex justify-content-center">
+                    <Button type="submit" variant="outline-primary" className="network-button" disabled={isCheckingBackend}>
+                      {isCheckingBackend ? <><Spinner size="sm" animation="border" className="me-2" /> Checking...</> : 'Point backend'}
+                    </Button>
+                  </div>
+                </Form>
+                {backendStatus && <Alert variant="success" className="mt-3 mb-0">{backendStatus}</Alert>}
+              </Card.Body>
+            </Card>
+
             <Card className="network-card">
               <Card.Body>
                 <h3 className="mb-3 text-center">Network access login</h3>
