@@ -109,12 +109,23 @@ async function refreshPublicIp() {
 refreshPublicIp();
 setInterval(refreshPublicIp, 5 * 60 * 1000);
 
-app.get('/api/health', authRequired, (req, res) => {
+app.get('/api/health', (req, res) => {
   res.json({
     service: 'public-ip-monitor',
     ok: true,
     publicIp: currentPublicIp || null,
     lastUpdated,
+    authRequired: false,
+  });
+});
+
+app.get('/api/health-auth', authRequired, (req, res) => {
+  res.json({
+    service: 'public-ip-monitor',
+    ok: true,
+    publicIp: currentPublicIp || null,
+    lastUpdated,
+    authRequired: true,
   });
 });
 
