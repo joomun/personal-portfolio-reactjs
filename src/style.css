@@ -388,6 +388,11 @@ a:hover { color: var(--accent-strong); }
   font-size: 0.82rem;
   overflow-x: auto;
 }
+.network-lock-box {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  border: 1px solid var(--border-color) !important;
+}
 
 .btn { border-radius: var(--radius-sm); font-weight: 600; transition: transform var(--dur) var(--ease-emphasis), box-shadow var(--dur) ease, background var(--dur) ease, color var(--dur) ease, border-color var(--dur) ease; }
 .btn-primary, .btn-outline-primary { font-family: var(--font-terminal) !important; letter-spacing: 0.01em; }

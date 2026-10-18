@@ -3,6 +3,8 @@ import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-b
 import { FaNetworkWired, FaWifi, FaGlobeAmericas } from 'react-icons/fa';
 
 const API_BASE = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+const NETWORK_PASSWORD = (process.env.REACT_APP_NETWORK_PASSWORD || '').trim();
+const NETWORK_ENABLED = (process.env.REACT_APP_NETWORK_ENABLED || 'false').toLowerCase() === 'true';
 
 function NetworkMonitor() {
   const [publicIp, setPublicIp] = useState('');
@@ -11,6 +13,25 @@ function NetworkMonitor() {
   const [isPinging, setIsPinging] = useState(false);
   const [pingResult, setPingResult] = useState(null);
   const [error, setError] = useState('');
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+
+  const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+  const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.') || hostname.startsWith('10.') || hostname.startsWith('172.');
+
+  useEffect(() => {
+    if (!NETWORK_ENABLED) {
+      setIsUnlocked(false);
+      return;
+    }
+
+    if (NETWORK_PASSWORD) {
+      setIsUnlocked(false);
+      return;
+    }
+
+    setIsUnlocked(true);
+  }, []);
 
   const fetchPublicIp = async () => {
     try {
@@ -56,10 +77,90 @@ function NetworkMonitor() {
   };
 
   useEffect(() => {
+    if (!NETWORK_ENABLED || !isUnlocked || !isLocalHost) return;
+
     fetchPublicIp();
     const timer = setInterval(fetchPublicIp, 60000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isUnlocked, isLocalHost]);
+
+  const handleUnlock = (event) => {
+    event.preventDefault();
+
+    if (!NETWORK_PASSWORD) {
+      setIsUnlocked(true);
+      return;
+    }
+
+    if (passwordInput === NETWORK_PASSWORD) {
+      setIsUnlocked(true);
+      setError('');
+    } else {
+      setError('Invalid access code.');
+    }
+  };
+
+  if (!NETWORK_ENABLED) {
+    return (
+      <Container className="network-monitor-page py-5">
+        <Row className="justify-content-center">
+          <Col lg={8}>
+            <Alert variant="warning" className="network-lock-box">
+              <h4 className="mb-2">Network page is locked</h4>
+              <p className="mb-0">This page is disabled until the site owner enables it in the environment settings.</p>
+            </Alert>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+
+  if (!isLocalHost) {
+    return (
+      <Container className="network-monitor-page py-5">
+        <Row className="justify-content-center">
+          <Col lg={8}>
+            <Alert variant="danger" className="network-lock-box">
+              <h4 className="mb-2">Access restricted</h4>
+              <p className="mb-0">This page is only available on localhost or private network addresses to keep your public IP private.</p>
+            </Alert>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
+
+  if (NETWORK_PASSWORD && !isUnlocked) {
+    return (
+      <Container className="network-monitor-page py-5">
+        <Row className="justify-content-center">
+          <Col md={6}>
+            <Card className="network-card">
+              <Card.Body>
+                <h3 className="mb-3 text-center">Unlock network tools</h3>
+                <Form onSubmit={handleUnlock}>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="network-label">Access code</Form.Label>
+                    <Form.Control
+                      type="password"
+                      value={passwordInput}
+                      onChange={(e) => setPasswordInput(e.target.value)}
+                      className="network-input"
+                      placeholder="Enter lock code"
+                    />
+                  </Form.Group>
+                  <div className="d-flex justify-content-center">
+                    <Button type="submit" variant="primary" className="network-button">Unlock</Button>
+                  </div>
+                </Form>
+                {error && <Alert variant="danger" className="mt-3 mb-0">{error}</Alert>}
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 
   return (
     <Container className="network-monitor-page py-5">
