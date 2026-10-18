@@ -2,7 +2,29 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { FaNetworkWired, FaWifi, FaGlobeAmericas } from 'react-icons/fa';
 
-const DEFAULT_API_BASE = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+const resolveBackendUrl = () => {
+  const envUrl = process.env.REACT_APP_BACKEND_URL;
+
+  if (envUrl) {
+    return envUrl.replace(/\/$/, '');
+  }
+
+  if (typeof window !== 'undefined') {
+    const hostname = window.location.hostname;
+
+    if (hostname.includes('noorpersonalspace.africa')) {
+      return 'https://api.noorpersonalspace.africa';
+    }
+
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return 'http://localhost:4000';
+    }
+  }
+
+  return 'http://localhost:4000';
+};
+
+const DEFAULT_API_BASE = resolveBackendUrl();
 const DEFAULT_NETWORK_ENABLED = (process.env.REACT_APP_NETWORK_ENABLED || 'false').toLowerCase() === 'true';
 const DEFAULT_PUBLIC_TEST_MODE = (process.env.REACT_APP_ALLOW_PUBLIC_NETWORK_TEST || 'false').toLowerCase() === 'true';
 

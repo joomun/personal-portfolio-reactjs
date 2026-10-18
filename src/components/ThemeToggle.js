@@ -2,7 +2,29 @@ import React, { useEffect, useState } from "react";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
 
-const DEFAULT_BACKEND_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
+const resolveBackendUrl = () => {
+  const envUrl = process.env.REACT_APP_BACKEND_URL;
+
+  if (envUrl) {
+    return envUrl.replace(/\/$/, "");
+  }
+
+  if (typeof window !== "undefined") {
+    const hostname = window.location.hostname;
+
+    if (hostname.includes("noorpersonalspace.africa")) {
+      return "https://api.noorpersonalspace.africa";
+    }
+
+    if (hostname === "localhost" || hostname === "127.0.0.1") {
+      return "http://localhost:4000";
+    }
+  }
+
+  return "http://localhost:4000";
+};
+
+const DEFAULT_BACKEND_URL = resolveBackendUrl();
 
 function ThemeToggle({ className = "" }) {
   const { theme, toggleTheme } = useTheme();
