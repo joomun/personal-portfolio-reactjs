@@ -6,9 +6,11 @@ import pdf from "../../Assets/../Assets/CV_Noor_Joomun.pdf";
 import { AiOutlineDownload } from "react-icons/ai";
 import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import { useTheme } from "../../context/ThemeContext";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 function ResumeNew() {
+  const { theme } = useTheme();
   const [width, setWidth] = useState(window.innerWidth);
   const [numPages, setNumPages] = useState(null);
 
@@ -49,7 +51,7 @@ function ResumeNew() {
         <Row className="resume" style={{ overflowX: "auto", justifyContent: "center" }}>
           <Document
             file={pdf}
-            className="d-flex flex-column align-items-center"
+            className={`d-flex flex-column align-items-center resume-document ${theme === "dark" ? "resume-document-dark" : ""}`}
             onLoadSuccess={onDocumentLoadSuccess}
           >
             {Array.from(new Array(numPages), (el, index) => (
@@ -57,6 +59,7 @@ function ResumeNew() {
                 key={`page_${index + 1}`}
                 pageNumber={index + 1}
                 scale={pageScale}
+                className={theme === "dark" ? "resume-page resume-page-dark" : "resume-page"}
               />
             ))}
           </Document>

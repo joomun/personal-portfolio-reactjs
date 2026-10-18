@@ -286,7 +286,14 @@ a:hover { color: var(--accent-strong); }
 
 .resume { padding-top: 2rem; padding-bottom: 2rem; justify-content: center; }
 .resume-header { margin-bottom: 1.6rem; }
-.resume .react-pdf__Page { margin-bottom: 1.5rem; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-soft); }
+.resume-document { background: transparent; }
+.resume-document-dark { background: rgba(9, 13, 19, 0.35); border-radius: var(--radius-md); padding: 0.75rem; }
+.resume .react-pdf__Page { margin-bottom: 1.5rem; border-radius: var(--radius-sm); overflow: hidden; box-shadow: var(--shadow-soft); background: transparent; }
+.resume-page { background: transparent; }
+.resume-page canvas { display: block; border-radius: var(--radius-sm); box-shadow: var(--shadow-soft); background: #ffffff !important; }
+[data-theme="dark"] .resume-page canvas {
+  filter: invert(1) hue-rotate(180deg) contrast(1.06) brightness(1.05);
+}
 
 .btn { border-radius: var(--radius-sm); font-weight: 600; transition: transform var(--dur) var(--ease-emphasis), box-shadow var(--dur) ease, background var(--dur) ease, color var(--dur) ease, border-color var(--dur) ease; }
 .btn-primary, .btn-outline-primary { font-family: var(--font-terminal) !important; letter-spacing: 0.01em; }
