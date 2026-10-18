@@ -1,0 +1,116 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(dirname "$0")"
+
+ACTION="${1:-start}"
+
+ensure_root() {
+  if [[ "$EUID" -ne 0 ]]; then
+    echo "This script needs sudo for system packages and Nginx setup. Rerun with sudo."
+    exit 1
+  fi
+}
+
+install_packages() {
+  export DEBIAN_FRONTEND=noninteractive
+  apt-get update
+  apt-get install -y nginx certbot python3-certbot-nginx
+  npm install -g pm2
+}
+
+check_backend() {
+  if curl -fsS http://localhost:4000/api/login >/dev/null 2>&1; then
+    return 0
+  fi
+  return 1
+}
+
+check_pm2() {
+  if ! command -v pm2 >/dev/null 2>&1; then
+    return 1
+  fi
+  return 0
+}
+
+check_nginx() {
+  if ! command -v nginx >/dev/null 2>&1; then
+    return 1
+  fi
+  return 0
+}
+
+case "$ACTION" in
+  start)
+    ensure_root
+
+    if ! check_pm2; then
+      echo "PM2 not found. Installing..."
+      npm install -g pm2
+    fi
+
+    if ! check_nginx; then
+      echo "Nginx not found. Installing..."
+      install_packages
+    fi
+
+    if [[ -f .env ]]; then
+      set -a
+      source ./.env
+      set +a
+    fi
+
+    if [[ -z "${APP_PASSWORD_HASH:-}" || -z "${JWT_SECRET:-}" ]]; then
+      echo "Missing APP_PASSWORD_HASH or JWT_SECRET in backend/.env"
+      exit 1
+    fi
+
+    if check_backend; then
+      echo "Backend is already up. No need to start it again."
+    else
+      echo "Starting backend..."
+      pm2 start server.js --name public-ip-monitor --interpreter node || pm2 restart public-ip-monitor
+    fi
+
+    NGINX_CONF="/etc/nginx/sites-available/api.noorpersonalspace.africa"
+    NGINX_LINK="/etc/nginx/sites-enabled/api.noorpersonalspace.africa"
+
+    if [[ ! -f "$NGINX_CONF" ]]; then
+      echo "Creating Nginx config for api.noorpersonalspace.africa..."
+      cat > "$NGINX_CONF" <<'EOF'
+server {
+    listen 80;
+    server_name api.noorpersonalspace.africa;
+
+    location / {
+        proxy_pass http://127.0.0.1:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+EOF
+
+      ln -sf "$NGINX_CONF" "$NGINX_LINK"
+    fi
+
+    nginx -t
+    systemctl restart nginx
+    echo "Backend and Nginx are running."
+    ;;
+
+  kill)
+    ensure_root
+    echo "Stopping backend and Nginx..."
+    pm2 delete public-ip-monitor >/dev/null 2>&1 || true
+    systemctl stop nginx >/dev/null 2>&1 || true
+    echo "Stopped."
+    ;;
+
+  *)
+    echo "Usage: $0 [start|kill]"
+    exit 1
+    ;;
+esac
