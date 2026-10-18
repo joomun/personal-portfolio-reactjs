@@ -12,8 +12,40 @@ const PORT = process.env.PORT || 4000;
 const APP_USER = process.env.APP_USER || 'joomun';
 const APP_PASSWORD_HASH = process.env.APP_PASSWORD_HASH || '';
 const JWT_SECRET = process.env.JWT_SECRET || 'change-this-to-a-long-random-secret';
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'https://www.noorpersonalspace.africa',
+  'https://noorpersonalspace.africa',
+  'https://api.noorpersonalspace.africa',
+];
 
-app.use(cors());
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`Origin ${origin} is not allowed by CORS`));
+  },
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
+app.options('*', cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`Origin ${origin} is not allowed by CORS`));
+  },
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
 app.use(express.json());
 
 let currentPublicIp = null;
