@@ -1,16 +1,40 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const { exec } = require('child_process');
 const https = require('https');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const APP_USER = process.env.APP_USER || 'joomun';
+const APP_PASSWORD_HASH = process.env.APP_PASSWORD_HASH || '';
+const JWT_SECRET = process.env.JWT_SECRET || 'change-this-to-a-long-random-secret';
 
 app.use(cors());
 app.use(express.json());
 
 let currentPublicIp = null;
 let lastUpdated = null;
+
+function authRequired(req, res, next) {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+
+  if (!token) {
+    return res.status(401).json({ ok: false, message: 'Authorization token required.' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded;
+    return next();
+  } catch (error) {
+    return res.status(401).json({ ok: false, message: 'Invalid or expired token.' });
+  }
+}
 
 function fetchPublicIp() {
   return new Promise((resolve, reject) => {
@@ -53,7 +77,7 @@ async function refreshPublicIp() {
 refreshPublicIp();
 setInterval(refreshPublicIp, 5 * 60 * 1000);
 
-app.get('/api/health', (req, res) => {
+app.get('/api/health', authRequired, (req, res) => {
   res.json({
     service: 'public-ip-monitor',
     ok: true,
@@ -62,7 +86,42 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.get('/api/public-ip', async (req, res) => {
+app.post('/api/login', (req, res) => {
+  const username = String(req.body?.username || '').trim();
+  const password = String(req.body?.password || '');
+
+  if (!APP_PASSWORD_HASH) {
+    return res.status(500).json({
+      ok: false,
+      message: 'Server authentication is not configured. Set APP_PASSWORD_HASH and JWT_SECRET in the backend environment.',
+    });
+  }
+
+  if (!username || !password) {
+    return res.status(400).json({ ok: false, message: 'Username and password are required.' });
+  }
+
+  if (username !== APP_USER) {
+    return res.status(401).json({ ok: false, message: 'Invalid credentials.' });
+  }
+
+  const isValid = bcrypt.compareSync(password, APP_PASSWORD_HASH);
+
+  if (!isValid) {
+    return res.status(401).json({ ok: false, message: 'Invalid credentials.' });
+  }
+
+  const token = jwt.sign({ username: APP_USER }, JWT_SECRET, { expiresIn: '8h' });
+
+  return res.json({
+    ok: true,
+    token,
+    username: APP_USER,
+    message: 'Login successful.',
+  });
+});
+
+app.get('/api/public-ip', authRequired, async (req, res) => {
   try {
     if (!currentPublicIp) {
       await refreshPublicIp();
@@ -81,7 +140,7 @@ app.get('/api/public-ip', async (req, res) => {
   }
 });
 
-app.get('/api/ping', (req, res) => {
+app.get('/api/ping', authRequired, (req, res) => {
   const target = (req.query.target || currentPublicIp || '').trim();
 
   if (!target) {

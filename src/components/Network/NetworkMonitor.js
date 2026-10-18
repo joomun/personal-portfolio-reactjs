@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { FaNetworkWired, FaWifi, FaGlobeAmericas } from 'react-icons/fa';
 
 const API_BASE = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
-const NETWORK_PASSWORD = (process.env.REACT_APP_NETWORK_PASSWORD || '').trim();
 const NETWORK_ENABLED = (process.env.REACT_APP_NETWORK_ENABLED || 'false').toLowerCase() === 'true';
 
 function NetworkMonitor() {
@@ -13,30 +12,29 @@ function NetworkMonitor() {
   const [isPinging, setIsPinging] = useState(false);
   const [pingResult, setPingResult] = useState(null);
   const [error, setError] = useState('');
-  const [isUnlocked, setIsUnlocked] = useState(false);
-  const [passwordInput, setPasswordInput] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoadingAuth, setIsLoadingAuth] = useState(false);
 
+  const token = typeof window !== 'undefined' ? localStorage.getItem('network-token') : '';
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
   const isLocalHost = hostname === 'localhost' || hostname === '127.0.0.1' || hostname.startsWith('192.168.') || hostname.startsWith('10.') || hostname.startsWith('172.');
 
   useEffect(() => {
-    if (!NETWORK_ENABLED) {
-      setIsUnlocked(false);
-      return;
+    if (token) {
+      setIsAuthenticated(true);
     }
+  }, [token]);
 
-    if (NETWORK_PASSWORD) {
-      setIsUnlocked(false);
-      return;
-    }
-
-    setIsUnlocked(true);
-  }, []);
-
-  const fetchPublicIp = async () => {
+  const fetchPublicIp = useCallback(async () => {
     try {
       setLoadingIp(true);
-      const response = await fetch(`${API_BASE}/api/public-ip`);
+      const response = await fetch(`${API_BASE}/api/public-ip`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
 
       if (!response.ok) {
@@ -50,7 +48,7 @@ function NetworkMonitor() {
     } finally {
       setLoadingIp(false);
     }
-  };
+  }, [token]);
 
   const handlePing = async (event) => {
     event.preventDefault();
@@ -61,7 +59,11 @@ function NetworkMonitor() {
     const ipToPing = target || publicIp;
 
     try {
-      const response = await fetch(`${API_BASE}/api/ping?target=${encodeURIComponent(ipToPing)}`);
+      const response = await fetch(`${API_BASE}/api/ping?target=${encodeURIComponent(ipToPing)}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const data = await response.json();
 
       if (!response.ok) {
@@ -77,27 +79,49 @@ function NetworkMonitor() {
   };
 
   useEffect(() => {
-    if (!NETWORK_ENABLED || !isUnlocked || !isLocalHost) return;
+    if (!NETWORK_ENABLED || !isAuthenticated || !isLocalHost) return;
 
     fetchPublicIp();
     const timer = setInterval(fetchPublicIp, 60000);
     return () => clearInterval(timer);
-  }, [isUnlocked, isLocalHost]);
+  }, [fetchPublicIp, isAuthenticated, isLocalHost]);
 
-  const handleUnlock = (event) => {
+  const handleLogin = async (event) => {
     event.preventDefault();
+    setIsLoadingAuth(true);
+    setError('');
 
-    if (!NETWORK_PASSWORD) {
-      setIsUnlocked(true);
-      return;
-    }
+    try {
+      const response = await fetch(`${API_BASE}/api/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
 
-    if (passwordInput === NETWORK_PASSWORD) {
-      setIsUnlocked(true);
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed.');
+      }
+
+      localStorage.setItem('network-token', data.token);
+      setIsAuthenticated(true);
       setError('');
-    } else {
-      setError('Invalid access code.');
+    } catch (err) {
+      setError(err.message || 'Login failed.');
+    } finally {
+      setIsLoadingAuth(false);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('network-token');
+    setIsAuthenticated(false);
+    setPublicIp('');
+    setPingResult(null);
+    setTarget('');
+    setError('');
   };
 
   if (!NETWORK_ENABLED) {
@@ -130,27 +154,39 @@ function NetworkMonitor() {
     );
   }
 
-  if (NETWORK_PASSWORD && !isUnlocked) {
+  if (!isAuthenticated) {
     return (
       <Container className="network-monitor-page py-5">
         <Row className="justify-content-center">
           <Col md={6}>
             <Card className="network-card">
               <Card.Body>
-                <h3 className="mb-3 text-center">Unlock network tools</h3>
-                <Form onSubmit={handleUnlock}>
+                <h3 className="mb-3 text-center">Network access login</h3>
+                <Form onSubmit={handleLogin}>
                   <Form.Group className="mb-3">
-                    <Form.Label className="network-label">Access code</Form.Label>
+                    <Form.Label className="network-label">Username</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      className="network-input"
+                      placeholder="Enter username"
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label className="network-label">Password</Form.Label>
                     <Form.Control
                       type="password"
-                      value={passwordInput}
-                      onChange={(e) => setPasswordInput(e.target.value)}
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="network-input"
-                      placeholder="Enter lock code"
+                      placeholder="Enter password"
                     />
                   </Form.Group>
                   <div className="d-flex justify-content-center">
-                    <Button type="submit" variant="primary" className="network-button">Unlock</Button>
+                    <Button type="submit" variant="primary" className="network-button" disabled={isLoadingAuth}>
+                      {isLoadingAuth ? <><Spinner size="sm" animation="border" className="me-2" /> Logging in...</> : 'Login'}
+                    </Button>
                   </div>
                 </Form>
                 {error && <Alert variant="danger" className="mt-3 mb-0">{error}</Alert>}
@@ -171,6 +207,10 @@ function NetworkMonitor() {
             <h1 className="section-title">
               Public IP <strong className="purple">Checker</strong>
             </h1>
+          </div>
+
+          <div className="d-flex justify-content-end mb-3">
+            <Button variant="outline-primary" onClick={handleLogout}>Logout</Button>
           </div>
 
           <Card className="mb-4 border-0 shadow-sm network-card">
