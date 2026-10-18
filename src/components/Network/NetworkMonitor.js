@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { FaNetworkWired, FaWifi, FaGlobeAmericas } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const resolveBackendUrl = () => {
   const envUrl = process.env.REACT_APP_BACKEND_URL;
@@ -45,6 +46,7 @@ function NetworkMonitor() {
   const [password, setPassword] = useState('');
   const [isLoadingAuth, setIsLoadingAuth] = useState(false);
   const [isCheckingBackend, setIsCheckingBackend] = useState(false);
+  const [backendOffline, setBackendOffline] = useState(false);
 
   const token = typeof window !== 'undefined' ? localStorage.getItem('network-token') : '';
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
@@ -138,6 +140,37 @@ function NetworkMonitor() {
   };
 
   useEffect(() => {
+    if (!isNetworkEnabled || !canAccessNetwork) return;
+
+    let active = true;
+
+    const checkBackendHealth = async () => {
+      try {
+        const response = await fetch(`${backendUrl.replace(/\/$/, '')}/api/health`, {
+          method: 'GET',
+          cache: 'no-store',
+        });
+
+        if (!active) return;
+
+        const isHealthy = response.ok || response.status === 401;
+        setBackendOffline(!isHealthy);
+      } catch (error) {
+        if (!active) return;
+        setBackendOffline(true);
+      }
+    };
+
+    checkBackendHealth();
+    const timer = setInterval(checkBackendHealth, 30000);
+
+    return () => {
+      active = false;
+      clearInterval(timer);
+    };
+  }, [backendUrl, canAccessNetwork, isNetworkEnabled]);
+
+  useEffect(() => {
     if (!isNetworkEnabled || !isAuthenticated || !canAccessNetwork) return;
 
     fetchPublicIp();
@@ -202,6 +235,19 @@ function NetworkMonitor() {
     setError('');
   };
 
+  const offlineNotice = backendOffline && (
+    <Alert variant="warning" dismissible onClose={() => setBackendOffline(false)} className="network-offline-banner">
+      <div className="network-offline-header">Network tools temporarily offline</div>
+      <p className="mb-2">The backend is currently unavailable, so the live network tools cannot be accessed right now. You can still browse the portfolio and get in touch with Joomun Noor for more information.</p>
+      <div className="d-flex flex-wrap gap-2">
+        <Button as={Link} to="/" variant="primary" size="sm">Visit portfolio</Button>
+        <Button as="a" href="mailto:joomunmuddathir@gmail.com" variant="outline-primary" size="sm">Email</Button>
+        <Button as="a" href="https://www.linkedin.com/in/joomun-noorani-muddathir-846636228/" target="_blank" rel="noreferrer" variant="outline-primary" size="sm">LinkedIn</Button>
+        <Button as="a" href="https://github.com/joomun" target="_blank" rel="noreferrer" variant="outline-primary" size="sm">GitHub</Button>
+      </div>
+    </Alert>
+  );
+
   if (!isNetworkEnabled) {
     return (
       <Container className="network-monitor-page py-5">
@@ -241,6 +287,7 @@ function NetworkMonitor() {
   if (!isAuthenticated) {
     return (
       <Container className="network-monitor-page py-5">
+        {offlineNotice}
         <Row className="justify-content-center">
           <Col md={8}>
             <Card className="network-card mb-4">
@@ -308,6 +355,7 @@ function NetworkMonitor() {
 
   return (
     <Container className="network-monitor-page py-5">
+      {offlineNotice}
       <Row className="justify-content-center">
         <Col lg={8}>
           <div className="text-center mb-4">

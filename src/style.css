@@ -327,6 +327,22 @@ a:hover { color: var(--accent-strong); }
 .network-monitor-page {
   padding-top: 7.5rem;
 }
+.network-offline-banner {
+  margin-bottom: 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 175, 64, 0.35);
+  background: rgba(255, 175, 64, 0.08);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-soft);
+}
+.network-offline-header {
+  font-family: var(--font-terminal);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.45rem;
+  color: var(--accent-strong);
+}
 .network-card {
   background: var(--surface-card) !important;
   border: 1px solid var(--border-color) !important;
