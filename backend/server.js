@@ -179,6 +179,15 @@ app.get('/api/ping', authRequired, (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Public IP monitor running on http://localhost:${PORT}`);
+});
+
+server.on('error', (error) => {
+  if (error.code === 'EADDRINUSE') {
+    console.error(`Port ${PORT} is already in use. Stop the existing backend process or remove the stale PM2 instance before restarting.`);
+    process.exit(1);
+  }
+
+  throw error;
 });

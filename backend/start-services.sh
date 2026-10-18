@@ -114,11 +114,21 @@ case "$ACTION" in
       exit 1
     fi
 
+    if pm2 list | grep -q "public-ip-monitor"; then
+      echo "Stopping existing PM2 instance before restart..."
+      pm2 delete public-ip-monitor >/dev/null 2>&1 || true
+    fi
+
+    if ss -ltn 2>/dev/null | awk '{print $4}' | grep -Eq '(:|\.)4000$'; then
+      echo "Port 4000 is already in use. Releasing stale listener..."
+      fuser -k 4000/tcp >/dev/null 2>&1 || true
+    fi
+
     if check_backend; then
       echo "Backend is already up. No need to start it again."
     else
       echo "Starting backend..."
-      pm2 start server.js --name public-ip-monitor --interpreter node || pm2 restart public-ip-monitor
+      pm2 start server.js --name public-ip-monitor --interpreter node
     fi
 
     NGINX_CONF="/etc/nginx/sites-available/api.noorpersonalspace.africa"
