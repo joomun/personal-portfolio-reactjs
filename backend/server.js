@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+const fs = require('fs');
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const { exec } = require('child_process');
@@ -8,10 +10,43 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const app = express();
+const logDir = path.join(__dirname, 'logs');
+const logFile = path.join(logDir, 'backend.log');
 const PORT = process.env.PORT || 4000;
 const APP_USER = process.env.APP_USER || 'joomun';
 const APP_PASSWORD_HASH = process.env.APP_PASSWORD_HASH || '';
 const JWT_SECRET = process.env.JWT_SECRET || 'change-this-to-a-long-random-secret';
+
+function F_GetTimestamp() {
+  return new Date().toISOString();
+}
+
+function F_EnsureLogDir() {
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir, { recursive: true });
+  }
+}
+
+function F_WriteLog(level, message) {
+  F_EnsureLogDir();
+
+  const line = `[${F_GetTimestamp()}] [${level}] ${message}\n`;
+  fs.appendFileSync(logFile, line, 'utf8');
+  console.log(line.trim());
+}
+
+function F_PrintLog(message) {
+  F_WriteLog('INFO', message);
+}
+
+function F_PrintWarning(message) {
+  F_WriteLog('WARN', message);
+}
+
+function F_PrintError(message) {
+  F_WriteLog('ERROR', message);
+}
+
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
@@ -100,10 +135,20 @@ async function refreshPublicIp() {
     const ip = await fetchPublicIp();
     currentPublicIp = ip;
     lastUpdated = new Date().toISOString();
-    console.log(`[public-ip] Updated IP: ${ip}`);
+    F_PrintLog(`[public-ip] Updated IP: ${ip}`);
   } catch (error) {
-    console.error('[public-ip] Failed to refresh IP:', error.message);
+    F_PrintWarning(`[public-ip] Failed to refresh IP: ${error.message}`);
   }
+}
+
+F_PrintLog(`Backend starting. PID=${process.pid}, PM2=${process.env.pm_id || 'local'}, PORT=${PORT}`);
+
+if (!APP_PASSWORD_HASH) {
+  F_PrintWarning('APP_PASSWORD_HASH is empty. Authentication is not configured.');
+}
+
+if (!JWT_SECRET || JWT_SECRET === 'change-this-to-a-long-random-secret') {
+  F_PrintWarning('JWT_SECRET is still using the default value. Update it in the environment for production.');
 }
 
 refreshPublicIp();
@@ -223,14 +268,36 @@ app.get('/api/ping', authRequired, (req, res) => {
 });
 
 const server = app.listen(PORT, () => {
-  console.log(`Public IP monitor running on http://localhost:${PORT}`);
+  const message = `Public IP monitor running on http://localhost:${PORT}`;
+  F_PrintLog(message);
 });
 
 server.on('error', (error) => {
   if (error.code === 'EADDRINUSE') {
-    console.error(`Port ${PORT} is already in use. Stop the existing backend process or remove the stale PM2 instance before restarting.`);
+    const message = `Port ${PORT} is already in use. Stop the existing backend process or remove the stale PM2 instance before restarting.`;
+    F_PrintError(message);
     process.exit(1);
   }
 
+  F_PrintError(`Unhandled server error: ${error.message}`);
   throw error;
+});
+
+process.on('SIGINT', () => {
+  F_PrintWarning('Backend shutdown triggered by SIGINT.');
+  process.exit(0);
+});
+
+process.on('SIGTERM', () => {
+  F_PrintWarning('Backend shutdown triggered by SIGTERM.');
+  process.exit(0);
+});
+
+process.on('uncaughtException', (error) => {
+  F_PrintError(`Uncaught exception: ${error.stack || error.message}`);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (reason) => {
+  F_PrintError(`Unhandled rejection: ${reason instanceof Error ? reason.stack : String(reason)}`);
 });
