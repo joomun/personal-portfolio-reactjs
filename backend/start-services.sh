@@ -155,8 +155,9 @@ EOF
       ln -sf "$NGINX_CONF" "$NGINX_LINK"
     fi
 
+    systemctl enable nginx >/dev/null 2>&1 || true
     nginx -t
-    systemctl restart nginx
+    systemctl start nginx || systemctl restart nginx
     echo "Backend and Nginx are running."
     ;;
 
