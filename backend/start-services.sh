@@ -66,6 +66,33 @@ check_nginx() {
   return 0
 }
 
+load_env_file() {
+  local env_file="${1:-.env}"
+
+  if [[ ! -f "$env_file" ]]; then
+    return 0
+  fi
+
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    line="${line%$'\r'}"
+    [[ -z "${line//[[:space:]]/}" ]] && continue
+    [[ "$line" =~ ^[[:space:]]*# ]] && continue
+
+    if [[ "$line" =~ ^[[:space:]]*([A-Za-z_][A-Za-z0-9_]*)=(.*)$ ]]; then
+      local key="${BASH_REMATCH[1]}"
+      local value="${BASH_REMATCH[2]}"
+
+      if [[ "$value" == \"*\" && "$value" == *\" ]]; then
+        value="${value:1:${#value}-2}"
+      elif [[ "$value" == \'*\' && "$value" == *\' ]]; then
+        value="${value:1:${#value}-2}"
+      fi
+
+      export "$key=$value"
+    fi
+  done < "$env_file"
+}
+
 case "$ACTION" in
   start)
     ensure_root
@@ -80,11 +107,7 @@ case "$ACTION" in
       install_packages
     fi
 
-    if [[ -f .env ]]; then
-      set -a
-      source ./.env
-      set +a
-    fi
+    load_env_file ".env"
 
     if [[ -z "${APP_PASSWORD_HASH:-}" || -z "${JWT_SECRET:-}" ]]; then
       echo "Missing APP_PASSWORD_HASH or JWT_SECRET in backend/.env"

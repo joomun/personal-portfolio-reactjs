@@ -431,6 +431,54 @@ a:hover { color: var(--accent-strong); }
 .footer-social-link:hover { color: var(--terminal-cyan); border-color: var(--accent); transform: translateY(-3px); box-shadow: var(--glow-accent); }
 
 /* ---------- Theme toggle ---------- */
+.theme-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.backend-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.34rem 0.7rem;
+  border: 1px solid var(--border-color);
+  border-radius: 999px;
+  background: var(--surface-card);
+  color: var(--text-secondary);
+  font-family: var(--font-terminal);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: border-color var(--dur) ease, color var(--dur) ease, background var(--dur) ease, box-shadow var(--dur) ease;
+}
+
+.backend-status.online {
+  color: #1ecb7a;
+  background: rgba(30, 203, 122, 0.08);
+  border-color: rgba(30, 203, 122, 0.35);
+}
+
+.backend-status.offline {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.08);
+  border-color: rgba(255, 107, 107, 0.35);
+}
+
+.backend-status.checking {
+  color: var(--text-muted);
+}
+
+.backend-status-dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+}
+
 .theme-toggle {
   --tt-size: 2.4rem;
   display: inline-flex;
