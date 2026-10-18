@@ -324,6 +324,71 @@ a:hover { color: var(--accent-strong); }
   filter: invert(1) hue-rotate(180deg) contrast(1.06) brightness(1.05);
 }
 
+.network-monitor-page {
+  padding-top: 7.5rem;
+}
+.network-card {
+  background: var(--surface-card) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-soft) !important;
+}
+.network-panel-icon {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 1.8rem;
+  border: 1px solid var(--border-color);
+}
+.network-label {
+  font-family: var(--font-terminal);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+.network-ip-value {
+  font-size: clamp(1.3rem, 2vw, 2rem);
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.65rem;
+}
+.network-status {
+  color: var(--text-secondary);
+  font-size: 0.96rem;
+}
+.network-input {
+  background: rgba(255,255,255,0.04) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+  border-radius: 0.8rem !important;
+  min-height: 52px;
+}
+.network-input::placeholder { color: var(--text-muted); }
+.network-input:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-soft) !important;
+}
+.network-button {
+  min-width: 220px;
+}
+.network-output {
+  white-space: pre-wrap;
+  background: rgba(15, 23, 42, 0.18);
+  border-radius: 0.6rem;
+  padding: 0.8rem;
+  color: var(--text-primary);
+  font-size: 0.82rem;
+  overflow-x: auto;
+}
+
 .btn { border-radius: var(--radius-sm); font-weight: 600; transition: transform var(--dur) var(--ease-emphasis), box-shadow var(--dur) ease, background var(--dur) ease, color var(--dur) ease, border-color var(--dur) ease; }
 .btn-primary, .btn-outline-primary { font-family: var(--font-terminal) !important; letter-spacing: 0.01em; }
 .btn-primary { background: var(--gradient-accent) !important; background-size: 180% 180% !important; border: 1px solid transparent !important; color: #05131b !important; }

@@ -78,6 +78,11 @@ function NavBar() {
                 Resume
               </Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={NavLink} to="/network" onClick={closeMenu}>
+                Network
+              </Nav.Link>
+            </Nav.Item>
             <Nav.Item className="nav-toggle-item d-none d-md-flex">
               <ThemeToggle />
             </Nav.Item>
