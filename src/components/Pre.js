@@ -50,28 +50,32 @@ function Pre({ load, onFinish }) {
             <span className="terminal-title">noor@portfolio:~$</span>
           </div>
           <div className="terminal-body">
-            {sshSteps.slice(0, step + 1).map((line, idx) => (
-              <div
-                key={idx}
-                className={`terminal-line${idx === sshSteps.length - 1 ? " terminal-joke" : ""}`}
-                style={{
-                  color:
-                    idx === 0
-                      ? "#50fa7b"
-                      : idx === sshSteps.length - 1
-                      ? "#ffb86c"
-                      : "#f8f8f2",
-                  fontFamily: "'Fira Code', monospace",
-                  marginBottom: "6px",
-                  fontSize: "1.1em",
-                }}
-              >
-                {line}
-                {idx === step && step < sshSteps.length - 1 && (
-                  <span className="terminal-cursor">█</span>
-                )}
-              </div>
-            ))}
+            {sshSteps.slice(0, step + 1).map((line, idx) => {
+              const lineColor =
+                idx === 0
+                  ? "var(--terminal-green)"
+                  : idx === sshSteps.length - 1
+                  ? "var(--terminal-purple)"
+                  : "var(--text-secondary)";
+
+              return (
+                <div
+                  key={idx}
+                  className={`terminal-line${idx === sshSteps.length - 1 ? " terminal-joke" : ""}`}
+                  style={{
+                    color: lineColor,
+                    fontFamily: "'Fira Code', monospace",
+                    marginBottom: "6px",
+                    fontSize: "1.1em",
+                  }}
+                >
+                  {line}
+                  {idx === step && step < sshSteps.length - 1 && (
+                    <span className="terminal-cursor">█</span>
+                  )}
+                </div>
+              );
+            })}
             <div className="terminal-loading-bar">
               <span className="loading-bar"></span>
             </div>

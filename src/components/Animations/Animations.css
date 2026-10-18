@@ -45,7 +45,7 @@
 }
 
 .terminal-joke {
-	color: #ffcc82 !important;
+	color: var(--terminal-purple, #8ba4ff) !important;
 }
 
 .terminal-cursor {
@@ -53,6 +53,25 @@
 	margin-left: 2px;
 	color: var(--terminal-cyan, #64e8c2);
 	animation: loaderBlink 1s steps(1) infinite;
+}
+
+@media (max-width: 480px) {
+	.terminal-loader {
+		width: min(92vw, 360px);
+		margin-top: 72px;
+	}
+
+	.terminal-body {
+		padding: 0.8rem 0.75rem 0.7rem;
+	}
+
+	.terminal-line {
+		font-size: 0.78rem;
+	}
+
+	.terminal-title {
+		font-size: 0.68rem;
+	}
 }
 
 @keyframes loaderBlink {
