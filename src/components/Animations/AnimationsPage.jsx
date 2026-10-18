@@ -1,24 +1,99 @@
-import React from "react";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import React, { Suspense } from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Float, OrbitControls, Sparkles, Stars } from "@react-three/drei";
 import { motion } from "framer-motion";
 import Particle from "../Particle";
 import "./Animations.css";
 
+function MotionScene({ accent, secondary }) {
+  const groupRef = React.useRef();
+
+  useFrame((state) => {
+    if (!groupRef.current) return;
+    groupRef.current.rotation.y = state.clock.elapsedTime * 0.4;
+    groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.8) * 0.55;
+  });
+
+  return (
+    <group ref={groupRef}>
+      <Float speed={1.4} rotationIntensity={1.7} floatIntensity={2.1}>
+        <mesh>
+          <icosahedronGeometry args={[1.55, 1]} />
+          <meshStandardMaterial
+            color={accent}
+            emissive={accent}
+            emissiveIntensity={0.8}
+            metalness={0.75}
+            roughness={0.18}
+            wireframe
+          />
+        </mesh>
+      </Float>
+
+      <Float speed={2.1} rotationIntensity={2.1} floatIntensity={2.5}>
+        <mesh rotation={[0.9, 0.6, 0.3]}>
+          <torusKnotGeometry args={[2.2, 0.26, 220, 28]} />
+          <meshStandardMaterial
+            color={secondary}
+            emissive={secondary}
+            emissiveIntensity={0.7}
+            metalness={1}
+            roughness={0.2}
+          />
+        </mesh>
+      </Float>
+
+      <Sparkles count={100} scale={[7, 7, 7]} size={3} speed={0.7} color={secondary} />
+    </group>
+  );
+}
+
+function ThreeShowcaseCard({ title, description, accent, secondary, badge }) {
+  return (
+    <div
+      className="animation-showcase"
+      style={{ "--accent": accent, "--secondary": secondary }}
+    >
+      <div className="scene-shell">
+        <Canvas camera={{ position: [0, 0, 6], fov: 42 }} dpr={[1, 2]}>
+          <color attach="background" args={["#050816"]} />
+          <fog attach="fog" args={["#050816", 8, 18]} />
+          <ambientLight intensity={0.9} />
+          <directionalLight position={[4, 5, 4]} intensity={1.5} />
+          <pointLight position={[-4, -2, 2]} color={accent} intensity={26} />
+          <Suspense fallback={null}>
+            <MotionScene accent={accent} secondary={secondary} />
+          </Suspense>
+          <Stars radius={36} depth={26} count={2200} factor={4} fade speed={0.8} />
+          <OrbitControls enablePan={false} enableZoom={false} autoRotate autoRotateSpeed={0.9} />
+        </Canvas>
+      </div>
+      <div className="animation-copy">
+        <span className="animation-badge">{badge}</span>
+        <h3>{title}</h3>
+        <p>{description}</p>
+      </div>
+    </div>
+  );
+}
+
 function AnimationsPage() {
   const animations = [
     {
-      type: "video",
-      title: "3D Animation Demo",
-      src: "/animations/demo.mp4",
-      description: "A showcase of fluid 3D animations"
+      title: "Realtime Motion Lab",
+      badge: "Realtime",
+      accent: "#8b5cf6",
+      secondary: "#67e8f9",
+      description: "Procedural geometry, glowing materials and camera motion designed to feel cinematic in a portfolio setting."
     },
     {
-      type: "image",
-      title: "3D Model Render",
-      src: "/animations/render.png",
-      description: "Static 3D model visualization"
+      title: "Cinematic VFX Playground",
+      badge: "VFX",
+      accent: "#f472b6",
+      secondary: "#fbbf24",
+      description: "Layered lighting and orbital motion brings a polished, product-showcase energy to the animation section."
     }
-    // Add more animations here
   ];
 
   return (
@@ -43,29 +118,15 @@ function AnimationsPage() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
-                <Card className="animation-card-view">
-                <Card.Title>{anim.title}</Card.Title>
-                {anim.type === "video" ? (
-                  <video 
-                    className="animation-media"
-                    controls
-                    loop
-                    muted
-                  >
-                    <source src={anim.src} type="video/mp4" />
-                    Your browser does not support video playback.
-                  </video>
-                ) : (
-                  <Card.Img
-                    src={anim.src}
-                    alt={anim.title}
-                    className="animation-media"
+                <div className="animation-card-view">
+                  <ThreeShowcaseCard
+                    title={anim.title}
+                    description={anim.description}
+                    badge={anim.badge}
+                    accent={anim.accent}
+                    secondary={anim.secondary}
                   />
-                )}
-                <Card.Body>
-                  <Card.Text>{anim.description}</Card.Text>
-                </Card.Body>
-                </Card>
+                </div>
               </motion.div>
             </Col>
           ))}
